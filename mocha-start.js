@@ -11,6 +11,7 @@
 					scope: (function () {
 						return Object.assign({
 							storeFile: (function() {}),
+							getObject: (function() {}),
 						}, inputData);
 					}),
 				});

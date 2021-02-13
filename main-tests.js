@@ -131,5 +131,19 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		});
 	
 	});
+
+	context('ZDRStorageReadObject', function () {
+
+		it('throws if not string', function() {
+			throws(function() {
+				__ZDRStorage().ZDRStorageReadObject(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns null', function () {
+			deepEqual(__ZDRStorage().ZDRStorageReadObject(Math.random().toString()), null);
+		});
+	
+	});
 	
 });

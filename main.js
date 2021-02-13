@@ -57,6 +57,9 @@ const mod = {
 
 					return param2;
 				},
+				ClientGetObject (inputData) {
+					return client.getObject(inputData, true);
+				},
 			};
 
 			return Object.assign(coll, {
@@ -72,6 +75,14 @@ const mod = {
 						}
 
 						return _client.ClientStoreObject(param1, param2);
+					},
+
+					ZDRStorageReadObject (inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return _client.ClientGetObject(inputData);
 					},
 
 				},
