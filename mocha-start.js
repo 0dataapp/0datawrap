@@ -18,6 +18,9 @@
 							getAll: (function() {
 								return {};
 							}),
+							getListing: (function() {
+								return {};
+							}),
 							remove: (function() {}),
 						}, inputData);
 					}),

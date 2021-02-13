@@ -86,6 +86,10 @@ const mod = {
 						});
 					}, {});
 				},
+
+				ClientGetListing (inputData) {
+					return client.getListing(inputData, false);
+				},
 				
 				ClientRemove (inputData) {
 					return client.remove(inputData);
@@ -134,6 +138,14 @@ const mod = {
 						}
 
 						return _client.ClientGetAll(inputData);
+					},
+
+					ZDRStorageListDetails (inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return _client.ClientGetListing(inputData);
 					},
 
 					ZDRStorageDelete (inputData) {

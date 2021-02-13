@@ -154,6 +154,72 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
+	context('ZDRStorageListDetails', function () {
+
+		const ZDRScopeKey = Date.now().toString();
+
+		it('calls scope.getListing', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					getListing: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+			}).ZDRStorageListDetails(item), [item, false]);
+		});
+
+		it('converts folder', async function () {
+			const item = ZDRScopeKey + '/';
+
+			const client = _ZDRStorageRemoteStorage({
+				ZDRScopeKey,
+				ZDRParamLibrary: RemoteStorage,
+			});
+
+			await client.ZDRStorageWriteObject(item + 'bravo/charlie', {});
+			
+			deepEqual(await client.ZDRStorageListDetails(item), {
+				'bravo/': true,
+			});
+		});
+
+		it('converts file', async function () {
+			const item = ZDRScopeKey + '/';
+
+			const client = _ZDRStorageRemoteStorage({
+				ZDRScopeKey,
+				ZDRParamLibrary: RemoteStorage,
+			});
+
+			await client.ZDRStorageWriteFile(item + 'bravo', Math.random().toString(), 'text/plain');
+			
+			deepEqual(await client.ZDRStorageListDetails(item), {
+				bravo: true,
+			});
+		});
+
+		it('converts object', async function () {
+			const item = ZDRScopeKey + '/';
+			const param2 = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+
+			const client = _ZDRStorageRemoteStorage({
+				ZDRScopeKey,
+				ZDRParamLibrary: RemoteStorage,
+			});
+
+			await client.ZDRStorageWriteObject(item + 'bravo', param2);
+			
+			deepEqual(await client.ZDRStorageListDetails(item), {
+				bravo: true,
+			});
+		});
+	
+	});
+
 	context('ZDRStorageDelete', function () {
 
 		it('calls scope.remove', async function () {
