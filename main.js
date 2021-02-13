@@ -8,6 +8,26 @@ const uIsRemoteStorage = function (inputData) {
 
 const mod = {
 
+	_ZDRScopesObjectValidate (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		if (typeof inputData.ZDRScopeKey !== 'string') {
+			throw new Error('ZDRErrorInputNotString');
+		}
+
+		if (inputData.ZDRScopeKey.trim() === '') {
+			throw new Error('ZDRErrorInputNotFilled');
+		}
+
+		if (inputData.ZDRScopeKey.trim() !== inputData.ZDRScopeKey) {
+			throw new Error('ZDRErrorInputNotTrimmed');
+		}
+
+		return true;
+	},
+
 	ZDRStorage (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('ZDRErrorInputNotValid');
