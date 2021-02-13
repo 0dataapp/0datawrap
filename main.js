@@ -60,11 +60,11 @@ const mod = {
 				},
 
 				ClientGetObject (inputData) {
-					return client.getObject(inputData, true);
+					return client.getObject(inputData, false);
 				},
 				
 				ClientRemove (inputData) {
-					return client.remove(inputData, true);
+					return client.remove(inputData);
 				},
 
 			};

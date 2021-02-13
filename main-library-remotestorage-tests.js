@@ -45,7 +45,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageReadObject(item), [item, true]);
+			}).ZDRStorageReadObject(item), [item, false]);
 		});
 	
 	});
