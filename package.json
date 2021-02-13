@@ -1,0 +1,15 @@
+{
+  "main": "main.js",
+  "scripts": {
+    "test": "olsk-spec"
+  },
+  "dependencies": {
+    "remotestoragejs": "1.x",
+    "webnative": "^0.21.3",
+    "// I sacrifice myself for the commas of others": null
+  },
+  "devDependencies": {
+    "OLSKSpec": "olsk/OLSKSpec",
+    "// I sacrifice myself for the commas of others": null
+  }
+}
