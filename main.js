@@ -52,27 +52,27 @@ const mod = {
 		return scopes.reduce(function (coll, item) {
 			library.access.claim(item.ZDRScopeKey, 'rw');
 
-			const client = library.scope(`/${ item.ZDRScopeKey }/`);
-			const _client = {
+			const _client = library.scope(`/${ item.ZDRScopeKey }/`);
+			const client = {
 
 				async ClientStoreObject (param1, param2) {
-					await client.storeFile('application/json', param1, JSON.stringify(param2));
+					await _client.storeFile('application/json', param1, JSON.stringify(param2));
 
 					return param2;
 				},
 
 				async ClientStoreFile (param1, param2, param3) {
-					await client.storeFile(param3, param1, param2);
+					await _client.storeFile(param3, param1, param2);
 
 					return param2;
 				},
 
 				ClientGetObject (inputData) {
-					return client.getObject(inputData, false);
+					return _client.getObject(inputData, false);
 				},
 
 				async ClientGetAll (inputData) {
-					return Object.entries(await client.getAll(inputData, false)).reduce(function (coll, [key, value]) {
+					return Object.entries(await _client.getAll(inputData, false)).reduce(function (coll, [key, value]) {
 						if (key.slice(-1) === '/') {
 							return coll;
 						}
@@ -88,11 +88,11 @@ const mod = {
 				},
 
 				ClientGetListing (inputData) {
-					return client.getListing(inputData, false);
+					return _client.getListing(inputData, false);
 				},
 				
 				ClientRemove (inputData) {
-					return client.remove(inputData);
+					return _client.remove(inputData);
 				},
 
 			};
@@ -109,7 +109,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return _client.ClientStoreObject(param1, param2);
+						return client.ClientStoreObject(param1, param2);
 					},
 
 					ZDRStorageWriteFile (param1, param2, param3) {
@@ -121,7 +121,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return _client.ClientStoreFile(param1, param2, param3);
+						return client.ClientStoreFile(param1, param2, param3);
 					},
 
 					ZDRStorageReadObject (inputData) {
@@ -129,7 +129,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return _client.ClientGetObject(inputData);
+						return client.ClientGetObject(inputData);
 					},
 
 					ZDRStorageListObjects (inputData) {
@@ -137,7 +137,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return _client.ClientGetAll(inputData);
+						return client.ClientGetAll(inputData);
 					},
 
 					ZDRStorageListDetails (inputData) {
@@ -145,7 +145,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return _client.ClientGetListing(inputData);
+						return client.ClientGetListing(inputData);
 					},
 
 					ZDRStorageDelete (inputData) {
@@ -153,7 +153,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return _client.ClientRemove(inputData);
+						return client.ClientRemove(inputData);
 					},
 
 				},
