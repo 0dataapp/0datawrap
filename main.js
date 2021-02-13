@@ -52,14 +52,21 @@ const mod = {
 		return scopes.reduce(function (coll, item) {
 			const client = library.scope(`/${ item.ZDRScopeKey }/`);
 			const _client = {
+
 				async ClientStoreObject (param1, param2) {
 					await client.storeFile('application/json', param1, JSON.stringify(param2));
 
 					return param2;
 				},
+
 				ClientGetObject (inputData) {
 					return client.getObject(inputData, true);
 				},
+				
+				ClientRemove (inputData) {
+					return client.remove(inputData, true);
+				},
+
 			};
 
 			return Object.assign(coll, {
@@ -83,6 +90,14 @@ const mod = {
 						}
 
 						return _client.ClientGetObject(inputData);
+					},
+
+					ZDRStorageDelete (inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return _client.ClientRemove(inputData);
 					},
 
 				},

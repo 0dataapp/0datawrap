@@ -49,5 +49,21 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 	
 	});
+
+	context('ZDRStorageDelete', function () {
+
+		it('calls scope.remove', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					remove: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+			}).ZDRStorageDelete(item), [item]);
+		});
+	
+	});
 	
 });
