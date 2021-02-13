@@ -68,6 +68,22 @@ const mod = {
 				ClientGetObject (inputData) {
 					return client.getObject(inputData, false);
 				},
+
+				async ClientGetAll (inputData) {
+					return Object.entries(await client.getAll(inputData, false)).reduce(function (coll, [key, value]) {
+						if (key.slice(-1) === '/') {
+							return coll;
+						}
+
+						if (value === true) {
+							return coll;
+						}
+
+						return Object.assign(coll, {
+							[key]: value,
+						});
+					}, {});
+				},
 				
 				ClientRemove (inputData) {
 					return client.remove(inputData);
@@ -108,6 +124,14 @@ const mod = {
 						}
 
 						return _client.ClientGetObject(inputData);
+					},
+
+					ZDRStorageListObjects (inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return _client.ClientGetAll(inputData);
 					},
 
 					ZDRStorageDelete (inputData) {

@@ -2,13 +2,14 @@ const { rejects, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
+const RemoteStorage = require('remotestoragejs');
+
 describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 	const _ZDRStorageRemoteStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 
 		return mod.ZDRStorage(Object.assign({
-			ZDRParamLibrary: uRemoteStorage(),
 			ZDRParamScopes: [Object.assign({
 				ZDRScopeKey,
 			}, inputData)],
@@ -64,6 +65,65 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 					}),
 				}),
 			}).ZDRStorageReadObject(item), [item, false]);
+		});
+	
+	});
+
+	context('ZDRStorageListObjects', function () {
+
+		it('calls scope.getAll', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					getAll: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+			}).ZDRStorageListObjects(item), [item, false]);
+		});
+
+		it('excludes folders', async function () {
+			const item = Date.now().toString() + '/';
+
+			const client = _ZDRStorageRemoteStorage({
+				ZDRParamLibrary: RemoteStorage,
+			});
+
+			await client.ZDRStorageWriteObject(item + 'bravo/charlie', {
+				[Math.random().toString()]: Math.random().toString(),
+			});
+			
+			deepEqual(await client.ZDRStorageListObjects(item), {});
+		});
+
+		it('excludes files', async function () {
+			const item = Date.now().toString() + '/';
+
+			const client = _ZDRStorageRemoteStorage({
+				ZDRParamLibrary: RemoteStorage,
+			});
+
+			await client.ZDRStorageWriteFile(item + 'bravo', Math.random().toString(), 'text/plain');
+			
+			deepEqual(await client.ZDRStorageListObjects(item), {});
+		});
+
+		it('includes objects', async function () {
+			const item = Date.now().toString() + '/';
+			const param2 = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+
+			const client = _ZDRStorageRemoteStorage({
+				ZDRParamLibrary: RemoteStorage,
+			});
+
+			await client.ZDRStorageWriteObject(item + 'param2', param2);
+			
+			deepEqual(await client.ZDRStorageListObjects(item), {
+				param2,
+			});
 		});
 	
 	});

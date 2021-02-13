@@ -12,6 +12,9 @@
 						return Object.assign({
 							storeFile: (function() {}),
 							getObject: (function() {}),
+							getAll: (function() {
+								return {};
+							}),
 							remove: (function() {}),
 						}, inputData);
 					}),

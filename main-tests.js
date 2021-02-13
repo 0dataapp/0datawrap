@@ -169,6 +169,20 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
+	context('ZDRStorageListObjects', function () {
+
+		it('throws if not string', function() {
+			throws(function() {
+				__ZDRStorage().ZDRStorageListObjects(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns object', async function () {
+			deepEqual(await __ZDRStorage().ZDRStorageListObjects(Math.random().toString()), {});
+		});
+	
+	});
+
 	context('ZDRStorageDelete', function () {
 
 		it('throws if not string', function() {
