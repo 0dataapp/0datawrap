@@ -101,25 +101,25 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		deepEqual(typeof _ZDRStorage(), 'object');
 	});
 
+	const __ZDRStorage = function (inputData = {}) {
+		const ZDRScopeKey = Math.random().toString();
+
+		return _ZDRStorage(Object.assign({
+			ZDRScopeKey,
+		}, inputData))[ZDRScopeKey];
+	};
+
 	context('ZDRStorageWriteObject', function () {
 
-		const _ZDRStorageWriteObject = function (param1, param2) {
-			const ZDRScopeKey = Math.random().toString();
-
-			return _ZDRStorage({
-				ZDRScopeKey,
-			})[ZDRScopeKey].ZDRStorageWriteObject(param1, param2);
-		};
-		
 		it('throws if param1 not string', function() {
 			throws(function() {
-				_ZDRStorageWriteObject(null, {});
+				__ZDRStorage().ZDRStorageWriteObject(null, {});
 			}, /ZDRErrorInputNotValid/);
 		});
 		
 		it('throws if param2 not object', function() {
 			throws(function() {
-				_ZDRStorageWriteObject(Math.random().toString(), null);
+				__ZDRStorage().ZDRStorageWriteObject(Math.random().toString(), null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
@@ -127,7 +127,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 			const item = {
 				[Math.random().toString()]: Math.random().toString(),
 			};
-			deepEqual(await _ZDRStorageWriteObject(Math.random().toString(), item), item);
+			deepEqual(await __ZDRStorage().ZDRStorageWriteObject(Math.random().toString(), item), item);
 		});
 	
 	});
