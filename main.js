@@ -59,6 +59,12 @@ const mod = {
 					return param2;
 				},
 
+				async ClientStoreFile (param1, param2, param3) {
+					await client.storeFile(param3, param1, param2);
+
+					return param2;
+				},
+
 				ClientGetObject (inputData) {
 					return client.getObject(inputData, false);
 				},
@@ -82,6 +88,18 @@ const mod = {
 						}
 
 						return _client.ClientStoreObject(param1, param2);
+					},
+
+					ZDRStorageWriteFile (param1, param2, param3) {
+						if (typeof param1 !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						if (typeof param3 !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return _client.ClientStoreFile(param1, param2, param3);
 					},
 
 					ZDRStorageReadObject (inputData) {

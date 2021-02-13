@@ -132,6 +132,29 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
+	context('ZDRStorageWriteFile', function () {
+
+		const param3 = Date.now().toString() + '/' + Date.now().toString();
+
+		it('throws if param1 not string', function() {
+			throws(function() {
+				__ZDRStorage().ZDRStorageWriteFile(null, {}, param3);
+			}, /ZDRErrorInputNotValid/);
+		});
+		
+		it('throws if param3 not string', function() {
+			throws(function() {
+				__ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), {}, null);
+			}, /ZDRErrorInputNotValid/);
+		});
+		
+		it('returns param2', async function () {
+			const item = Math.random().toString();
+			deepEqual(await __ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), item, param3), item);
+		});
+	
+	});
+
 	context('ZDRStorageReadObject', function () {
 
 		it('throws if not string', function() {
