@@ -2,14 +2,6 @@ const { throws, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
-const uRemoteStorage = function (inputData = {}) {
-	const RemoteStorage = function () {};
-
-	RemoteStorage.Authorize = Math.random().toString();
-
-	return RemoteStorage;
-};
-
 describe('_ZDRScopesObjectValidate', function test__ZDRScopesObjectValidate () {
 
 	const __ZDRScopesObjectValidate = function (inputData = {}) {
@@ -59,6 +51,9 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	const _ZDRStorage = function (inputData = {}) {
 		return mod.ZDRStorage(Object.assign({
 			ZDRParamLibrary: uRemoteStorage(),
+			ZDRParamScopes: [Object.assign({
+				ZDRScopeKey: Math.random().toString(),
+			}, inputData)],
 		}, inputData));
 	};
 
@@ -76,8 +71,65 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('throws if ZDRParamScopes not array', function() {
+		throws(function() {
+			_ZDRStorage({
+				ZDRParamScopes: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('throws if ZDRParamScopes not filled', function() {
+		throws(function() {
+			_ZDRStorage({
+				ZDRParamScopes: [],
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('throws if ZDRParamScopes element not valid', function() {
+		throws(function() {
+			_ZDRStorage({
+				ZDRParamScopes: [{
+					ZDRScopeKey: null,
+				}],
+			});
+		}, /ZDRErrorInputNotString/);
+	});
+
 	it('returns object', function () {
 		deepEqual(typeof _ZDRStorage(), 'object');
+	});
+
+	context('ZDRStorageWriteObject', function () {
+
+		const _ZDRStorageWriteObject = function (param1, param2) {
+			const ZDRScopeKey = Math.random().toString();
+
+			return _ZDRStorage({
+				ZDRScopeKey,
+			})[ZDRScopeKey].ZDRStorageWriteObject(param1, param2);
+		};
+		
+		it('throws if param1 not string', function() {
+			throws(function() {
+				_ZDRStorageWriteObject(null, {});
+			}, /ZDRErrorInputNotValid/);
+		});
+		
+		it('throws if param2 not object', function() {
+			throws(function() {
+				_ZDRStorageWriteObject(Math.random().toString(), null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns param2', async function () {
+			const item = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+			deepEqual(await _ZDRStorageWriteObject(Math.random().toString(), item), item);
+		});
+	
 	});
 	
 });
