@@ -109,7 +109,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	context('ZDRStorageWriteObject', function () {
+	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
 
 		it('throws if param1 not string', function() {
 			throws(function() {
@@ -132,7 +132,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
-	context('ZDRStorageWriteFile', function () {
+	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile () {
 
 		const param3 = Date.now().toString() + '/' + Date.now().toString();
 
@@ -155,7 +155,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
-	context('ZDRStorageReadObject', function () {
+	context('ZDRStorageReadObject', function test_ZDRStorageReadObject () {
 
 		it('throws if not string', function() {
 			throws(function() {
@@ -169,7 +169,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
-	context('ZDRStorageListObjects', function () {
+	context('ZDRStorageListObjects', function test_ZDRStorageListObjects () {
 
 		it('throws if not string', function() {
 			throws(function() {
@@ -183,7 +183,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
-	context('ZDRStorageListDetails', function () {
+	context('ZDRStorageListDetails', function test_ZDRStorageListDetails () {
 
 		it('throws if not string', function() {
 			throws(function() {
@@ -197,7 +197,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
-	context('ZDRStorageDelete', function () {
+	context('ZDRStorageDelete', function test_ZDRStorageDelete () {
 
 		it('throws if not string', function() {
 			throws(function() {

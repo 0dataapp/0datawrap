@@ -16,7 +16,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	context('ZDRStorageWriteObject', function () {
+	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
 
 		it('calls client.access.claim', function () {
 			const item = [];
@@ -37,7 +37,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
-	context('ZDRStorageWriteObject', function () {
+	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
 
 		it('calls scope.storeFile', async function () {
 			const param1 = Math.random().toString();
@@ -56,7 +56,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
-	context('ZDRStorageWriteFile', function () {
+	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile () {
 
 		it('calls scope.storeFile', async function () {
 			const param1 = Math.random().toString();
@@ -74,7 +74,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
-	context('ZDRStorageReadObject', function () {
+	context('ZDRStorageReadObject', function test_ZDRStorageReadObject () {
 
 		it('calls scope.getObject', async function () {
 			const item = Math.random().toString();
@@ -90,7 +90,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
-	context('ZDRStorageListObjects', function () {
+	context('ZDRStorageListObjects', function test_ZDRStorageListObjects () {
 
 		const ZDRScopeKey = Date.now().toString();
 
@@ -154,7 +154,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
-	context('ZDRStorageListDetails', function () {
+	context('ZDRStorageListDetails', function test_ZDRStorageListDetails () {
 
 		const ZDRScopeKey = Date.now().toString();
 
@@ -220,7 +220,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
-	context('ZDRStorageDelete', function () {
+	context('ZDRStorageDelete', function test_ZDRStorageDelete () {
 
 		it('calls scope.remove', async function () {
 			const item = Math.random().toString();
