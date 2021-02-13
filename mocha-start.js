@@ -8,6 +8,9 @@
 						[item.name]: item.builder().exports,
 					});
 				}, {
+					access: Object.assign({
+						claim: (function () {}),
+					}, inputData),
 					scope: (function () {
 						return Object.assign({
 							storeFile: (function() {}),

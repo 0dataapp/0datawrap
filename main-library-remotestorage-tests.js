@@ -7,7 +7,7 @@ const RemoteStorage = require('remotestoragejs');
 describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 	const _ZDRStorageRemoteStorage = function (inputData = {}) {
-		const ZDRScopeKey = Math.random().toString();
+		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 
 		return mod.ZDRStorage(Object.assign({
 			ZDRParamScopes: [Object.assign({
@@ -15,6 +15,27 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			}, inputData)],
 		}, inputData))[ZDRScopeKey];
 	};
+
+	context('ZDRStorageWriteObject', function () {
+
+		it('calls client.access.claim', function () {
+			const item = [];
+
+			const ZDRScopeKey = Math.random().toString();
+
+			_ZDRStorageRemoteStorage({
+				ZDRScopeKey,
+				ZDRParamLibrary: uRemoteStorage({
+					claim: (function () {
+						item.push(...arguments);
+					}),
+				}),
+			})
+
+			deepEqual(item, [ZDRScopeKey, 'rw']);
+		});
+	
+	});
 
 	context('ZDRStorageWriteObject', function () {
 
@@ -71,6 +92,8 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 	context('ZDRStorageListObjects', function () {
 
+		const ZDRScopeKey = Date.now().toString();
+
 		it('calls scope.getAll', async function () {
 			const item = Math.random().toString();
 			
@@ -84,9 +107,10 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 
 		it('excludes folders', async function () {
-			const item = Date.now().toString() + '/';
+			const item = ZDRScopeKey + '/';
 
 			const client = _ZDRStorageRemoteStorage({
+				ZDRScopeKey,
 				ZDRParamLibrary: RemoteStorage,
 			});
 
@@ -98,9 +122,10 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 
 		it('excludes files', async function () {
-			const item = Date.now().toString() + '/';
+			const item = ZDRScopeKey + '/';
 
 			const client = _ZDRStorageRemoteStorage({
+				ZDRScopeKey,
 				ZDRParamLibrary: RemoteStorage,
 			});
 
@@ -110,12 +135,13 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 
 		it('includes objects', async function () {
-			const item = Date.now().toString() + '/';
+			const item = ZDRScopeKey + '/';
 			const param2 = {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 
 			const client = _ZDRStorageRemoteStorage({
+				ZDRScopeKey,
 				ZDRParamLibrary: RemoteStorage,
 			});
 

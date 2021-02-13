@@ -50,6 +50,8 @@ const mod = {
 		const library = new (inputData.ZDRParamLibrary)();
 
 		return scopes.reduce(function (coll, item) {
+			library.access.claim(item.ZDRScopeKey, 'rw');
+
 			const client = library.scope(`/${ item.ZDRScopeKey }/`);
 			const _client = {
 
