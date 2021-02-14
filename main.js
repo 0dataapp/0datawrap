@@ -12,7 +12,7 @@ const uIsRemoteStorage = function (inputData) {
 
 const mod = {
 
-	_ZDRScopesObjectValidate (inputData) {
+	_ZDRScopeObjectValidate (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('ZDRErrorInputNotValid');
 		}
@@ -53,7 +53,7 @@ const mod = {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
-		const scopes = inputData.ZDRParamScopes.filter(mod._ZDRScopesObjectValidate);
+		const scopes = inputData.ZDRParamScopes.filter(mod._ZDRScopeObjectValidate);
 
 		if (!scopes.length) {
 			throw new Error('ZDRErrorInputNotValid');

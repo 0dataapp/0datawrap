@@ -2,23 +2,23 @@ const { throws, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
-describe('_ZDRScopesObjectValidate', function test__ZDRScopesObjectValidate () {
+describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 
-	const __ZDRScopesObjectValidate = function (inputData = {}) {
-		return mod._ZDRScopesObjectValidate(Object.assign({
+	const __ZDRScopeObjectValidate = function (inputData = {}) {
+		return mod._ZDRScopeObjectValidate(Object.assign({
 			ZDRScopeKey: Math.random().toString(),
 		}, inputData));
 	};
 
 	it('throws if not object', function() {
 		throws(function() {
-			mod._ZDRScopesObjectValidate(null);
+			mod._ZDRScopeObjectValidate(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
 	it('throws if ZDRScopeKey not string', function() {
 		throws(function() {
-			__ZDRScopesObjectValidate({
+			__ZDRScopeObjectValidate({
 				ZDRScopeKey: null,
 			});
 		}, /ZDRErrorInputNotString/);
@@ -26,7 +26,7 @@ describe('_ZDRScopesObjectValidate', function test__ZDRScopesObjectValidate () {
 
 	it('throws if ZDRScopeKey not filled', function() {
 		throws(function() {
-			__ZDRScopesObjectValidate({
+			__ZDRScopeObjectValidate({
 				ZDRScopeKey: ' ',
 			});
 		}, /ZDRErrorInputNotFilled/);
@@ -34,14 +34,14 @@ describe('_ZDRScopesObjectValidate', function test__ZDRScopesObjectValidate () {
 
 	it('throws if ZDRScopeKey not trimmed', function() {
 		throws(function() {
-			__ZDRScopesObjectValidate({
+			__ZDRScopeObjectValidate({
 				ZDRScopeKey: ' ' + Math.random().toString() + ' ',
 			});
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
 	it('returns true', function () {
-		deepEqual(__ZDRScopesObjectValidate(), true);
+		deepEqual(__ZDRScopeObjectValidate(), true);
 	});
 
 });
