@@ -106,7 +106,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			}).ZDRStorageListObjects(item), [item, false]);
 		});
 
-		it('excludes folders', async function () {
+		it('excludes folder', async function () {
 			const item = ZDRScopeKey + '/';
 
 			const client = _ZDRStorageRemoteStorage({
@@ -114,14 +114,14 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 				ZDRParamLibrary: RemoteStorage,
 			});
 
-			await client.ZDRStorageWriteObject(item + 'bravo/charlie', {
+			await client.ZDRStorageWriteObject(item + Math.random().toString() + '/' + Math.random().toString(), {
 				[Math.random().toString()]: Math.random().toString(),
 			});
 			
 			deepEqual(await client.ZDRStorageListObjects(item), {});
 		});
 
-		it('excludes files', async function () {
+		it('excludes file', async function () {
 			const item = ZDRScopeKey + '/';
 
 			const client = _ZDRStorageRemoteStorage({
@@ -129,14 +129,16 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 				ZDRParamLibrary: RemoteStorage,
 			});
 
-			await client.ZDRStorageWriteFile(item + 'bravo', Math.random().toString(), 'text/plain');
+			await client.ZDRStorageWriteFile(item + Math.random().toString(), Math.random().toString(), 'text/plain');
 			
 			deepEqual(await client.ZDRStorageListObjects(item), {});
 		});
 
-		it('includes objects', async function () {
+		it('includes object', async function () {
 			const item = ZDRScopeKey + '/';
-			const param2 = {
+
+			const path = Math.random().toString();
+			const object = {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 
@@ -145,10 +147,10 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 				ZDRParamLibrary: RemoteStorage,
 			});
 
-			await client.ZDRStorageWriteObject(item + 'param2', param2);
+			await client.ZDRStorageWriteObject(item + path, object);
 			
 			deepEqual(await client.ZDRStorageListObjects(item), {
-				param2,
+				[path]: object,
 			});
 		});
 	
@@ -173,32 +175,38 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		it('converts folder', async function () {
 			const item = ZDRScopeKey + '/';
 
+			const path = Math.random().toString() + '/';
+
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
 				ZDRParamLibrary: RemoteStorage,
 			});
 
-			await client.ZDRStorageWriteObject(item + 'bravo/charlie', {});
+			await client.ZDRStorageWriteObject(item + path + Math.random().toString(), {});
 			
-			deepEqual(await client.ZDRStorageListPaths(item), ['bravo/']);
+			deepEqual(await client.ZDRStorageListPaths(item), [path]);
 		});
 
 		it('converts file', async function () {
 			const item = ZDRScopeKey + '/';
 
+			const path = Math.random().toString();
+
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
 				ZDRParamLibrary: RemoteStorage,
 			});
 
-			await client.ZDRStorageWriteFile(item + 'bravo', Math.random().toString(), 'text/plain');
+			await client.ZDRStorageWriteFile(item + path, Math.random().toString(), 'text/plain');
 			
-			deepEqual(await client.ZDRStorageListPaths(item), ['bravo']);
+			deepEqual(await client.ZDRStorageListPaths(item), [path]);
 		});
 
 		it('converts object', async function () {
 			const item = ZDRScopeKey + '/';
-			const param2 = {
+
+			const path = Math.random().toString();
+			const object = {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 
@@ -207,9 +215,9 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 				ZDRParamLibrary: RemoteStorage,
 			});
 
-			await client.ZDRStorageWriteObject(item + 'bravo', param2);
+			await client.ZDRStorageWriteObject(item + path, object);
 			
-			deepEqual(await client.ZDRStorageListPaths(item), ['bravo']);
+			deepEqual(await client.ZDRStorageListPaths(item), [path]);
 		});
 	
 	});
