@@ -46,6 +46,24 @@ describe('_ZDRScopesObjectValidate', function test__ZDRScopesObjectValidate () {
 
 });
 
+describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory () {
+
+	it('throws if not string', function() {
+		throws(function() {
+			mod._ZDRPathIsDirectory(null);
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('returns true if trailing slash', function () {
+		deepEqual(mod._ZDRPathIsDirectory(Math.random().toString() + '/'), true);
+	});
+
+	it('returns false', function () {
+		deepEqual(mod._ZDRPathIsDirectory(Math.random().toString()), false);
+	});
+
+});
+
 describe('ZDRStorage', function test_ZDRStorage () {
 
 	const _ZDRStorage = function (inputData = {}) {

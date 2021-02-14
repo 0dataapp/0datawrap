@@ -28,6 +28,14 @@ const mod = {
 		return true;
 	},
 
+	_ZDRPathIsDirectory (inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		return inputData.slice(-1) === '/';
+	},
+
 	ZDRStorage (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('ZDRErrorInputNotValid');
@@ -73,7 +81,7 @@ const mod = {
 
 				async ClientGetAll (inputData) {
 					return Object.entries(await _client.getAll(inputData, false)).reduce(function (coll, [key, value]) {
-						if (key.slice(-1) === '/') {
+						if (mod._ZDRPathIsDirectory(key)) {
 							return coll;
 						}
 
