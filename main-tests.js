@@ -60,6 +60,7 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		return mod._ZDRSchemaObjectValidate(Object.assign({
 			ZDRSchemaKey: Math.random().toString(),
 			ZDRSchemaPathCallback: (function () {}),
+			ZDRSchemaStubCallback: (function () {}),
 		}, inputData));
 	};
 
@@ -101,6 +102,14 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		}, /ZDRErrorInputNotFunction/);
 	});
 
+	it('throws if ZDRSchemaStubCallback not function', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaStubCallback: null,
+			});
+		}, /ZDRErrorInputNotFunction/);
+	});
+
 	it('returns true', function () {
 		deepEqual(__ZDRSchemaObjectValidate(), true);
 	});
@@ -136,6 +145,9 @@ describe('ZDRStorage', function test_ZDRStorage () {
 					ZDRSchemaKey: Math.random().toString(),
 					ZDRSchemaPathCallback: (function () {
 						return Math.random().toString();
+					}),
+					ZDRSchemaStubCallback: (function () {
+						return {};
 					}),
 				}, inputData)],
 			}, inputData)],
@@ -417,6 +429,84 @@ describe('ZDRStorage', function test_ZDRStorage () {
 					[Math.random().toString()]: Math.random().toString(),
 				};
 				deepEqual(await _ZDRModel().ZDRModelWriteObject(item), item);
+			});
+		
+		});
+
+		context('_ZDRModelListObjects', function test__ZDRModelListObjects () {
+
+			it('calls ZDRStorageListPathsRecursive', function () {
+				const item = []
+
+				const model = _ZDRModel({
+					ZDRStorageListPathsRecursive: (function () {
+						item.push(...arguments);
+
+						return [];
+					}),
+				})._ZDRModelListObjects();
+
+				deepEqual(item, ['/']);
+			});
+
+			it('excludes if no match', async function () {
+				const item = Math.random().toString();
+				deepEqual(await _ZDRModel({
+					ZDRStorageListPathsRecursive: (function () {
+						return [item];
+					}),
+					ZDRSchemaStubCallback: (function () {
+						return Object.fromEntries([item.split('.')]);
+					}),
+					ZDRSchemaPathCallback: (function () {
+						return Math.random().toString();
+					}),
+				})._ZDRModelListObjects(), []);
+			});
+
+			it('include if match', async function () {
+				const item = Math.random().toString();
+				deepEqual(await _ZDRModel({
+					ZDRStorageListPathsRecursive: (function () {
+						return [item];
+					}),
+					ZDRSchemaStubCallback: (function () {
+						return Object.fromEntries([item.split('.')]);
+					}),
+					ZDRSchemaPathCallback: (function (inputData) {
+						return Object.entries(inputData).shift().join('.');
+					}),
+				})._ZDRModelListObjects(), [item]);
+			});
+		
+		});
+
+		context('ZDRModelListObjects', function test_ZDRModelListObjects () {
+
+			it('calls _ZDRModelListObjects', function () {
+				const item = []
+
+				const model = _ZDRModel({
+					_ZDRModelListObjects: (function () {
+						item.push([...arguments]);
+
+						return [];
+					}),
+				}).ZDRModelListObjects();
+
+				deepEqual(item, [[]]);
+			});
+
+			it('maps ZDRStorageReadObject', async function () {
+				const item = Math.random().toString();
+				deepEqual(await _ZDRModel({
+					_ZDRModelListObjects: (function () {
+						return [item];
+					}),
+					ZDRStorageReadObject: (function (inputData) {
+						return inputData.split('.');
+					}),
+				}).ZDRModelListObjects(), [item.split('.')]);
 			});
 		
 		});
