@@ -29,6 +29,36 @@ const mod = {
 			throw new Error('ZDRErrorInputNotTrimmed');
 		}
 
+		if (inputData.ZDRScopeModels !== undefined) {
+			if (!Array.isArray(inputData.ZDRScopeModels)) {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		}
+
+		return true;
+	},
+
+	_ZDRSchemaObjectValidate (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		if (typeof inputData.ZDRSchemaKey !== 'string') {
+			throw new Error('ZDRErrorInputNotString');
+		}
+
+		if (inputData.ZDRSchemaKey.trim() === '') {
+			throw new Error('ZDRErrorInputNotFilled');
+		}
+
+		if (inputData.ZDRSchemaKey.trim() !== inputData.ZDRSchemaKey) {
+			throw new Error('ZDRErrorInputNotTrimmed');
+		}
+
+		if (typeof inputData.ZDRSchemaPathCallback !== 'function') {
+			throw new Error('ZDRErrorInputNotFunction');
+		}
+
 		return true;
 	},
 
@@ -110,7 +140,7 @@ const mod = {
 			};
 
 			return Object.assign(coll, {
-				[item.ZDRScopeKey]: {
+				[item.ZDRScopeKey]: Object.assign({
 
 					ZDRStorageWriteObject (param1, param2) {
 						if (typeof param1 !== 'string') {
@@ -183,7 +213,25 @@ const mod = {
 						return client.ClientRemove(inputData);
 					},
 
-				},
+				}, (item.ZDRScopeModels || []).filter(mod._ZDRSchemaObjectValidate).reduce(function (map, model) {
+					return Object.assign(map, {
+						[model.ZDRSchemaKey]: {
+
+							ZDRModelPath (inputData) {
+								if (typeof inputData !== 'object' || inputData === null) {
+									throw new Error('ZDRErrorInputNotValid');
+								}
+
+								return model.ZDRSchemaPathCallback(inputData);
+							},
+
+							ZDRModelWriteObject (inputData) {
+								return coll[item.ZDRScopeKey].ZDRStorageWriteObject(map[model.ZDRSchemaKey].ZDRModelPath(inputData), inputData);
+							},
+
+						},
+					});
+				}, {})),
 			})
 		}, {});
 	},
