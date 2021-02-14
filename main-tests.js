@@ -215,6 +215,42 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
+	context('ZDRStorageListPathsRecursive', function test_ZDRStorageListPathsRecursive () {
+
+		it('throws if not string', function() {
+			throws(function() {
+				__ZDRStorage().ZDRStorageListPathsRecursive(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('calls ZDRStorageListPaths', async function () {
+			const inputData = Math.random().toString();
+			const file = Math.random().toString();
+			const item = Object.assign(__ZDRStorage(), {
+				ZDRStorageListPaths: (function () {
+					return [file];
+				}),
+			});
+			deepEqual(await item.ZDRStorageListPathsRecursive(inputData), [inputData + file]);
+		});
+
+		it('calls ZDRStorageListPaths recursively', async function () {
+			const folder = Math.random().toString() + '/';
+			const file = Math.random().toString();
+			const item = Object.assign(__ZDRStorage(), {
+				ZDRStorageListPaths: (function (inputData) {
+					return [inputData === folder ? file : folder];
+				}),
+			});
+			deepEqual(await item.ZDRStorageListPathsRecursive(Math.random().toString() + '/'), [folder + file]);
+		});
+
+		it('returns array', async function () {
+			deepEqual(await __ZDRStorage().ZDRStorageListPathsRecursive(Math.random().toString()), []);
+		});
+	
+	});
+
 	context('ZDRStorageDelete', function test_ZDRStorageDelete () {
 
 		it('throws if not string', function() {

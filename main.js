@@ -1,3 +1,7 @@
+const uFlatten = function (inputData) {
+	return [].concat.apply([], inputData);
+};
+
 const uIsRemoteStorage = function (inputData) {
 	if (typeof inputData !== 'function') {
 		return false;
@@ -154,6 +158,21 @@ const mod = {
 						}
 
 						return client.ClientGetListing(inputData);
+					},
+
+					async _ZDRStorageListPathsRecursive (inputData) {
+						const _this = this;
+						return uFlatten(await Promise.all((await _this.ZDRStorageListPaths(inputData)).map(function (e) {
+							return mod._ZDRPathIsDirectory(e) ? _this.ZDRStorageListPathsRecursive(e) : inputData + e;
+						})));
+					},
+
+					ZDRStorageListPathsRecursive (inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return this._ZDRStorageListPathsRecursive(inputData);
 					},
 
 					ZDRStorageDelete (inputData) {
