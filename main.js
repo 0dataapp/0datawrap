@@ -87,8 +87,8 @@ const mod = {
 					}, {});
 				},
 
-				ClientGetListing (inputData) {
-					return _client.getListing(inputData, false);
+				async ClientGetListing (inputData) {
+					return Object.keys(await _client.getListing(inputData, false));
 				},
 				
 				ClientRemove (inputData) {
@@ -140,7 +140,7 @@ const mod = {
 						return client.ClientGetAll(inputData);
 					},
 
-					ZDRStorageListDetails (inputData) {
+					ZDRStorageListPaths (inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}

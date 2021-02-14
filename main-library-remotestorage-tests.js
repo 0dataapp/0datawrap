@@ -154,7 +154,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
-	context('ZDRStorageListDetails', function test_ZDRStorageListDetails () {
+	context('ZDRStorageListPaths', function test_ZDRStorageListPaths () {
 
 		const ZDRScopeKey = Date.now().toString();
 
@@ -167,7 +167,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListDetails(item), [item, false]);
+			}).ZDRStorageListPaths(item), [item, false]);
 		});
 
 		it('converts folder', async function () {
@@ -180,9 +180,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 			await client.ZDRStorageWriteObject(item + 'bravo/charlie', {});
 			
-			deepEqual(await client.ZDRStorageListDetails(item), {
-				'bravo/': true,
-			});
+			deepEqual(await client.ZDRStorageListPaths(item), ['bravo/']);
 		});
 
 		it('converts file', async function () {
@@ -195,9 +193,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 			await client.ZDRStorageWriteFile(item + 'bravo', Math.random().toString(), 'text/plain');
 			
-			deepEqual(await client.ZDRStorageListDetails(item), {
-				bravo: true,
-			});
+			deepEqual(await client.ZDRStorageListPaths(item), ['bravo']);
 		});
 
 		it('converts object', async function () {
@@ -213,9 +209,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 			await client.ZDRStorageWriteObject(item + 'bravo', param2);
 			
-			deepEqual(await client.ZDRStorageListDetails(item), {
-				bravo: true,
-			});
+			deepEqual(await client.ZDRStorageListPaths(item), ['bravo']);
 		});
 	
 	});

@@ -183,16 +183,16 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
-	context('ZDRStorageListDetails', function test_ZDRStorageListDetails () {
+	context('ZDRStorageListPaths', function test_ZDRStorageListPaths () {
 
 		it('throws if not string', function() {
 			throws(function() {
-				__ZDRStorage().ZDRStorageListDetails(null);
+				__ZDRStorage().ZDRStorageListPaths(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
-		it('returns object', async function () {
-			deepEqual(await __ZDRStorage().ZDRStorageListDetails(Math.random().toString()), {});
+		it('returns array', async function () {
+			deepEqual(await __ZDRStorage().ZDRStorageListPaths(Math.random().toString()), []);
 		});
 	
 	});
