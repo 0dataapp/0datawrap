@@ -93,7 +93,20 @@ const mod = {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
+		if (typeof inputData.ZDRParamErrorCallback !== 'function') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
 		const library = new (inputData.ZDRParamLibrary)();
+
+		library.on('error', function (error) {
+			if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
+				return;
+			};
+
+			
+			inputData.ZDRParamErrorCallback(error);
+		});
 
 		return scopes.reduce(function (coll, item) {
 			library.access.claim(item.ZDRScopeKey, 'rw');

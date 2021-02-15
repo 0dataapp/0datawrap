@@ -151,6 +151,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 					}),
 				}, inputData)],
 			}, inputData)],
+			ZDRParamErrorCallback: (function () {}),
 		}, inputData));
 	};
 
@@ -205,6 +206,14 @@ describe('ZDRStorage', function test_ZDRStorage () {
 				}],
 			});
 		}, /ZDRErrorInputNotString/);
+	});
+
+	it('throws if ZDRParamErrorCallback not function', function () {
+		throws(function () {
+			_ZDRStorage({
+				ZDRParamErrorCallback: null,
+			});
+		}, /ZDRErrorInputNotValid/);
 	});
 
 	it('returns object', function () {

@@ -25,6 +25,8 @@
 						}, inputData);
 					}),
 					connect: (function () {}),
+					on: (function () {}),
+					remote: {},
 				}, inputData));
 			};
 

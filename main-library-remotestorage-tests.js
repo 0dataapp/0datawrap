@@ -13,6 +13,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			ZDRParamScopes: [Object.assign({
 				ZDRScopeKey,
 			}, inputData)],
+			ZDRParamErrorCallback: (function () {}),
 		}, inputData))[ZDRScopeKey];
 	};
 
@@ -250,6 +251,57 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 					}),
 				}),
 			}).ZDRCloudConnect(item), [item]);
+		});
+	
+	});
+
+	context('ZDRParamErrorCallback', function test_ZDRParamErrorCallback () {
+
+		it('subscribes to error', function () {
+			const item = [];
+
+			const error = Math.random().toString();
+
+			_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					on: (function (param1, param2) {
+						if (param1 !== 'error') {
+							return;
+						}
+
+						return param2(error);
+					}),
+				}),
+				ZDRParamErrorCallback: (function () {
+					item.push(...arguments);
+				}),
+			});
+			
+			deepEqual(item, [error]);
+		});
+
+		it('ignores if offline and sync failed', function () {
+			const item = [];
+
+			_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					on: (function (param1, param2) {
+						if (param1 !== 'error') {
+							return;
+						}
+						
+						return param2(new Error('Sync failed: Network request failed.'));
+					}),
+					remote: {
+						online: false,
+					},
+				}),
+				ZDRParamErrorCallback: (function () {
+					item.push(...arguments);
+				}),
+			});
+			
+			deepEqual(item, []);
 		});
 	
 	});
