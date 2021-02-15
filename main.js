@@ -97,15 +97,22 @@ const mod = {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
+		if (typeof inputData.ZDRParamIdentityCallback !== 'function') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
 		const library = new (inputData.ZDRParamLibrary)();
 
 		library.on('error', function (error) {
 			if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
 				return;
 			};
-
 			
 			inputData.ZDRParamErrorCallback(error);
+		});
+
+		library.on('connected', function () {
+			inputData.ZDRParamIdentityCallback(library.remote.userAddress);
 		});
 
 		return scopes.reduce(function (coll, item) {

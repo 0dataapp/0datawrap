@@ -14,6 +14,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 				ZDRScopeKey,
 			}, inputData)],
 			ZDRParamErrorCallback: (function () {}),
+			ZDRParamIdentityCallback: (function () {}),
 		}, inputData))[ZDRScopeKey];
 	};
 
@@ -22,7 +23,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		it('calls client.access.claim', function () {
 			const ZDRScopeKey = Math.random().toString();
 
-			deepEqual(uDevariable(function (outputData) {
+			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
 					ZDRScopeKey,
 					ZDRParamLibrary: uRemoteStorage({
@@ -258,7 +259,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		it('subscribes to error', function () {
 			const item = Math.random().toString();
 
-			deepEqual(uDevariable(function (outputData) {
+			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uRemoteStorage({
 						on: (function (param1, param2) {
@@ -277,7 +278,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 
 		it('ignores if offline and sync failed', function () {
-			deepEqual(uDevariable(function (outputData) {
+			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uRemoteStorage({
 						on: (function (param1, param2) {
@@ -296,6 +297,34 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 					}),
 				})
 			}), []);
+		});
+	
+	});
+
+	context('ZDRParamIdentityCallback', function test_ZDRParamIdentityCallback () {
+
+		it('subscribes to connected', function () {
+			const userAddress = Math.random().toString();
+			
+			deepEqual(uCapture(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'connected') {
+								return;
+							}
+
+							return param2();
+						}),
+						remote: {
+							userAddress,
+						},
+					}),
+					ZDRParamIdentityCallback: (function () {
+						outputData.push(...arguments);
+					}),
+				});
+			}), [userAddress]);
 		});
 	
 	});
