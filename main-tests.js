@@ -152,7 +152,6 @@ describe('ZDRStorage', function test_ZDRStorage () {
 				}, inputData)],
 			}, inputData)],
 			ZDRParamErrorCallback: (function () {}),
-			ZDRParamIdentityCallback: (function () {}),
 		}, inputData));
 	};
 
@@ -217,16 +216,16 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('returns object', function () {
+		deepEqual(typeof _ZDRStorage(), 'object');
+	});
+
 	it('throws if ZDRParamIdentityCallback not function', function () {
 		throws(function () {
 			_ZDRStorage({
 				ZDRParamIdentityCallback: null,
 			});
 		}, /ZDRErrorInputNotValid/);
-	});
-
-	it('returns object', function () {
-		deepEqual(typeof _ZDRStorage(), 'object');
 	});
 
 	const __ZDRStorage = function (inputData = {}) {

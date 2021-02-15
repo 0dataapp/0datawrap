@@ -14,7 +14,6 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 				ZDRScopeKey,
 			}, inputData)],
 			ZDRParamErrorCallback: (function () {}),
-			ZDRParamIdentityCallback: (function () {}),
 		}, inputData))[ZDRScopeKey];
 	};
 
