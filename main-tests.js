@@ -557,5 +557,13 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		});
 	
 	});
+
+	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
+
+		it('returns false', function () {
+			deepEqual(_ZDRStorage().ZDRCloudIsOnline, false);
+		});
+	
+	});
 	
 });

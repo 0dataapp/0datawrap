@@ -103,6 +103,10 @@ const mod = {
 			}
 		};
 
+		const outputData = {
+			ZDRCloudIsOnline: false,
+		};
+
 		const library = new (inputData.ZDRParamLibrary)();
 
 		library.on('error', function (error) {
@@ -115,6 +119,14 @@ const mod = {
 
 		library.on('connected', function () {
 			inputData.ZDRParamIdentityCallback(library.remote.userAddress);
+		});
+
+		library.on('network-online', function () {
+			outputData.ZDRCloudIsOnline = true;
+		});
+
+		library.on('network-offline', function () {
+			outputData.ZDRCloudIsOnline = false;
 		});
 
 		return scopes.reduce(function (coll, item) {
@@ -297,7 +309,7 @@ const mod = {
 					});
 				}, {})),
 			})
-		}, {});
+		}, outputData);
 	},
 
 };

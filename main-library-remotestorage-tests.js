@@ -343,5 +343,45 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 	
 	});
+
+	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
+
+		it('updates on network-online', function () {
+			deepEqual(mod.ZDRStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					on: (function (param1, param2) {
+						if (param1 !== 'network-online') {
+							return;
+						}
+
+						return param2();
+					}),
+				}),
+				ZDRParamScopes: [{
+					ZDRScopeKey: Math.random().toString(),
+				}],
+				ZDRParamErrorCallback: (function () {}),
+			}).ZDRCloudIsOnline, true);
+		});
+
+		it('updates on network-offline', function () {
+			deepEqual(mod.ZDRStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					on: (function (param1, param2) {
+						if (!['network-online', 'network-offline'].includes(param1)) {
+							return;
+						}
+
+						return param2();
+					}),
+				}),
+				ZDRParamScopes: [{
+					ZDRScopeKey: Math.random().toString(),
+				}],
+				ZDRParamErrorCallback: (function () {}),
+			}).ZDRCloudIsOnline, false);
+		});
+	
+	});
 	
 });
