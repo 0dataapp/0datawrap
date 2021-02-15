@@ -89,6 +89,22 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
+	context('ZDRStorageReadFile', function test_ZDRStorageReadFile () {
+
+		it('calls scope.getFile', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					getFile: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+			}).ZDRStorageReadFile(item), [item, false]);
+		});
+	
+	});
+
 	context('ZDRStorageListObjects', function test_ZDRStorageListObjects () {
 
 		const ZDRScopeKey = Date.now().toString();

@@ -139,6 +139,10 @@ const mod = {
 					return _client.getObject(inputData, false);
 				},
 
+				ClientGetFile (inputData) {
+					return _client.getFile(inputData, false);
+				},
+
 				async ClientGetAll (inputData) {
 					return Object.entries(await _client.getAll(inputData, false)).reduce(function (coll, [key, value]) {
 						if (mod._ZDRPathIsDirectory(key)) {
@@ -202,6 +206,14 @@ const mod = {
 						}
 
 						return client.ClientGetObject(inputData);
+					},
+
+					ZDRStorageReadFile (inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return client.ClientGetFile(inputData);
 					},
 
 					ZDRStorageListObjects (inputData) {

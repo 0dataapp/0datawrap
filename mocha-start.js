@@ -15,6 +15,7 @@
 						return Object.assign({
 							storeFile: (function() {}),
 							getObject: (function() {}),
+							getFile: (function() {}),
 							getAll: (function() {
 								return {};
 							}),

@@ -296,6 +296,20 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	
 	});
 
+	context('ZDRStorageReadFile', function test_ZDRStorageReadFile () {
+
+		it('throws if not string', function() {
+			throws(function() {
+				__ZDRStorage().ZDRStorageReadFile(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns null', function () {
+			deepEqual(__ZDRStorage().ZDRStorageReadFile(Math.random().toString()), null);
+		});
+	
+	});
+
 	context('ZDRStorageListObjects', function test_ZDRStorageListObjects () {
 
 		it('throws if not string', function() {
