@@ -7,7 +7,7 @@
 					return Object.assign(coll, {
 						[item.name]: item.builder().exports,
 					});
-				}, {
+				}, Object.assign({
 					access: Object.assign({
 						claim: (function () {}),
 					}, inputData),
@@ -24,7 +24,8 @@
 							remove: (function() {}),
 						}, inputData);
 					}),
-				});
+					connect: (function () {}),
+				}, inputData));
 			};
 
 			RemoteStorage.Authorize = Math.random().toString();

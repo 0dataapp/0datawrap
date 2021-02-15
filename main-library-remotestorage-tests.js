@@ -237,5 +237,21 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 	
 	});
+
+	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
+
+		it('calls connect', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uRemoteStorage({
+					connect: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+			}).ZDRCloudConnect(item), [item]);
+		});
+	
+	});
 	
 });

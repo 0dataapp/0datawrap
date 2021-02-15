@@ -512,5 +512,19 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		});
 	
 	});
+
+	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
+
+		it('throws if not string', function() {
+			throws(function() {
+				__ZDRStorage().ZDRCloudConnect(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns undefined', function () {
+			deepEqual(__ZDRStorage().ZDRCloudConnect(Math.random().toString()), undefined);
+		});
+	
+	});
 	
 });

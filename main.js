@@ -140,6 +140,10 @@ const mod = {
 				ClientRemove (inputData) {
 					return _client.remove(inputData);
 				},
+				
+				ClientConnect (inputData) {
+					return library.connect(inputData);
+				},
 
 			};
 
@@ -215,6 +219,14 @@ const mod = {
 						}
 
 						return client.ClientRemove(inputData);
+					},
+
+					ZDRCloudConnect (inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return client.ClientConnect(inputData);
 					},
 
 				}, (item.ZDRScopeModels || []).filter(mod._ZDRSchemaObjectValidate).reduce(function (map, model) {
