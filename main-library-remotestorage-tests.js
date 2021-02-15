@@ -20,20 +20,18 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
 
 		it('calls client.access.claim', function () {
-			const item = [];
-
 			const ZDRScopeKey = Math.random().toString();
 
-			_ZDRStorageRemoteStorage({
-				ZDRScopeKey,
-				ZDRParamLibrary: uRemoteStorage({
-					claim: (function () {
-						item.push(...arguments);
+			deepEqual(uDevariable(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRScopeKey,
+					ZDRParamLibrary: uRemoteStorage({
+						claim: (function () {
+							outputData.push(...arguments);
+						}),
 					}),
-				}),
-			})
-
-			deepEqual(item, [ZDRScopeKey, 'rw']);
+				})
+			}), [ZDRScopeKey, 'rw']);
 		});
 	
 	});
@@ -258,50 +256,46 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	context('ZDRParamErrorCallback', function test_ZDRParamErrorCallback () {
 
 		it('subscribes to error', function () {
-			const item = [];
+			const item = Math.random().toString();
 
-			const error = Math.random().toString();
+			deepEqual(uDevariable(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'error') {
+								return;
+							}
 
-			_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
-					on: (function (param1, param2) {
-						if (param1 !== 'error') {
-							return;
-						}
-
-						return param2(error);
+							return param2(item);
+						}),
 					}),
-				}),
-				ZDRParamErrorCallback: (function () {
-					item.push(...arguments);
-				}),
-			});
-			
-			deepEqual(item, [error]);
+					ZDRParamErrorCallback: (function () {
+						outputData.push(...arguments);
+					}),
+				})
+			}), [item]);
 		});
 
 		it('ignores if offline and sync failed', function () {
-			const item = [];
-
-			_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
-					on: (function (param1, param2) {
-						if (param1 !== 'error') {
-							return;
-						}
-						
-						return param2(new Error('Sync failed: Network request failed.'));
+			deepEqual(uDevariable(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'error') {
+								return;
+							}
+							
+							return param2(new Error('Sync failed: Network request failed.'));
+						}),
+						remote: {
+							online: false,
+						},
 					}),
-					remote: {
-						online: false,
-					},
-				}),
-				ZDRParamErrorCallback: (function () {
-					item.push(...arguments);
-				}),
-			});
-			
-			deepEqual(item, []);
+					ZDRParamErrorCallback: (function () {
+						outputData.push(...arguments);
+					}),
+				})
+			}), []);
 		});
 	
 	});
