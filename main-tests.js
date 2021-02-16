@@ -136,6 +136,30 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('throws if ZDRScopeCreatorDirectory not string', function() {
+		throws(function() {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeCreatorDirectory: null,
+			}));
+		}, /ZDRErrorInputNotString/);
+	});
+
+	it('throws if ZDRScopeCreatorDirectory not filled', function() {
+		throws(function() {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeCreatorDirectory: ' ',
+			}));
+		}, /ZDRErrorInputNotFilled/);
+	});
+
+	it('throws if ZDRScopeCreatorDirectory not trimmed', function() {
+		throws(function() {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeCreatorDirectory: ' ' + Math.random().toString() + ' ',
+			}));
+		}, /ZDRErrorInputNotTrimmed/);
+	});
+
 });
 
 describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory () {

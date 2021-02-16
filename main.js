@@ -81,6 +81,20 @@ const mod = {
 			}
 		}
 
+		if (inputData.ZDRScopeCreatorDirectory !== undefined) {
+			if (typeof inputData.ZDRScopeCreatorDirectory !== 'string') {
+				throw new Error('ZDRErrorInputNotString');
+			}
+
+			if (inputData.ZDRScopeCreatorDirectory.trim() === '') {
+				throw new Error('ZDRErrorInputNotFilled');
+			}
+
+			if (inputData.ZDRScopeCreatorDirectory.trim() !== inputData.ZDRScopeCreatorDirectory) {
+				throw new Error('ZDRErrorInputNotTrimmed');
+			}
+		}
+
 		return true;
 	},
 
