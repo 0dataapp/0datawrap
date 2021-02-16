@@ -13,7 +13,7 @@
 			}, inputData);
 		},
 
-		uRemoteStorage (inputData = {}) {
+		uStubRemoteStorage (inputData = {}) {
 			const RemoteStorage = function (params = {}) {
 				return (params.modules || []).reduce(function (coll, item) {
 					return Object.assign(coll, {

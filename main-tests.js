@@ -207,7 +207,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	const _ZDRStorage = function (inputData = {}) {
 		return mod.ZDRStorage(Object.assign({
-			ZDRParamLibrary: uRemoteStorage(),
+			ZDRParamLibrary: uStubRemoteStorage(),
 			ZDRParamScopes: [Object.assign({
 				ZDRScopeKey: Math.random().toString(),
 				ZDRScopeSchemas: [uStubSchema(inputData)],

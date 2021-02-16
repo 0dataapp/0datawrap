@@ -74,7 +74,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
 					ZDRScopeKey,
-					ZDRParamLibrary: uRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
 						claim: (function () {
 							outputData.push(...arguments);
 						}),
@@ -94,7 +94,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			};
 
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					storeFile: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -112,7 +112,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			const param3 = Date.now().toString() + '/' + Date.now().toString();
 
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					storeFile: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -128,7 +128,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			const item = Math.random().toString();
 			
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					getObject: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -144,7 +144,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			const item = Math.random().toString();
 			
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					getFile: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -162,7 +162,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			const item = Math.random().toString();
 			
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					getAll: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -228,7 +228,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			const item = Math.random().toString();
 			
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					getListing: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -292,7 +292,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			const item = Math.random().toString();
 			
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					remove: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -308,7 +308,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			const item = Math.random().toString();
 			
 			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					connect: (function () {
 						return Promise.reject([...arguments]);
 					}),
@@ -325,7 +325,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
 							if (param1 !== 'error') {
 								return;
@@ -344,7 +344,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		it('ignores if offline and sync failed', function () {
 			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
 							if (param1 !== 'error') {
 								return;
@@ -372,7 +372,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			
 			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
 							if (param1 !== 'connected') {
 								return;
@@ -397,7 +397,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 		it('updates on network-online', function () {
 			deepEqual(mod.ZDRStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					on: (function (param1, param2) {
 						if (param1 !== 'network-online') {
 							return;
@@ -414,7 +414,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 		it('updates on network-offline', function () {
 			deepEqual(mod.ZDRStorage({
-				ZDRParamLibrary: uRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
 					on: (function (param1, param2) {
 						if (!['network-online', 'network-offline'].includes(param1)) {
 							return;
