@@ -285,6 +285,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeSchemas: [uStubSchema(inputData)],
 			}, inputData))],
+			ZDRParamReadyCallback: (function () {}),
 		}, inputData));
 	};
 
@@ -340,6 +341,14 @@ describe('ZDRStorage', function test_ZDRStorage () {
 				}],
 			});
 		}, /ZDRErrorInputNotString/);
+	});
+
+	it('throws if ZDRParamReadyCallback not function', function () {
+		throws(function () {
+			_ZDRStorage({
+				ZDRParamReadyCallback: null,
+			});
+		}, /ZDRErrorInputNotValid/);
 	});
 
 	it('returns object', function () {

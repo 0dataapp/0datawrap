@@ -22,38 +22,36 @@
 
 		uStubRemoteStorage (inputData = {}) {
 			const RemoteStorage = function (params = {}) {
+				const scope = (function () {
+					return Object.assign({
+						storeFile: (function() {}),
+						getObject: (function() {}),
+						getFile: (function() {}),
+						getAll: (function() {
+							return {};
+						}),
+						getListing: (function() {
+							return {};
+						}),
+						remove: (function() {}),
+						on: (function () {}),
+					}, inputData);
+				});
+				
 				return (params.modules || []).reduce(function (coll, item) {
 					return Object.assign(coll, {
-						[item.name]: item.builder().exports,
+						[item.name]: {
+							privateClient: scope(),
+							publicClient: scope(),
+						},
 					});
 				}, Object.assign({
 					access: Object.assign({
 						claim: (function () {}),
 					}, inputData),
-					scope: (function () {
-						return Object.assign({
-							storeFile: (function() {}),
-							getObject: (function() {}),
-							getFile: (function() {}),
-							getAll: (function() {
-								return {};
-							}),
-							getListing: (function() {
-								return {};
-							}),
-							remove: (function() {}),
-							on: (function () {}),
-						}, inputData);
-					}),
 					connect: (function () {}),
 					on: (function () {}),
 					remote: {},
-					addModule: (function (inputData) {
-						this[inputData.name] = {
-							privateClient: this.scope(),
-							publicClient: this.scope(),
-						};
-					}),
 				}, inputData));
 			};
 

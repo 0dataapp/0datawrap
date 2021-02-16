@@ -198,6 +198,10 @@ const mod = {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
+		if (typeof inputData.ZDRParamReadyCallback !== 'function') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
 		if (typeof inputData.ZDRParamErrorCallback !== 'undefined') {
 			if (typeof inputData.ZDRParamErrorCallback !== 'function') {
 				throw new Error('ZDRErrorInputNotValid');
@@ -214,7 +218,21 @@ const mod = {
 			ZDRCloudIsOnline: false,
 		};
 
-		const library = new (inputData.ZDRParamLibrary)();
+		const library = new (inputData.ZDRParamLibrary)({
+			modules: scopes.reduce(function (coll, item) {
+				return coll.concat({
+					name: item.ZDRScopeDirectory,
+					builder: (function (privateClient, publicClient) {
+						return {
+							exports: {
+								privateClient,
+								publicClient,
+							},
+						};
+					}),
+				});
+			}, []),
+		});
 
 		library.on('error', function (error) {
 			if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
@@ -236,20 +254,12 @@ const mod = {
 			outputData.ZDRCloudIsOnline = false;
 		});
 
+		library.on('ready', function () {
+			inputData.ZDRParamReadyCallback();
+		});
+
 		return scopes.reduce(function (coll, item) {
 			library.access.claim(item.ZDRScopeDirectory, 'rw');
-
-			library.addModule({
-				name: item.ZDRScopeDirectory,
-				builder: (function (privateClient, publicClient) {
-					return {
-						exports: {
-							privateClient,
-							publicClient,
-						},
-					};
-				}),
-			});
 
 			const schemas = (item.ZDRScopeSchemas || []).filter(mod._ZDRSchemaObjectValidate);
 
@@ -442,7 +452,7 @@ const mod = {
 										return Promise.reject(outputData);
 									}
 								}
-								
+
 								return coll[item.ZDRScopeKey].ZDRStorageWriteObject(map[model.ZDRSchemaKey].ZDRModelPath(inputData), inputData);
 							},
 

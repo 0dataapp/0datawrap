@@ -63,6 +63,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
 			}, inputData))],
+			ZDRParamReadyCallback: (function () {}),
 		}, inputData))[ZDRScopeKey];
 	};
 
@@ -318,6 +319,30 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	
 	});
 
+	context('ZDRParamReadyCallback', function test_ZDRParamReadyCallback () {
+
+		it('subscribes to ready', function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'ready') {
+								return;
+							}
+
+							return param2();
+						}),
+					}),
+					ZDRParamReadyCallback: (function () {
+						outputData.push(item);
+					}),
+				});
+			}), [item]);
+		});
+	
+	});
+
 	context('ZDRParamErrorCallback', function test_ZDRParamErrorCallback () {
 
 		it('subscribes to error', function () {
@@ -407,6 +432,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
+				ZDRParamReadyCallback: (function () {}),
 			}).ZDRCloudIsOnline, true);
 		});
 
@@ -422,6 +448,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
+				ZDRParamReadyCallback: (function () {}),
 			}).ZDRCloudIsOnline, false);
 		});
 	
