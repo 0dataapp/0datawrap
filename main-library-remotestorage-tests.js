@@ -69,18 +69,18 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
 
 		it('calls client.access.claim', function () {
-			const ZDRScopeKey = Math.random().toString();
+			const ZDRScopeDirectory = Math.random().toString();
 
 			deepEqual(uCapture(function (outputData) {
 				_ZDRStorageRemoteStorage({
-					ZDRScopeKey,
+					ZDRScopeDirectory,
 					ZDRParamLibrary: uStubRemoteStorage({
 						claim: (function () {
 							outputData.push(...arguments);
 						}),
 					}),
 				})
-			}), [ZDRScopeKey, 'rw']);
+			}), [ZDRScopeDirectory, 'rw']);
 		});
 	
 	});

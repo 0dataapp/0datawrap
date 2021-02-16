@@ -98,6 +98,29 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 				ZDRScopeKey: ' ' + Math.random().toString() + ' ',
 			}));
 		}, /ZDRErrorInputNotTrimmed/);
+	});
+
+	it('throws if ZDRScopeDirectory not string', function() {
+		throws(function() {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeDirectory: null,
+			}));
+		}, /ZDRErrorInputNotString/);
+	});
+
+	it('throws if ZDRScopeDirectory not filled', function() {
+		throws(function() {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeDirectory: ' ',
+			}));
+		}, /ZDRErrorInputNotFilled/);
+	});
+
+	it('throws if ZDRScopeDirectory not trimmed', function() {
+		throws(function() {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeDirectory: ' ' + Math.random().toString() + ' ',
+			}));
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
@@ -254,6 +277,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 			_ZDRStorage({
 				ZDRParamScopes: [{
 					ZDRScopeKey: Math.random().toString(),
+					ZDRScopeDirectory: Math.random().toString(),
 					ZDRScopeSchemas: [{
 						ZDRSchemaKey: null
 					}]

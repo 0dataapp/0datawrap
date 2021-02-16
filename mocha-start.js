@@ -16,6 +16,7 @@
 		uStubScope (inputData = {})	{
 			return Object.assign({
 				ZDRScopeKey: Math.random().toString(),
+				ZDRScopeDirectory: Math.random().toString(),
 			}, inputData);
 		},
 

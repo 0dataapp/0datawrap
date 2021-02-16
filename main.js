@@ -63,6 +63,18 @@ const mod = {
 			throw new Error('ZDRErrorInputNotTrimmed');
 		}
 
+		if (typeof inputData.ZDRScopeDirectory !== 'string') {
+			throw new Error('ZDRErrorInputNotString');
+		}
+
+		if (inputData.ZDRScopeDirectory.trim() === '') {
+			throw new Error('ZDRErrorInputNotFilled');
+		}
+
+		if (inputData.ZDRScopeDirectory.trim() !== inputData.ZDRScopeDirectory) {
+			throw new Error('ZDRErrorInputNotTrimmed');
+		}
+
 		if (inputData.ZDRScopeSchemas !== undefined) {
 			if (!Array.isArray(inputData.ZDRScopeSchemas)) {
 				throw new Error('ZDRErrorInputNotValid');
@@ -187,10 +199,10 @@ const mod = {
 		});
 
 		return scopes.reduce(function (coll, item) {
-			library.access.claim(item.ZDRScopeKey, 'rw');
+			library.access.claim(item.ZDRScopeDirectory, 'rw');
 
 			library.addModule({
-				name: item.ZDRScopeKey,
+				name: item.ZDRScopeDirectory,
 				builder: (function (privateClient, publicClient) {
 					return {
 						exports: {
@@ -203,7 +215,7 @@ const mod = {
 
 			const schemas = (item.ZDRScopeSchemas || []).filter(mod._ZDRSchemaObjectValidate);
 
-			const _client = library[item.ZDRScopeKey].privateClient;
+			const _client = library[item.ZDRScopeDirectory].privateClient;
 			const client = {
 
 				async ClientStoreObject (param1, param2) {
