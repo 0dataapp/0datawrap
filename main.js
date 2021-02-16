@@ -12,32 +12,6 @@ const uIsRemoteStorage = function (inputData) {
 
 const mod = {
 
-	_ZDRScopeObjectValidate (inputData) {
-		if (typeof inputData !== 'object' || inputData === null) {
-			throw new Error('ZDRErrorInputNotValid');
-		}
-
-		if (typeof inputData.ZDRScopeKey !== 'string') {
-			throw new Error('ZDRErrorInputNotString');
-		}
-
-		if (inputData.ZDRScopeKey.trim() === '') {
-			throw new Error('ZDRErrorInputNotFilled');
-		}
-
-		if (inputData.ZDRScopeKey.trim() !== inputData.ZDRScopeKey) {
-			throw new Error('ZDRErrorInputNotTrimmed');
-		}
-
-		if (inputData.ZDRScopeSchemas !== undefined) {
-			if (!Array.isArray(inputData.ZDRScopeSchemas)) {
-				throw new Error('ZDRErrorInputNotValid');
-			}
-		}
-
-		return true;
-	},
-
 	_ZDRSchemaObjectValidate (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('ZDRErrorInputNotValid');
@@ -66,6 +40,32 @@ const mod = {
 		if (inputData.ZDRSchemaSyncCallbackCreate !== undefined) {
 			if (typeof inputData.ZDRSchemaSyncCallbackCreate !== 'function') {
 				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
+		return true;
+	},
+
+	_ZDRScopeObjectValidate (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		if (typeof inputData.ZDRScopeKey !== 'string') {
+			throw new Error('ZDRErrorInputNotString');
+		}
+
+		if (inputData.ZDRScopeKey.trim() === '') {
+			throw new Error('ZDRErrorInputNotFilled');
+		}
+
+		if (inputData.ZDRScopeKey.trim() !== inputData.ZDRScopeKey) {
+			throw new Error('ZDRErrorInputNotTrimmed');
+		}
+
+		if (inputData.ZDRScopeSchemas !== undefined) {
+			if (!Array.isArray(inputData.ZDRScopeSchemas)) {
+				throw new Error('ZDRErrorInputNotValid');
 			}
 		}
 

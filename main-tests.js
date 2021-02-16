@@ -2,58 +2,6 @@ const { throws, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
-describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
-
-	const __ZDRScopeObjectValidate = function (inputData = {}) {
-		return mod._ZDRScopeObjectValidate(Object.assign({
-			ZDRScopeKey: Math.random().toString(),
-		}, inputData));
-	};
-
-	it('throws if not object', function() {
-		throws(function() {
-			mod._ZDRScopeObjectValidate(null);
-		}, /ZDRErrorInputNotValid/);
-	});
-
-	it('throws if ZDRScopeKey not string', function() {
-		throws(function() {
-			__ZDRScopeObjectValidate({
-				ZDRScopeKey: null,
-			});
-		}, /ZDRErrorInputNotString/);
-	});
-
-	it('throws if ZDRScopeKey not filled', function() {
-		throws(function() {
-			__ZDRScopeObjectValidate({
-				ZDRScopeKey: ' ',
-			});
-		}, /ZDRErrorInputNotFilled/);
-	});
-
-	it('throws if ZDRScopeKey not trimmed', function() {
-		throws(function() {
-			__ZDRScopeObjectValidate({
-				ZDRScopeKey: ' ' + Math.random().toString() + ' ',
-			});
-		}, /ZDRErrorInputNotTrimmed/);
-	});
-
-	it('returns true', function () {
-		deepEqual(__ZDRScopeObjectValidate(), true);
-	});
-
-	it('throws if ZDRScopeSchemas not array', function() {
-		throws(function() {
-			__ZDRScopeObjectValidate({
-				ZDRScopeSchemas: null,
-			});
-		}, /ZDRErrorInputNotValid/);
-	});
-
-});
-
 describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 
 	const __ZDRSchemaObjectValidate = function (inputData = {}) {
@@ -116,6 +64,58 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 				ZDRSchemaSyncCallbackCreate: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
+	});
+
+});
+
+describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
+
+	const __ZDRScopeObjectValidate = function (inputData = {}) {
+		return mod._ZDRScopeObjectValidate(Object.assign({
+			ZDRScopeKey: Math.random().toString(),
+		}, inputData));
+	};
+
+	it('throws if not object', function() {
+		throws(function() {
+			mod._ZDRScopeObjectValidate(null);
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('throws if ZDRScopeKey not string', function() {
+		throws(function() {
+			__ZDRScopeObjectValidate({
+				ZDRScopeKey: null,
+			});
+		}, /ZDRErrorInputNotString/);
+	});
+
+	it('throws if ZDRScopeKey not filled', function() {
+		throws(function() {
+			__ZDRScopeObjectValidate({
+				ZDRScopeKey: ' ',
+			});
+		}, /ZDRErrorInputNotFilled/);
+	});
+
+	it('throws if ZDRScopeKey not trimmed', function() {
+		throws(function() {
+			__ZDRScopeObjectValidate({
+				ZDRScopeKey: ' ' + Math.random().toString() + ' ',
+			});
+		}, /ZDRErrorInputNotTrimmed/);
+	});
+
+	it('returns true', function () {
+		deepEqual(__ZDRScopeObjectValidate(), true);
+	});
+
+	it('throws if ZDRScopeSchemas not array', function() {
+		throws(function() {
+			__ZDRScopeObjectValidate({
+				ZDRScopeSchemas: null,
+			});
+		}, /ZDRErrorInputNotValid/);
 	});
 
 });
