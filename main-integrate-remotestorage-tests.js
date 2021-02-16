@@ -330,6 +330,22 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 	
 	});
 
+	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
+
+		it('calls disconnect', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
+					disconnect: (function () {
+						return Promise.reject([item]);
+					}),
+				}),
+			}).ZDRCloudDisconnect(), [item]);
+		});
+	
+	});
+
 	context('ZDRParamReadyCallback', function test_ZDRParamReadyCallback () {
 
 		it('subscribes to ready', function () {

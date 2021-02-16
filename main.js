@@ -321,6 +321,10 @@ const mod = {
 				ClientConnect (inputData) {
 					return library.connect(inputData);
 				},
+				
+				ClientDisconnect (inputData) {
+					return library.disconnect(inputData);
+				},
 
 			};
 
@@ -438,6 +442,10 @@ const mod = {
 						}
 
 						return client.ClientConnect(inputData);
+					},
+
+					ZDRCloudDisconnect () {
+						return client.ClientDisconnect(inputData);
 					},
 
 				}, schemas.reduce(function (map, model) {

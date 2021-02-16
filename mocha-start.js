@@ -53,6 +53,7 @@
 						enable: (function () {}),
 					}, inputData),
 					connect: (function () {}),
+					disconnect: (function () {}),
 					on: (function () {}),
 					remote: {},
 				}, inputData));

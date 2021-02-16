@@ -785,6 +785,14 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	
 	});
 
+	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
+
+		it('returns undefined', function () {
+			deepEqual(__ZDRStorage().ZDRCloudDisconnect(), undefined);
+		});
+	
+	});
+
 	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
 
 		it('returns false', function () {
