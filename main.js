@@ -29,11 +29,11 @@ const mod = {
 			throw new Error('ZDRErrorInputNotTrimmed');
 		}
 
-		if (typeof inputData.ZDRSchemaPathCallback !== 'function') {
+		if (typeof inputData.ZDRSchemaStubCallback !== 'function') {
 			throw new Error('ZDRErrorInputNotFunction');
 		}
 
-		if (typeof inputData.ZDRSchemaStubCallback !== 'function') {
+		if (typeof inputData.ZDRSchemaPathCallback !== 'function') {
 			throw new Error('ZDRErrorInputNotFunction');
 		}
 

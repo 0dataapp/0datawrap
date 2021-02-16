@@ -38,18 +38,18 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
-	it('throws if ZDRSchemaPathCallback not function', function() {
-		throws(function() {
-			__ZDRSchemaObjectValidate({
-				ZDRSchemaPathCallback: null,
-			});
-		}, /ZDRErrorInputNotFunction/);
-	});
-
 	it('throws if ZDRSchemaStubCallback not function', function() {
 		throws(function() {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaStubCallback: null,
+			});
+		}, /ZDRErrorInputNotFunction/);
+	});
+
+	it('throws if ZDRSchemaPathCallback not function', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaPathCallback: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
 	});
