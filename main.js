@@ -37,6 +37,12 @@ const mod = {
 			throw new Error('ZDRErrorInputNotFunction');
 		}
 
+		if (inputData.ZDRSchemaValidationCallback !== undefined) {
+			if (typeof inputData.ZDRSchemaValidationCallback !== 'function') {
+				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
 		if (inputData.ZDRSchemaSyncCallbackCreate !== undefined) {
 			if (typeof inputData.ZDRSchemaSyncCallbackCreate !== 'function') {
 				throw new Error('ZDRErrorInputNotFunction');
@@ -429,6 +435,14 @@ const mod = {
 							},
 
 							ZDRModelWriteObject (inputData) {
+								if (model.ZDRSchemaValidationCallback) {
+									const outputData = model.ZDRSchemaValidationCallback(inputData);
+
+									if (outputData) {
+										return Promise.reject(outputData);
+									}
+								}
+								
 								return coll[item.ZDRScopeKey].ZDRStorageWriteObject(map[model.ZDRSchemaKey].ZDRModelPath(inputData), inputData);
 							},
 

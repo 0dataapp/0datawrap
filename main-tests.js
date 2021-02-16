@@ -1,4 +1,4 @@
-const { throws, deepEqual } = require('assert');
+const { throws, rejects, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
@@ -56,6 +56,14 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 
 	it('returns true', function () {
 		deepEqual(__ZDRSchemaObjectValidate(), true);
+	});
+
+	it('throws if ZDRSchemaValidationCallback not function', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaValidationCallback: null,
+			});
+		}, /ZDRErrorInputNotFunction/);
 	});
 
 	it('throws if ZDRSchemaSyncCallbackCreate not function', function() {
@@ -561,6 +569,15 @@ describe('ZDRStorage', function test_ZDRStorage () {
 				throws(function() {
 					_ZDRModel().ZDRModelWriteObject(null);
 				}, /ZDRErrorInputNotValid/);
+			});
+
+			it('rejects if ZDRSchemaValidationCallback truthy', async function () {
+				const item = Math.random().toString();
+				await rejects(_ZDRModel({
+					ZDRSchemaValidationCallback: (function () {
+						return [item];
+					}),
+				}).ZDRModelWriteObject({}), [item]);
 			});
 
 			it('calls ZDRStorageWriteObject', async function () {
