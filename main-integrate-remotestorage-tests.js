@@ -420,32 +420,29 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 	
 	});
 
-	context('ZDRParamIdentityCallback', function test_ZDRParamIdentityCallback () {
+	context('ZDRCloudIdentity', function test_ZDRCloudIdentity () {
 
-		it('subscribes to connected', function () {
+		it('updates on connected', function () {
 			const userAddress = Math.random().toString();
-			
-			deepEqual(uCapture(function (outputData) {
-				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uStubRemoteStorage({
-						on: (function (param1, param2) {
-							if (param1 !== 'connected') {
-								return;
-							}
 
-							return param2();
-						}),
-						remote: {
-							userAddress,
-						},
+			deepEqual(mod.ZDRWrap({
+				ZDRParamLibrary: uStubRemoteStorage({
+					on: (function (param1, param2) {
+						if (param1 !== 'connected') {
+							return;
+						}
+
+						return param2();
 					}),
-					ZDRParamIdentityCallback: (function () {
-						outputData.push(...arguments);
-					}),
-				});
-			}), [userAddress]);
+					remote: {
+						userAddress,
+					},
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamReadyCallback: (function () {}),
+			}).ZDRCloudIdentity, userAddress);
 		});
-	
+
 	});
 
 	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {

@@ -214,12 +214,6 @@ const mod = {
 			}
 		};
 
-		if (typeof inputData.ZDRParamIdentityCallback !== 'undefined') {
-			if (typeof inputData.ZDRParamIdentityCallback !== 'function') {
-				throw new Error('ZDRErrorInputNotValid');
-			}
-		};
-
 		const library = new (inputData.ZDRParamLibrary)({
 			modules: scopes.reduce(function (coll, item) {
 				return coll.concat({
@@ -263,7 +257,7 @@ const mod = {
 		});
 
 		library.on('connected', function () {
-			inputData.ZDRParamIdentityCallback(library.remote.userAddress);
+			outputData.ZDRCloudIdentity = library.remote.userAddress
 		});
 
 		library.on('network-online', function () {

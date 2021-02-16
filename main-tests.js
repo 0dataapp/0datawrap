@@ -371,14 +371,6 @@ describe('ZDRWrap', function test_ZDRWrap () {
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRParamIdentityCallback not function', function () {
-		throws(function () {
-			_ZDRWrap({
-				ZDRParamIdentityCallback: null,
-			});
-		}, /ZDRErrorInputNotValid/);
-	});
-
 	const __ZDRStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 
