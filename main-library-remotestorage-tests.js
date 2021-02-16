@@ -4,6 +4,56 @@ const mod = require('./main.js');
 
 const RemoteStorage = require('remotestoragejs');
 
+describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSignature() {
+
+	it('returns undefined', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignature(), undefined);
+	});
+
+	it('returns undefined if window', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignature({
+			origin: 'window',
+		}), undefined);
+	});
+
+	it('returns undefined if local init', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignature({
+			origin: 'local',
+		}), undefined);
+	});
+
+	it('returns string if remote create', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignature({
+			origin: 'remote',
+			oldValue: undefined,
+			newValue: Math.random().toString(),
+		}), 'ZDRSchemaSyncCallbackCreate');
+	});
+
+	it('returns string if remote update', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignature({
+			origin: 'remote',
+			oldValue: Math.random().toString(),
+			newValue: Math.random().toString(),
+		}), 'ZDRSchemaSyncCallbackUpdate');
+	});
+
+	it('returns string if remote delete', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignature({
+			origin: 'remote',
+			oldValue: Math.random().toString(),
+			newValue: undefined,
+		}), 'ZDRSchemaSyncCallbackDelete');
+	});
+
+	it('returns string if conflict', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignature({
+			origin: 'conflict',
+		}), 'ZDRSchemaSyncCallbackConflict');
+	});
+
+});
+
 describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 
 	const _ZDRStorageRemoteStorage = function (inputData = {}) {

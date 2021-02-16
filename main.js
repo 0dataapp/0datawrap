@@ -63,8 +63,8 @@ const mod = {
 			throw new Error('ZDRErrorInputNotFunction');
 		}
 
-		if (inputData.ZDRSchemaCloudCreateCallback !== undefined) {
-			if (typeof inputData.ZDRSchemaCloudCreateCallback !== 'function') {
+		if (inputData.ZDRSchemaSyncCallbackCreate !== undefined) {
+			if (typeof inputData.ZDRSchemaSyncCallbackCreate !== 'function') {
 				throw new Error('ZDRErrorInputNotFunction');
 			}
 		}
@@ -78,6 +78,55 @@ const mod = {
 		}
 
 		return inputData.slice(-1) === '/';
+	},
+
+	_ZDRModelSyncCallbackSignatures () {
+		return [
+			'ZDRSchemaSyncCallbackCreate',
+			'ZDRSchemaSyncCallbackUpdate',
+			'ZDRSchemaSyncCallbackDelete',
+			'ZDRSchemaSyncCallbackConflict',
+		];
+	},
+
+	_ZDRModelSyncCallbackInput (param1, param2) {
+		if (!mod._ZDRModelSyncCallbackSignatures().includes(param1)) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		if (!param2.origin) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		if (param1 === 'ZDRSchemaSyncCallbackConflict') {
+			return param2;
+		}
+
+		return param2[param1 === 'ZDRSchemaSyncCallbackDelete' ? 'oldValue' : 'newValue'];
+	},
+
+	_ZDRModelSyncCallbackSignature (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			return;
+		}
+
+		if (inputData.origin === 'remote' && typeof inputData.oldValue === 'undefined' && typeof inputData.newValue !== 'undefined') {
+			return 'ZDRSchemaSyncCallbackCreate';
+		}
+
+		if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue !== 'undefined') {
+			return 'ZDRSchemaSyncCallbackUpdate';
+		}
+
+		if (inputData.origin === 'remote' && typeof inputData.oldValue !== 'undefined' && typeof inputData.newValue === 'undefined') {
+			return 'ZDRSchemaSyncCallbackDelete';
+		}
+
+		if (inputData.origin === 'conflict') {
+			return 'ZDRSchemaSyncCallbackConflict';
+		}
+
+		return;
 	},
 
 	ZDRStorage (inputData) {

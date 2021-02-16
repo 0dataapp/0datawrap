@@ -110,10 +110,10 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		deepEqual(__ZDRSchemaObjectValidate(), true);
 	});
 
-	it('throws if ZDRSchemaCloudCreateCallback not function', function() {
+	it('throws if ZDRSchemaSyncCallbackCreate not function', function() {
 		throws(function() {
 			__ZDRSchemaObjectValidate({
-				ZDRSchemaCloudCreateCallback: null,
+				ZDRSchemaSyncCallbackCreate: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
 	});
@@ -134,6 +134,71 @@ describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory () {
 
 	it('returns false', function () {
 		deepEqual(mod._ZDRPathIsDirectory(Math.random().toString()), false);
+	});
+
+});
+
+describe('_ZDRModelSyncCallbackSignatures', function test__ZDRModelSyncCallbackSignatures() {
+
+	it('returns array', function() {
+		deepEqual(mod._ZDRModelSyncCallbackSignatures(), [
+			'ZDRSchemaSyncCallbackCreate',
+			'ZDRSchemaSyncCallbackUpdate',
+			'ZDRSchemaSyncCallbackDelete',
+			'ZDRSchemaSyncCallbackConflict',
+		]);
+	});
+
+});
+
+describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput() {
+
+	const __ZDRModelSyncCallbackInput = function (param1, param2 = {}) {
+		return mod._ZDRModelSyncCallbackInput(param1, Object.assign({
+			origin: Math.random().toString(),
+		}, param2));
+	};
+
+	it('throws if param1 not valid', function() {
+		throws(function () {
+			__ZDRModelSyncCallbackInput(Math.random().toString());
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('throws if param2 not valid', function() {
+		throws(function () {
+			mod._ZDRModelSyncCallbackInput(uRandomElement(mod._ZDRModelSyncCallbackSignatures()), {
+				origin: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('returns newValue if ZDRSchemaSyncCallbackCreate', function() {
+		const newValue = Math.random().toString();
+		deepEqual(__ZDRModelSyncCallbackInput('ZDRSchemaSyncCallbackCreate', {
+			newValue,
+		}), newValue);
+	});
+
+	it('returns newValue if ZDRSchemaSyncCallbackUpdate', function() {
+		const newValue = Math.random().toString();
+		deepEqual(__ZDRModelSyncCallbackInput('ZDRSchemaSyncCallbackUpdate', {
+			newValue,
+		}), newValue);
+	});
+
+	it('returns oldValue if ZDRSchemaSyncCallbackDelete', function() {
+		const oldValue = Math.random().toString();
+		deepEqual(__ZDRModelSyncCallbackInput('ZDRSchemaSyncCallbackDelete', {
+			oldValue,
+		}), oldValue);
+	});
+
+	it('returns param2 if conflict', function() {
+		const item = {
+			origin: Math.random().toString(),
+		};
+		deepEqual(__ZDRModelSyncCallbackInput('ZDRSchemaSyncCallbackConflict', item), item);
 	});
 
 });
