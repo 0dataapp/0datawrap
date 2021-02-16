@@ -49,6 +49,9 @@
 					access: Object.assign({
 						claim: (function () {}),
 					}, inputData),
+					caching: Object.assign({
+						enable: (function () {}),
+					}, inputData),
 					connect: (function () {}),
 					on: (function () {}),
 					remote: {},

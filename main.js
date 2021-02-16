@@ -260,6 +260,8 @@ const mod = {
 
 		return scopes.reduce(function (coll, item) {
 			library.access.claim(item.ZDRScopeDirectory, 'rw');
+			
+			library.caching.enable(`/${ item.ZDRScopeDirectory }/`);
 
 			const schemas = (item.ZDRScopeSchemas || []).filter(mod._ZDRSchemaObjectValidate);
 

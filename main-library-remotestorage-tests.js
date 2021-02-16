@@ -67,23 +67,34 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
+	it('calls client.access.claim', function () {
+		const ZDRScopeDirectory = Math.random().toString();
 
-		it('calls client.access.claim', function () {
-			const ZDRScopeDirectory = Math.random().toString();
-
-			deepEqual(uCapture(function (outputData) {
-				_ZDRStorageRemoteStorage({
-					ZDRScopeDirectory,
-					ZDRParamLibrary: uStubRemoteStorage({
-						claim: (function () {
-							outputData.push(...arguments);
-						}),
+		deepEqual(uCapture(function (outputData) {
+			_ZDRStorageRemoteStorage({
+				ZDRScopeDirectory,
+				ZDRParamLibrary: uStubRemoteStorage({
+					claim: (function () {
+						outputData.push(...arguments);
 					}),
-				})
-			}), [ZDRScopeDirectory, 'rw']);
-		});
-	
+				}),
+			})
+		}), [ZDRScopeDirectory, 'rw']);
+	});
+
+	it('calls client.caching.enable', function () {
+		const ZDRScopeDirectory = Math.random().toString();
+
+		deepEqual(uCapture(function (outputData) {
+			_ZDRStorageRemoteStorage({
+				ZDRScopeDirectory,
+				ZDRParamLibrary: uStubRemoteStorage({
+					enable: (function () {
+						outputData.push(...arguments);
+					}),
+				}),
+			})
+		}), [`/${ ZDRScopeDirectory }/`]);
 	});
 
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
