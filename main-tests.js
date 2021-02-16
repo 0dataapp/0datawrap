@@ -151,7 +151,6 @@ describe('ZDRStorage', function test_ZDRStorage () {
 					}),
 				}, inputData)],
 			}, inputData)],
-			ZDRParamErrorCallback: (function () {}),
 		}, inputData));
 	};
 

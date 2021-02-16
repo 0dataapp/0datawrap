@@ -93,9 +93,11 @@ const mod = {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
-		if (typeof inputData.ZDRParamErrorCallback !== 'function') {
-			throw new Error('ZDRErrorInputNotValid');
-		}
+		if (typeof inputData.ZDRParamErrorCallback !== 'undefined') {
+			if (typeof inputData.ZDRParamErrorCallback !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		};
 
 		if (typeof inputData.ZDRParamIdentityCallback !== 'undefined') {
 			if (typeof inputData.ZDRParamIdentityCallback !== 'function') {
