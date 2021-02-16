@@ -201,6 +201,8 @@ const mod = {
 				}),
 			});
 
+			const schemas = (item.ZDRScopeSchemas || []).filter(mod._ZDRSchemaObjectValidate);
+
 			const _client = library[item.ZDRScopeKey].privateClient;
 			const client = {
 
@@ -253,6 +255,32 @@ const mod = {
 				},
 
 			};
+
+			if (schemas.filter(function (e) {
+				return Object.keys(e).filter(function (e) {
+					return mod._ZDRModelSyncCallbackSignatures().includes(e);
+				}).length;
+			}).length) {
+				_client.on('change', function (event) {
+					schemas.forEach(function (e) {
+						if (e.ZDRSchemaPathCallback(e.ZDRSchemaStubCallback(event.relativePath)) !== event.relativePath) {
+							return;
+						}
+
+						const signature = mod._ZDRModelSyncCallbackSignature(event);
+						
+						if (!signature) {
+							return;
+						}
+
+						if (!e[signature]) {
+							return;
+						}
+
+						return e[signature](mod._ZDRModelSyncCallbackInput(signature, event));
+					});
+				});
+			}
 
 			return Object.assign(coll, {
 				[item.ZDRScopeKey]: Object.assign({
@@ -344,7 +372,7 @@ const mod = {
 						return client.ClientConnect(inputData);
 					},
 
-				}, (item.ZDRScopeSchemas || []).filter(mod._ZDRSchemaObjectValidate).reduce(function (map, model) {
+				}, schemas.reduce(function (map, model) {
 					return Object.assign(map, {
 						[model.ZDRSchemaKey]: {
 

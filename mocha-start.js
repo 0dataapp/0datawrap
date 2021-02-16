@@ -35,6 +35,7 @@
 								return {};
 							}),
 							remove: (function() {}),
+							on: (function () {}),
 						}, inputData);
 					}),
 					connect: (function () {}),

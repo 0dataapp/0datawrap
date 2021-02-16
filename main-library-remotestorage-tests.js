@@ -430,5 +430,117 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 	
 	});
+
+	context('change', function () {
+		
+		it('skips if no _ZDRModelSyncCallbackSignatures', function () {
+			deepEqual(uCapture(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'change') {
+								return;
+							}
+
+							outputData.push(...arguments);
+						}),
+					}),
+				});
+			}), []);
+		});
+
+		const uChange = function (params = {}, outputData) {
+			return _ZDRStorageRemoteStorage({
+				ZDRScopeSchemas: [uStubSchema(mod._ZDRModelSyncCallbackSignatures().reduce(function (coll, item) {
+					return Object.assign(coll, {
+						[item]: (function () {
+							outputData.push(...arguments);
+						}),
+					}, params);
+				}, {
+					ZDRSchemaStubCallback: (function (inputData) {
+						return Object.fromEntries([inputData.split('.')]);
+					}),
+					ZDRSchemaPathCallback: (function (inputData) {
+						return Object.entries(inputData).pop().join('.');
+					}),
+				}))],
+				ZDRParamLibrary: uStubRemoteStorage({
+					on: (function (param1, param2) {
+						if (param1 !== 'change') {
+							return;
+						}
+
+						return param2(Object.assign({
+							origin: params.signature === 'ZDRSchemaSyncCallbackConflict' ? 'conflict' : 'remote',
+							relativePath: Math.random().toString(),
+						}, (function(inputData) {
+							if (params.signature === 'ZDRSchemaSyncCallbackCreate') {
+								return {
+									newValue: Math.random().toString(),
+								};
+							};
+
+							if (params.signature === 'ZDRSchemaSyncCallbackUpdate') {
+								return {
+									oldValue: Math.random().toString(),
+									newValue: Math.random().toString(),
+								};
+							};
+
+							if (params.signature === 'ZDRSchemaSyncCallbackDelete') {
+								return {
+									oldValue: Math.random().toString(),
+								};
+							};
+						})()));
+					}),
+				}),
+			});
+		};
+		
+		it('ignores if no match', function () {
+			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
+			deepEqual(uCapture(function (outputData) {
+				uChange({
+					signature,
+					ZDRSchemaPathCallback: (function (inputData) {
+						return Math.random().toString();
+					}),
+				}, outputData);
+			}), []);
+		});
+		
+		it('ignores if no signature', function () {
+			deepEqual(uCapture(function (outputData) {
+				uChange({
+					signature: Math.random().toString(),
+				}, outputData);
+			}), []);
+		});
+		
+		it('ignores if no callback', function () {
+			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
+			deepEqual(uCapture(function (outputData) {
+				uChange({
+					signature,
+					[signature]: undefined,
+				}, outputData);
+			}), []);
+		});
+
+		it('calls callback at signature', function () {
+			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
+			deepEqual(uCapture(function (outputData) {
+				uChange({
+					signature,
+					[signature]: (function () {
+						outputData.push(signature);
+					}),
+				}, outputData);
+			}), [signature]);
+		});
+	
+	});
 	
 });
