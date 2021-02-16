@@ -220,10 +220,6 @@ const mod = {
 			}
 		};
 
-		const outputData = {
-			ZDRCloudIsOnline: false,
-		};
-
 		const library = new (inputData.ZDRParamLibrary)({
 			modules: scopes.reduce(function (coll, item) {
 				return coll.concat({
@@ -239,6 +235,24 @@ const mod = {
 				});
 			}, []),
 		});
+
+		const outputData = {
+
+			ZDRCloudIsOnline: false,
+
+			ZDRCloudConnect (inputData) {
+				if (typeof inputData !== 'string') {
+					throw new Error('ZDRErrorInputNotValid');
+				}
+
+				return library.connect(inputData);
+			},
+
+			ZDRCloudDisconnect () {
+				return library.disconnect(inputData);
+			},
+
+		};
 
 		library.on('error', function (error) {
 			if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
@@ -316,14 +330,6 @@ const mod = {
 				
 				ClientRemove (inputData) {
 					return _client.remove(inputData);
-				},
-				
-				ClientConnect (inputData) {
-					return library.connect(inputData);
-				},
-				
-				ClientDisconnect (inputData) {
-					return library.disconnect(inputData);
 				},
 
 			};
@@ -434,18 +440,6 @@ const mod = {
 						}
 
 						return client.ClientRemove(inputData);
-					},
-
-					ZDRCloudConnect (inputData) {
-						if (typeof inputData !== 'string') {
-							throw new Error('ZDRErrorInputNotValid');
-						}
-
-						return client.ClientConnect(inputData);
-					},
-
-					ZDRCloudDisconnect () {
-						return client.ClientDisconnect(inputData);
 					},
 
 				}, schemas.reduce(function (map, model) {

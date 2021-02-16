@@ -771,16 +771,24 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	
 	});
 
+	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
+
+		it('returns false', function () {
+			deepEqual(_ZDRWrap().ZDRCloudIsOnline, false);
+		});
+	
+	});
+
 	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
 
 		it('throws if not string', function() {
 			throws(function() {
-				__ZDRStorage().ZDRCloudConnect(null);
+				_ZDRWrap().ZDRCloudConnect(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
 		it('returns undefined', function () {
-			deepEqual(__ZDRStorage().ZDRCloudConnect(Math.random().toString()), undefined);
+			deepEqual(_ZDRWrap().ZDRCloudConnect(Math.random().toString()), undefined);
 		});
 	
 	});
@@ -788,15 +796,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
 
 		it('returns undefined', function () {
-			deepEqual(__ZDRStorage().ZDRCloudDisconnect(), undefined);
-		});
-	
-	});
-
-	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
-
-		it('returns false', function () {
-			deepEqual(_ZDRWrap().ZDRCloudIsOnline, false);
+			deepEqual(_ZDRWrap().ZDRCloudDisconnect(), undefined);
 		});
 	
 	});

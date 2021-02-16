@@ -97,6 +97,41 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		}), [`/${ ZDRScopeDirectory }/`]);
 	});
 
+	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
+
+		it('calls connect', async function () {
+			const item = Math.random().toString();
+			await rejects(mod.ZDRWrap({
+				ZDRParamLibrary: uStubRemoteStorage({
+					connect: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamReadyCallback: (function () {}),
+			}).ZDRCloudConnect(item), [item]);
+		});
+	
+	});
+
+	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
+
+		it('calls disconnect', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(mod.ZDRWrap({
+				ZDRParamLibrary: uStubRemoteStorage({
+					disconnect: (function () {
+						return Promise.reject([item]);
+					}),
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamReadyCallback: (function () {}),
+			}).ZDRCloudDisconnect(), [item]);
+		});
+	
+	});
+
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
 
 		it('calls scope.storeFile', async function () {
@@ -310,38 +345,6 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 					}),
 				}),
 			}).ZDRStorageDelete(item), [item]);
-		});
-	
-	});
-
-	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
-
-		it('calls connect', async function () {
-			const item = Math.random().toString();
-			
-			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uStubRemoteStorage({
-					connect: (function () {
-						return Promise.reject([...arguments]);
-					}),
-				}),
-			}).ZDRCloudConnect(item), [item]);
-		});
-	
-	});
-
-	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
-
-		it('calls disconnect', async function () {
-			const item = Math.random().toString();
-			
-			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uStubRemoteStorage({
-					disconnect: (function () {
-						return Promise.reject([item]);
-					}),
-				}),
-			}).ZDRCloudDisconnect(), [item]);
 		});
 	
 	});
