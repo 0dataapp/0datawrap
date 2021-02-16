@@ -37,6 +37,12 @@ const mod = {
 			throw new Error('ZDRErrorInputNotFunction');
 		}
 
+		if (inputData.ZDRSchemaMethods !== undefined) {
+			if (typeof inputData.ZDRSchemaMethods !== 'object' || inputData.ZDRSchemaMethods === null) {
+				throw new Error('ZDRErrorInputNotObject');
+			}
+		}
+
 		if (inputData.ZDRSchemaValidationCallback !== undefined) {
 			if (typeof inputData.ZDRSchemaValidationCallback !== 'function') {
 				throw new Error('ZDRErrorInputNotFunction');
@@ -436,7 +442,7 @@ const mod = {
 
 				}, schemas.reduce(function (map, model) {
 					return Object.assign(map, {
-						[model.ZDRSchemaKey]: {
+						[model.ZDRSchemaKey]: Object.assign({
 
 							ZDRModelPath (inputData) {
 								if (typeof inputData !== 'object' || inputData === null) {
@@ -472,7 +478,15 @@ const mod = {
 								return Promise.all((await _this._ZDRModelListObjects()).map(_this.ZDRStorageReadObject));
 							},
 
-						},
+						}, Object.entries(model.ZDRSchemaMethods || {}).reduce(function (coll, [key, value]) {
+							if (typeof value !== 'function') {
+								throw new Error('ZDRErrorInputNotFunction');
+							}
+							
+							return Object.assign(coll, {
+								[key]: value.bind(outputData),
+							})
+						}, {})),
 					});
 				}, {})),
 			})

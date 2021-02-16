@@ -58,6 +58,14 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		deepEqual(__ZDRSchemaObjectValidate(), true);
 	});
 
+	it('throws if ZDRSchemaMethods not object', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaMethods: null,
+			});
+		}, /ZDRErrorInputNotObject/);
+	});
+
 	it('throws if ZDRSchemaValidationCallback not function', function() {
 		throws(function() {
 			__ZDRSchemaObjectValidate({
@@ -690,6 +698,38 @@ describe('ZDRWrap', function test_ZDRWrap () {
 						return inputData.split('.');
 					}),
 				}).ZDRModelListObjects(), [item.split('.')]);
+			});
+		
+		});
+
+		context('ZDRSchemaMethods', function test_ZDRSchemaMethods () {
+
+			it('throws if not function', function () {
+				throws(function () {
+					_ZDRWrap(Object.assign({
+						ZDRSchemaMethods: {
+							[Math.random().toString()]: Math.random().toString(),
+						},
+					}))
+				}, /ZDRErrorInputNotFunction/);
+			});
+
+			it('binds wrap to this', function () {
+				const ZDRScopeKey = Math.random().toString();
+				const ZDRSchemaKey = Math.random().toString();
+				const item = Math.random().toString();
+
+				const wrap = _ZDRWrap(Object.assign({
+					ZDRScopeKey,
+					ZDRSchemaKey,
+					ZDRSchemaMethods: {
+						[item]: (function () {
+							return [this].concat(...arguments);
+						}),
+					},
+				}));
+
+				deepEqual(wrap[ZDRScopeKey][ZDRSchemaKey][item](item), [wrap, item]);
 			});
 		
 		});
