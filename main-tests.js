@@ -44,10 +44,10 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 		deepEqual(__ZDRScopeObjectValidate(), true);
 	});
 
-	it('throws if ZDRScopeModels not array', function() {
+	it('throws if ZDRScopeSchemas not array', function() {
 		throws(function() {
 			__ZDRScopeObjectValidate({
-				ZDRScopeModels: null,
+				ZDRScopeSchemas: null,
 			});
 		}, /ZDRErrorInputNotValid/);
 	});
@@ -145,7 +145,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 			ZDRParamLibrary: uRemoteStorage(),
 			ZDRParamScopes: [Object.assign({
 				ZDRScopeKey: Math.random().toString(),
-				ZDRScopeModels: [uStubSchema(inputData)],
+				ZDRScopeSchemas: [uStubSchema(inputData)],
 			}, inputData)],
 		}, inputData));
 	};
@@ -190,12 +190,12 @@ describe('ZDRStorage', function test_ZDRStorage () {
 		}, /ZDRErrorInputNotString/);
 	});
 
-	it('throws if ZDRScopeModels element not valid', function() {
+	it('throws if ZDRScopeSchemas element not valid', function() {
 		throws(function() {
 			_ZDRStorage({
 				ZDRParamScopes: [{
 					ZDRScopeKey: Math.random().toString(),
-					ZDRScopeModels: [{
+					ZDRScopeSchemas: [{
 						ZDRSchemaKey: null
 					}]
 				}],

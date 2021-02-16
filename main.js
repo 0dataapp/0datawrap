@@ -29,8 +29,8 @@ const mod = {
 			throw new Error('ZDRErrorInputNotTrimmed');
 		}
 
-		if (inputData.ZDRScopeModels !== undefined) {
-			if (!Array.isArray(inputData.ZDRScopeModels)) {
+		if (inputData.ZDRScopeSchemas !== undefined) {
+			if (!Array.isArray(inputData.ZDRScopeSchemas)) {
 				throw new Error('ZDRErrorInputNotValid');
 			}
 		}
@@ -295,7 +295,7 @@ const mod = {
 						return client.ClientConnect(inputData);
 					},
 
-				}, (item.ZDRScopeModels || []).filter(mod._ZDRSchemaObjectValidate).reduce(function (map, model) {
+				}, (item.ZDRScopeSchemas || []).filter(mod._ZDRSchemaObjectValidate).reduce(function (map, model) {
 					return Object.assign(map, {
 						[model.ZDRSchemaKey]: {
 
