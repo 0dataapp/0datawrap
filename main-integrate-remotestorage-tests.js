@@ -54,12 +54,12 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 
 });
 
-describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
+describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 	const _ZDRStorageRemoteStorage = function (inputData = {}) {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 
-		return mod.ZDRStorage(Object.assign({
+		return mod.ZDRWrap(Object.assign({
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
 			}, inputData))],
@@ -432,7 +432,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
 
 		it('updates on network-online', function () {
-			deepEqual(mod.ZDRStorage({
+			deepEqual(mod.ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
 					on: (function (param1, param2) {
 						if (param1 !== 'network-online') {
@@ -448,7 +448,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		});
 
 		it('updates on network-offline', function () {
-			deepEqual(mod.ZDRStorage({
+			deepEqual(mod.ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
 					on: (function (param1, param2) {
 						if (!['network-online', 'network-offline'].includes(param1)) {

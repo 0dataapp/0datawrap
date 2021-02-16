@@ -277,10 +277,10 @@ describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput(
 
 });
 
-describe('ZDRStorage', function test_ZDRStorage () {
+describe('ZDRWrap', function test_ZDRWrap () {
 
-	const _ZDRStorage = function (inputData = {}) {
-		return mod.ZDRStorage(Object.assign({
+	const _ZDRWrap = function (inputData = {}) {
+		return mod.ZDRWrap(Object.assign({
 			ZDRParamLibrary: uStubRemoteStorage(),
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeSchemas: [uStubSchema(inputData)],
@@ -291,13 +291,13 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	it('throws if not object', function() {
 		throws(function() {
-			mod.ZDRStorage(null);
+			mod.ZDRWrap(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
 	it('throws if ZDRParamLibrary not valid', function() {
 		throws(function() {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamLibrary: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -305,7 +305,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	it('throws if ZDRParamScopes not array', function() {
 		throws(function() {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamScopes: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -313,7 +313,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	it('throws if ZDRParamScopes not filled', function() {
 		throws(function() {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamScopes: [],
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -321,7 +321,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	it('throws if ZDRParamScopes element not valid', function() {
 		throws(function() {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamScopes: [{
 					ZDRScopeKey: null,
 				}],
@@ -331,7 +331,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	it('throws if ZDRScopeSchemas element not valid', function() {
 		throws(function() {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamScopes: [{
 					ZDRScopeKey: Math.random().toString(),
 					ZDRScopeDirectory: Math.random().toString(),
@@ -345,19 +345,19 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	it('throws if ZDRParamReadyCallback not function', function () {
 		throws(function () {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamReadyCallback: null,
 			});
 		}, /ZDRErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		deepEqual(typeof _ZDRStorage(), 'object');
+		deepEqual(typeof _ZDRWrap(), 'object');
 	});
 
 	it('throws if ZDRParamErrorCallback not function', function () {
 		throws(function () {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamErrorCallback: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -365,7 +365,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 
 	it('throws if ZDRParamIdentityCallback not function', function () {
 		throws(function () {
-			_ZDRStorage({
+			_ZDRWrap({
 				ZDRParamIdentityCallback: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -374,7 +374,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	const __ZDRStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 
-		return _ZDRStorage(Object.assign({
+		return _ZDRWrap(Object.assign({
 			ZDRScopeKey,
 		}, inputData))[ZDRScopeKey];
 	};
@@ -713,7 +713,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
 
 		it('returns false', function () {
-			deepEqual(_ZDRStorage().ZDRCloudIsOnline, false);
+			deepEqual(_ZDRWrap().ZDRCloudIsOnline, false);
 		});
 	
 	});

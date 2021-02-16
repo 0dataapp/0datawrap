@@ -179,7 +179,7 @@ const mod = {
 		return;
 	},
 
-	ZDRStorage (inputData) {
+	ZDRWrap (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('ZDRErrorInputNotValid');
 		}
