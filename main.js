@@ -63,6 +63,12 @@ const mod = {
 			throw new Error('ZDRErrorInputNotFunction');
 		}
 
+		if (inputData.ZDRSchemaCloudCreateCallback !== undefined) {
+			if (typeof inputData.ZDRSchemaCloudCreateCallback !== 'function') {
+				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
 		return true;
 	},
 

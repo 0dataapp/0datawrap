@@ -57,11 +57,7 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 
 	const __ZDRSchemaObjectValidate = function (inputData = {}) {
-		return mod._ZDRSchemaObjectValidate(Object.assign({
-			ZDRSchemaKey: Math.random().toString(),
-			ZDRSchemaPathCallback: (function () {}),
-			ZDRSchemaStubCallback: (function () {}),
-		}, inputData));
+		return mod._ZDRSchemaObjectValidate(uStubSchema(inputData));
 	};
 
 	it('throws if not object', function() {
@@ -114,6 +110,14 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		deepEqual(__ZDRSchemaObjectValidate(), true);
 	});
 
+	it('throws if ZDRSchemaCloudCreateCallback not function', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaCloudCreateCallback: null,
+			});
+		}, /ZDRErrorInputNotFunction/);
+	});
+
 });
 
 describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory () {
@@ -141,15 +145,7 @@ describe('ZDRStorage', function test_ZDRStorage () {
 			ZDRParamLibrary: uRemoteStorage(),
 			ZDRParamScopes: [Object.assign({
 				ZDRScopeKey: Math.random().toString(),
-				ZDRScopeModels: [Object.assign({
-					ZDRSchemaKey: Math.random().toString(),
-					ZDRSchemaPathCallback: (function () {
-						return Math.random().toString();
-					}),
-					ZDRSchemaStubCallback: (function () {
-						return {};
-					}),
-				}, inputData)],
+				ZDRScopeModels: [uStubSchema(inputData)],
 			}, inputData)],
 		}, inputData));
 	};

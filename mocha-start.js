@@ -1,6 +1,18 @@
 (function KVCMochaStubs() {
 	Object.entries({
 
+		uStubSchema (inputData = {})	{
+			return Object.assign({
+				ZDRSchemaKey: Math.random().toString(),
+				ZDRSchemaPathCallback: (function () {
+					return Math.random().toString();
+				}),
+				ZDRSchemaStubCallback: (function () {
+					return {};
+				}),
+			}, inputData);
+		},
+
 		uRemoteStorage (inputData = {}) {
 			const RemoteStorage = function (params = {}) {
 				return (params.modules || []).reduce(function (coll, item) {
