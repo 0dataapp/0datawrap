@@ -43,6 +43,24 @@ const mod = {
 			}
 		}
 
+		if (inputData.ZDRSchemaSyncCallbackUpdate !== undefined) {
+			if (typeof inputData.ZDRSchemaSyncCallbackUpdate !== 'function') {
+				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
+		if (inputData.ZDRSchemaSyncCallbackDelete !== undefined) {
+			if (typeof inputData.ZDRSchemaSyncCallbackDelete !== 'function') {
+				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
+		if (inputData.ZDRSchemaSyncCallbackConflict !== undefined) {
+			if (typeof inputData.ZDRSchemaSyncCallbackConflict !== 'function') {
+				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
 		return true;
 	},
 

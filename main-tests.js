@@ -66,6 +66,30 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		}, /ZDRErrorInputNotFunction/);
 	});
 
+	it('throws if ZDRSchemaSyncCallbackUpdate not function', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaSyncCallbackUpdate: null,
+			});
+		}, /ZDRErrorInputNotFunction/);
+	});
+
+	it('throws if ZDRSchemaSyncCallbackDelete not function', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaSyncCallbackDelete: null,
+			});
+		}, /ZDRErrorInputNotFunction/);
+	});
+
+	it('throws if ZDRSchemaSyncCallbackConflict not function', function() {
+		throws(function() {
+			__ZDRSchemaObjectValidate({
+				ZDRSchemaSyncCallbackConflict: null,
+			});
+		}, /ZDRErrorInputNotFunction/);
+	});
+
 });
 
 describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
