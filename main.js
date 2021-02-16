@@ -132,7 +132,19 @@ const mod = {
 		return scopes.reduce(function (coll, item) {
 			library.access.claim(item.ZDRScopeKey, 'rw');
 
-			const _client = library.scope(`/${ item.ZDRScopeKey }/`);
+			library.addModule({
+				name: item.ZDRScopeKey,
+				builder: (function (privateClient, publicClient) {
+					return {
+						exports: {
+							privateClient,
+							publicClient,
+						},
+					};
+				}),
+			});
+
+			const _client = library[item.ZDRScopeKey].privateClient;
 			const client = {
 
 				async ClientStoreObject (param1, param2) {

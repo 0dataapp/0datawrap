@@ -28,6 +28,12 @@
 					connect: (function () {}),
 					on: (function () {}),
 					remote: {},
+					addModule: (function (inputData) {
+						this[inputData.name] = {
+							privateClient: this.scope(),
+							publicClient: this.scope(),
+						};
+					}),
 				}, inputData));
 			};
 
