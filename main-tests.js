@@ -637,7 +637,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 					}),
 				})._ZDRModelListObjects();
 
-				deepEqual(item, ['/']);
+				deepEqual(item, ['']);
 			});
 
 			it('excludes if no match', async function () {

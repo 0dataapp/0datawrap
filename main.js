@@ -467,15 +467,13 @@ const mod = {
 							async _ZDRModelListObjects () {
 								const _this = this;
 
-								return (await coll[item.ZDRScopeKey].ZDRStorageListPathsRecursive('/')).filter(function (e) {
+								return (await coll[item.ZDRScopeKey].ZDRStorageListPathsRecursive('')).filter(function (e) {
 									return e === _this.ZDRModelPath(model.ZDRSchemaStubCallback(e));
 								});
 							},
 
 							async ZDRModelListObjects () {
-								const _this = this;
-
-								return Promise.all((await _this._ZDRModelListObjects()).map(_this.ZDRStorageReadObject));
+								return Promise.all((await this._ZDRModelListObjects()).map(coll[item.ZDRScopeKey].ZDRStorageReadObject));
 							},
 
 							ZDRModelDeleteObject (inputData) {
