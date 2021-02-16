@@ -60,9 +60,9 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 
 		return mod.ZDRStorage(Object.assign({
-			ZDRParamScopes: [Object.assign({
+			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
-			}, inputData)],
+			}, inputData))],
 		}, inputData))[ZDRScopeKey];
 	};
 
@@ -406,9 +406,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 						return param2();
 					}),
 				}),
-				ZDRParamScopes: [{
-					ZDRScopeKey: Math.random().toString(),
-				}],
+				ZDRParamScopes: [uStubScope()],
 			}).ZDRCloudIsOnline, true);
 		});
 
@@ -423,9 +421,7 @@ describe('ZDRStorage_RemoteStorage', function test_ZDRStorage_RemoteStorage () {
 						return param2();
 					}),
 				}),
-				ZDRParamScopes: [{
-					ZDRScopeKey: Math.random().toString(),
-				}],
+				ZDRParamScopes: [uStubScope()],
 			}).ZDRCloudIsOnline, false);
 		});
 	

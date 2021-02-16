@@ -13,6 +13,12 @@
 			}, inputData);
 		},
 
+		uStubScope (inputData = {})	{
+			return Object.assign({
+				ZDRScopeKey: Math.random().toString(),
+			}, inputData);
+		},
+
 		uStubRemoteStorage (inputData = {}) {
 			const RemoteStorage = function (params = {}) {
 				return (params.modules || []).reduce(function (coll, item) {

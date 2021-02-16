@@ -70,12 +70,6 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 
 describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 
-	const __ZDRScopeObjectValidate = function (inputData = {}) {
-		return mod._ZDRScopeObjectValidate(Object.assign({
-			ZDRScopeKey: Math.random().toString(),
-		}, inputData));
-	};
-
 	it('throws if not object', function() {
 		throws(function() {
 			mod._ZDRScopeObjectValidate(null);
@@ -84,37 +78,38 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 
 	it('throws if ZDRScopeKey not string', function() {
 		throws(function() {
-			__ZDRScopeObjectValidate({
+			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeKey: null,
-			});
+			}));
 		}, /ZDRErrorInputNotString/);
 	});
 
 	it('throws if ZDRScopeKey not filled', function() {
 		throws(function() {
-			__ZDRScopeObjectValidate({
+			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeKey: ' ',
-			});
+			}));
 		}, /ZDRErrorInputNotFilled/);
 	});
 
 	it('throws if ZDRScopeKey not trimmed', function() {
 		throws(function() {
-			__ZDRScopeObjectValidate({
+			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeKey: ' ' + Math.random().toString() + ' ',
-			});
+			}));
+		}, /ZDRErrorInputNotTrimmed/);
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
 	it('returns true', function () {
-		deepEqual(__ZDRScopeObjectValidate(), true);
+		deepEqual(mod._ZDRScopeObjectValidate(uStubScope()), true);
 	});
 
 	it('throws if ZDRScopeSchemas not array', function() {
 		throws(function() {
-			__ZDRScopeObjectValidate({
+			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeSchemas: null,
-			});
+			}));
 		}, /ZDRErrorInputNotValid/);
 	});
 
@@ -208,10 +203,9 @@ describe('ZDRStorage', function test_ZDRStorage () {
 	const _ZDRStorage = function (inputData = {}) {
 		return mod.ZDRStorage(Object.assign({
 			ZDRParamLibrary: uStubRemoteStorage(),
-			ZDRParamScopes: [Object.assign({
-				ZDRScopeKey: Math.random().toString(),
+			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeSchemas: [uStubSchema(inputData)],
-			}, inputData)],
+			}, inputData))],
 		}, inputData));
 	};
 
