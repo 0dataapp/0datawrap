@@ -702,6 +702,41 @@ describe('ZDRWrap', function test_ZDRWrap () {
 		
 		});
 
+		context('ZDRModelDeleteObject', function test_ZDRModelDeleteObject () {
+
+			it('throws if not object', function() {
+				throws(function() {
+					_ZDRModel().ZDRModelDeleteObject(null);
+				}, /ZDRErrorInputNotValid/);
+			});
+
+			it('calls ZDRStorageDelete', async function () {
+				const inputData = {
+					[Math.random().toString()]: Math.random().toString(),
+				};
+				const path = Math.random().toString();
+
+				const model = _ZDRModel({
+					ZDRStorageDelete: (function () {
+						return [...arguments];
+					}),
+					ZDRSchemaPathCallback: (function () {
+						return path;
+					}),
+				});
+
+				deepEqual(model.ZDRModelDeleteObject(inputData), [path]);
+			});
+
+			it('returns inputData', async function () {
+				const item = {
+					[Math.random().toString()]: Math.random().toString(),
+				};
+				deepEqual(await _ZDRModel().ZDRModelWriteObject(item), item);
+			});
+		
+		});
+
 		context('ZDRSchemaMethods', function test_ZDRSchemaMethods () {
 
 			it('throws if not function', function () {
