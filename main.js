@@ -402,7 +402,7 @@ const mod = {
 			}, {}),
 		};
 
-		const fissionClient = library._fs || {};
+		let fissionClient = library._fs || {};
 		(async function fissionSetup () {
 			if (ZDRStorageProtocol !== mod.ZDRProtocolFission()) {
 				return;
@@ -426,7 +426,7 @@ const mod = {
 				return;
 			}
 
-	    Object.assign(fissionClient, state.fs);
+	    fissionClient = state.fs;
 
 	    outputData.ZDRCloudIdentity = state.username;
 
@@ -437,14 +437,16 @@ const mod = {
 
 			ZDRStorageProtocol,
 
-			ZDRStorageClient: ({
-				[mod.ZDRProtocolRemoteStorage()]: (function () {
-					return library;
-				}),
-				[mod.ZDRProtocolFission()]: (function () {
-					return fissionClient;
-				}),
-			})[ZDRStorageProtocol](),
+			ZDRStorageClient () {
+				return ({
+					[mod.ZDRProtocolRemoteStorage()]: (function () {
+						return library;
+					}),
+					[mod.ZDRProtocolFission()]: (function () {
+						return fissionClient;
+					}),
+				})[ZDRStorageProtocol]()
+			},
 
 			ZDRCloudIsOnline: false,
 

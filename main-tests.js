@@ -614,13 +614,13 @@ describe('ZDRWrap', function test_ZDRWrap () {
 					ZDRScopeDirectory,
 				})],
 				ZDRParamLibrary: uStubRemoteStorage(),
-			}).ZDRStorageClient[ZDRScopeDirectory]), ['privateClient', 'publicClient']);
+			}).ZDRStorageClient()[ZDRScopeDirectory]), ['privateClient', 'publicClient']);
 		});
 
 		it('exposes client for Fission', function () {
 			deepEqual(typeof _ZDRWrap({
 				ZDRParamLibrary: uStubFission(),
-			}).ZDRStorageClient.write, 'function');
+			}).ZDRStorageClient().write, 'function');
 		});
 	
 	});
