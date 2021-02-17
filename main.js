@@ -560,7 +560,7 @@ const mod = {
 			}
 
 			const scopePath = function (inputData) {
-				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/private/${ item.ZDRScopeDirectory }/` : '/') + inputData).split('//').join('/');
+				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/private/${ item.ZDRScopeDirectory }/` : '') + inputData).split('//').join('/').slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
 			};
 
 			return Object.assign(coll, {

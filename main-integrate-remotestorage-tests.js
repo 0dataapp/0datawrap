@@ -59,7 +59,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 	const ZDRScopeDirectory = Date.now().toString();
 
 	const uScopePath = function (inputData) {
-		return `/${ inputData }`;
+		return `${ inputData }`;
 	};
 
 	const _ZDRStorageRemoteStorage = function (inputData = {}) {
