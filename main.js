@@ -437,6 +437,15 @@ const mod = {
 
 			ZDRStorageProtocol,
 
+			ZDRStorageClient: ({
+				[mod.ZDRProtocolRemoteStorage()]: (function () {
+					return library;
+				}),
+				[mod.ZDRProtocolFission()]: (function () {
+					return fissionClient;
+				}),
+			})[ZDRStorageProtocol](),
+
 			ZDRCloudIsOnline: false,
 
 			ZDRCloudConnect (inputData) {

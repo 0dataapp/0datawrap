@@ -605,6 +605,26 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	
 	});
 
+	context('ZDRStorageClient', function test_ZDRStorageClient () {
+
+		it('exposes client for remoteStorage', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			deepEqual(Object.keys(_ZDRWrap({
+				ZDRParamScopes: [uStubScope({
+					ZDRScopeDirectory,
+				})],
+				ZDRParamLibrary: uStubRemoteStorage(),
+			}).ZDRStorageClient[ZDRScopeDirectory]), ['privateClient', 'publicClient']);
+		});
+
+		it('exposes client for Fission', function () {
+			deepEqual(typeof _ZDRWrap({
+				ZDRParamLibrary: uStubFission(),
+			}).ZDRStorageClient.write, 'function');
+		});
+	
+	});
+
 	context('ZDRModel', function () {
 
 		const _ZDRModel = function (inputData = {}) {
