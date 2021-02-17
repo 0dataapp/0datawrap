@@ -212,6 +212,14 @@ const mod = {
 		throw new Error('ZDRErrorInputNotValid');
 	},
 
+	ZDRProtocolForIdentity (inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+		
+		return inputData.match('fission.codes') ? mod.ZDRProtocolFission() : mod.ZDRProtocolRemoteStorage();
+	},
+
 	_ZDRClientInterface (_client, protocol) {
 		return {
 

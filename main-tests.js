@@ -312,6 +312,24 @@ describe('_ZDRProtocols', function test__ZDRProtocols() {
 
 });
 
+describe('ZDRProtocolForIdentity', function test_ZDRProtocolForIdentity() {
+
+	it('throws if not string', function() {
+		throws(function () {
+			mod.ZDRProtocolForIdentity(null);
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('returns ZDRProtocolRemoteStorage', function() {
+		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString()), mod.ZDRProtocolRemoteStorage());
+	});
+
+	it('returns ZDRProtocolFission if match fission.codes', function() {
+		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString() + 'fission.codes' + Math.random().toString()), mod.ZDRProtocolFission());
+	});
+
+});
+
 describe('_ZDRProtocol', function test__ZDRProtocol() {
 
 	it('returns type if remoteStorage', function() {
