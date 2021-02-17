@@ -402,7 +402,7 @@ const mod = {
 			}, {}),
 		};
 
-		const fissionClient = library.fs || {};
+		const fissionClient = library._fs || {};
 		(async function fissionSetup () {
 			if (ZDRStorageProtocol !== mod.ZDRProtocolFission()) {
 				return;

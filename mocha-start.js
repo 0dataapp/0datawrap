@@ -68,7 +68,7 @@
 			return Object.assign({
 				initialize: (function () {}),
 				leave: (function () {}),
-				fs: Object.assign({
+				_fs: Object.assign({
 					write: (async function () {}),
 					cat: (function () {
 						return null;
