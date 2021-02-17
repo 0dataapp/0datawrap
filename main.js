@@ -2,14 +2,6 @@ const uFlatten = function (inputData) {
 	return [].concat.apply([], inputData);
 };
 
-const uIsRemoteStorage = function (inputData) {
-	if (typeof inputData !== 'function') {
-		return false;
-	}
-
-	return Object.keys(inputData).includes('Authorize');
-};
-
 const mod = {
 
 	_ZDRSchemaObjectValidate (inputData) {
@@ -185,14 +177,26 @@ const mod = {
 		return;
 	},
 
+	_ZDRProtocols () {
+		return [
+			'ZDR_PROTOCOL_REMOTE_STORAGE',
+		];
+	},
+
+	_ZDRProtocol (inputData) {
+		if (typeof inputData === 'function' && Object.keys(inputData).includes('Authorize')) {
+			return 'ZDR_PROTOCOL_REMOTE_STORAGE';
+		}
+		
+		throw new Error('ZDRErrorInputNotValid');
+	},
+
 	ZDRWrap (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
-		if (!uIsRemoteStorage(inputData.ZDRParamLibrary)) {
-			throw new Error('ZDRErrorInputNotValid');
-		}
+		const ZDRStorageProtocol = mod._ZDRProtocol(inputData.ZDRParamLibrary);
 
 		if (!Array.isArray(inputData.ZDRParamScopes) || !inputData.ZDRParamScopes.length) {
 			throw new Error('ZDRErrorInputNotValid');
@@ -231,6 +235,8 @@ const mod = {
 		});
 
 		const outputData = {
+
+			ZDRStorageProtocol,
 
 			ZDRCloudIsOnline: false,
 

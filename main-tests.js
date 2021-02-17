@@ -285,6 +285,30 @@ describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput(
 
 });
 
+describe('_ZDRProtocols', function test__ZDRProtocols() {
+
+	it('returns array', function() {
+		deepEqual(mod._ZDRProtocols(), [
+			'ZDR_PROTOCOL_REMOTE_STORAGE',
+		]);
+	});
+
+});
+
+describe('_ZDRProtocol', function test__ZDRProtocol() {
+
+	it('returns type if remoteStorage', function() {
+		deepEqual(mod._ZDRProtocol(uStubRemoteStorage()), 'ZDR_PROTOCOL_REMOTE_STORAGE');
+	});
+
+	it('throws', function() {
+		throws(function() {
+			mod._ZDRProtocol({});
+		}, /ZDRErrorInputNotValid/);
+	});
+
+});
+
 describe('ZDRWrap', function test_ZDRWrap () {
 
 	const _ZDRWrap = function (inputData = {}) {
@@ -527,6 +551,14 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 		it('returns null', function () {
 			deepEqual(__ZDRStorage().ZDRStorageDelete(Math.random().toString()), null);
+		});
+	
+	});
+
+	context('ZDRStorageProtocol', function test_ZDRStorageProtocol () {
+
+		it('returns ZDRProtocol', function () {
+			deepEqual(_ZDRWrap().ZDRStorageProtocol, 'ZDR_PROTOCOL_REMOTE_STORAGE');
 		});
 	
 	});
