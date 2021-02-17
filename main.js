@@ -205,7 +205,7 @@ const mod = {
 			return mod.ZDRProtocolRemoteStorage();
 		}
 		
-		if (!!inputData && typeof inputData === 'object' && Object.keys(inputData).includes('InitializationError')) {
+		if (!!inputData && typeof inputData === 'object' && Object.keys(inputData).includes('Scenario')) {
 			return mod.ZDRProtocolFission();
 		}
 		

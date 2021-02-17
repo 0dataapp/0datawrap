@@ -82,8 +82,6 @@
 					AuthSucceeded: 'AuthSucceeded',
 					Continuation: 'Continuation',
 				},
-
-				InitializationError: {},
 			}, inputData);
 		},
 
