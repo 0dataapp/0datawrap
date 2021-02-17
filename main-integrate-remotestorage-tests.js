@@ -60,6 +60,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 
 		return mod.ZDRWrap(Object.assign({
+			ZDRParamLibrary: RemoteStorage,
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
 			}, inputData))],
@@ -222,7 +223,6 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
-				ZDRParamLibrary: RemoteStorage,
 			});
 
 			await client.ZDRStorageWriteObject(item + Math.random().toString() + '/' + Math.random().toString(), {
@@ -237,7 +237,6 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
-				ZDRParamLibrary: RemoteStorage,
 			});
 
 			await client.ZDRStorageWriteFile(item + Math.random().toString(), Math.random().toString(), 'text/plain');
@@ -255,7 +254,6 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
-				ZDRParamLibrary: RemoteStorage,
 			});
 
 			await client.ZDRStorageWriteObject(item + path, object);
@@ -290,7 +288,6 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
-				ZDRParamLibrary: RemoteStorage,
 			});
 
 			await client.ZDRStorageWriteObject(item + path + Math.random().toString(), {});
@@ -305,7 +302,6 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
-				ZDRParamLibrary: RemoteStorage,
 			});
 
 			await client.ZDRStorageWriteFile(item + path, Math.random().toString(), 'text/plain');
@@ -323,7 +319,6 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 			const client = _ZDRStorageRemoteStorage({
 				ZDRScopeKey,
-				ZDRParamLibrary: RemoteStorage,
 			});
 
 			await client.ZDRStorageWriteObject(item + path, object);
