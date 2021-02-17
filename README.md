@@ -102,6 +102,8 @@ Delete from storage.
 
 Returns null.
 
+**Note: Fission can delete folders directly whereas this action is invalid in remoteStorage**
+
 ## Cloud
 
 ### ZDRCloudIsOnline()
