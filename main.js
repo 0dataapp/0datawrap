@@ -229,7 +229,7 @@ const mod = {
 							return _client.storeFile('application/json', param1, JSON.stringify(param2))
 						}),
 						[mod.ZDRProtocolFission()]: (function () {
-							return _client.write(param1, JSON.stringify(param2)).then(_client.publish);
+							return _client().write(param1, JSON.stringify(param2)).then(_client.publish);
 						}),
 					})[protocol]();
 
@@ -242,7 +242,7 @@ const mod = {
 							return _client.storeFile(param3, param1, param2);
 						}),
 						[mod.ZDRProtocolFission()]: (function () {
-							return _client.write(param1, param2).then(_client.publish);
+							return _client().write(param1, param2).then(_client.publish);
 						}),
 					})[protocol]();
 
@@ -255,7 +255,7 @@ const mod = {
 							return _client.getObject(inputData, false);
 						}),
 						[mod.ZDRProtocolFission()]: (async function () {
-							return JSON.parse(await _client.cat(inputData));
+							return JSON.parse(await _client().cat(inputData));
 						}),
 					})[protocol]();
 				},
@@ -266,7 +266,7 @@ const mod = {
 							return _client.getFile(inputData, false);
 						}),
 						[mod.ZDRProtocolFission()]: (function () {
-							return _client.cat(inputData);
+							return _client().cat(inputData);
 						}),
 					})[protocol]();
 				},
@@ -287,10 +287,10 @@ const mod = {
 							});
 						}),
 						[mod.ZDRProtocolFission()]: (async function () {
-							return (await Promise.all(Object.entries(await _client.ls(inputData)).filter(function ([key, value]) {
+							return (await Promise.all(Object.entries(await _client().ls(inputData)).filter(function ([key, value]) {
 								return value.isFile;
 							}).map(async function ([key, value]) {
-								return [key, await _client.cat(key)];
+								return [key, await _client().cat(key)];
 							}))).reduce(function (coll, [key, value]) {
 								if (!mod._ZDRFissionObjectFilter(value)) {
 									return coll;
@@ -316,7 +316,7 @@ const mod = {
 							return Object.keys(await _client.getListing(inputData, false));
 						}),
 						[mod.ZDRProtocolFission()]: (async function () {
-							return Object.entries(await _client.ls(inputData)).map(function ([key, value]) {
+							return Object.entries(await _client().ls(inputData)).map(function ([key, value]) {
 								return key + (!value.isFile ? '/' : '');
 							});
 						}),
@@ -329,7 +329,7 @@ const mod = {
 							return _client.remove(inputData);
 						}),
 						[mod.ZDRProtocolFission()]: (function () {
-							return _client.rm(inputData);
+							return _client().rm(inputData);
 						}),
 					})[protocol]();
 				},
@@ -526,7 +526,9 @@ const mod = {
 					return library[item.ZDRScopeDirectory].privateClient;
 				}),
 				[mod.ZDRProtocolFission()]: (function () {
-					return fissionClient;
+					return function () {
+						return fissionClient;
+					};
 				}),
 			}[ZDRStorageProtocol]();
 			const client = mod._ZDRClientInterface(_client, ZDRStorageProtocol);
