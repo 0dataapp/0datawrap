@@ -56,13 +56,21 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 
 describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
+	const ZDRScopeDirectory = Date.now().toString();
+
+	const uScopePath = function (inputData) {
+		return `/${ inputData }`;
+	};
+
 	const _ZDRStorageRemoteStorage = function (inputData = {}) {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
+		const _ZDRScopeDirectory = inputData.ZDRScopeDirectory || ZDRScopeDirectory;
 
 		return mod.ZDRWrap(Object.assign({
 			ZDRParamLibrary: RemoteStorage,
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
+				ZDRScopeDirectory: _ZDRScopeDirectory,
 			}, inputData))],
 			ZDRParamReadyCallback: (function () {}),
 		}, inputData))[ZDRScopeKey];
@@ -147,7 +155,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteObject(param1, param2), ['application/json', param1, JSON.stringify(param2)]);
+			}).ZDRStorageWriteObject(param1, param2), ['application/json', uScopePath(param1), JSON.stringify(param2)]);
 		});
 	
 	});
@@ -165,7 +173,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteFile(param1, param2, param3), [param3, param1, param2]);
+			}).ZDRStorageWriteFile(param1, param2, param3), [param3, uScopePath(param1), param2]);
 		});
 	
 	});
@@ -181,7 +189,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						return [...arguments];
 					}),
 				}),
-			}).ZDRStorageReadObject(item), [item, false]);
+			}).ZDRStorageReadObject(item), [uScopePath(item), false]);
 		});
 	
 	});
@@ -197,7 +205,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						return [...arguments];
 					}),
 				}),
-			}).ZDRStorageReadFile(item), [item, false]);
+			}).ZDRStorageReadFile(item), [uScopePath(item), false]);
 		});
 	
 	});
@@ -215,50 +223,38 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListObjects(item), [item, false]);
+			}).ZDRStorageListObjects(item), [uScopePath(item), false]);
 		});
 
 		it('excludes folder', async function () {
-			const item = ZDRScopeKey + '/';
+			const client = _ZDRStorageRemoteStorage();
 
-			const client = _ZDRStorageRemoteStorage({
-				ZDRScopeKey,
-			});
-
-			await client.ZDRStorageWriteObject(item + Math.random().toString() + '/' + Math.random().toString(), {
+			await client.ZDRStorageWriteObject(Date.now().toString() + '/' + Math.random().toString(), {
 				[Math.random().toString()]: Math.random().toString(),
 			});
 			
-			deepEqual(await client.ZDRStorageListObjects(item), {});
+			deepEqual(await client.ZDRStorageListObjects(uRandomElement('', '/')), {});
 		});
 
 		it('excludes file', async function () {
-			const item = ZDRScopeKey + '/';
+			const client = _ZDRStorageRemoteStorage();
 
-			const client = _ZDRStorageRemoteStorage({
-				ZDRScopeKey,
-			});
-
-			await client.ZDRStorageWriteFile(item + Math.random().toString(), Math.random().toString(), 'text/plain');
+			await client.ZDRStorageWriteFile(Math.random().toString(), Math.random().toString(), 'text/plain');
 			
-			deepEqual(await client.ZDRStorageListObjects(item), {});
+			deepEqual(await client.ZDRStorageListObjects(uRandomElement('', '/')), {});
 		});
 
 		it('includes object', async function () {
-			const item = ZDRScopeKey + '/';
-
 			const path = Math.random().toString();
 			const object = {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 
-			const client = _ZDRStorageRemoteStorage({
-				ZDRScopeKey,
-			});
+			const client = _ZDRStorageRemoteStorage();
 
-			await client.ZDRStorageWriteObject(item + path, object);
+			await client.ZDRStorageWriteObject(path, object);
 			
-			deepEqual(await client.ZDRStorageListObjects(item), {
+			deepEqual(await client.ZDRStorageListObjects(uRandomElement('', '/')), {
 				[path]: object,
 			});
 		});
@@ -278,40 +274,30 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStoragePaths(item), [item, false]);
+			}).ZDRStoragePaths(item), [uScopePath(item), false]);
 		});
 
 		it('converts folder', async function () {
-			const item = ZDRScopeKey + '/';
+			const path = Math.random().toString();
 
-			const path = Math.random().toString() + '/';
+			const client = _ZDRStorageRemoteStorage();
 
-			const client = _ZDRStorageRemoteStorage({
-				ZDRScopeKey,
-			});
-
-			await client.ZDRStorageWriteObject(item + path + Math.random().toString(), {});
+			await client.ZDRStorageWriteObject(path + '/' + Math.random().toString(), {});
 			
-			deepEqual(await client.ZDRStoragePaths(item), [path]);
+			deepEqual(await client.ZDRStoragePaths(uRandomElement('', '/')), [path + '/']);
 		});
 
 		it('converts file', async function () {
-			const item = ZDRScopeKey + '/';
-
 			const path = Math.random().toString();
 
-			const client = _ZDRStorageRemoteStorage({
-				ZDRScopeKey,
-			});
+			const client = _ZDRStorageRemoteStorage();
 
-			await client.ZDRStorageWriteFile(item + path, Math.random().toString(), 'text/plain');
+			await client.ZDRStorageWriteFile(path, Math.random().toString(), 'text/plain');
 			
-			deepEqual(await client.ZDRStoragePaths(item), [path]);
+			deepEqual(await client.ZDRStoragePaths(uRandomElement('', '/')), [path]);
 		});
 
 		it('converts object', async function () {
-			const item = ZDRScopeKey + '/';
-
 			const path = Math.random().toString();
 			const object = {
 				[Math.random().toString()]: Math.random().toString(),
@@ -321,9 +307,9 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 				ZDRScopeKey,
 			});
 
-			await client.ZDRStorageWriteObject(item + path, object);
+			await client.ZDRStorageWriteObject(path, object);
 			
-			deepEqual(await client.ZDRStoragePaths(item), [path]);
+			deepEqual(await client.ZDRStoragePaths(uRandomElement('', '/')), [path]);
 		});
 	
 	});
@@ -339,7 +325,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageDelete(item), [item]);
+			}).ZDRStorageDelete(item), [uScopePath(item)]);
 		});
 	
 	});

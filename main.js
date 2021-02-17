@@ -559,6 +559,10 @@ const mod = {
 				});
 			}
 
+			const scopePath = function (inputData) {
+				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/private/${ item.ZDRScopeDirectory }/` : '/') + inputData).split('//').join('/');
+			};
+
 			return Object.assign(coll, {
 				[item.ZDRScopeKey]: Object.assign({
 
@@ -571,7 +575,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientWriteObject(param1, param2);
+						return client.ClientWriteObject(scopePath(param1), param2);
 					},
 
 					ZDRStorageWriteFile (param1, param2, param3) {
@@ -583,7 +587,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientWriteFile(param1, param2, param3);
+						return client.ClientWriteFile(scopePath(param1), param2, param3);
 					},
 
 					ZDRStorageReadObject (inputData) {
@@ -591,7 +595,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientReadObject(inputData);
+						return client.ClientReadObject(scopePath(inputData));
 					},
 
 					ZDRStorageReadFile (inputData) {
@@ -599,7 +603,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientReadFile(inputData);
+						return client.ClientReadFile(scopePath(inputData));
 					},
 
 					ZDRStorageListObjects (inputData) {
@@ -607,7 +611,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientListObjects(inputData);
+						return client.ClientListObjects(scopePath(inputData));
 					},
 
 					ZDRStoragePaths (inputData) {
@@ -615,7 +619,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientPaths(inputData);
+						return client.ClientPaths(scopePath(inputData));
 					},
 
 					async _ZDRStoragePathsRecursive (inputData) {
@@ -638,7 +642,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientDelete(inputData);
+						return client.ClientDelete(scopePath(inputData));
 					},
 
 				}, schemas.reduce(function (map, model) {

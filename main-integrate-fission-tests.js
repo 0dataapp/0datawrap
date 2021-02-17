@@ -26,13 +26,21 @@ describe('_ZDRFissionObjectFilter', function test__ZDRFissionObjectFilter() {
 
 describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 
+	const ZDRScopeDirectory = Math.random().toString();
+
+	const uScopePath = function (inputData) {
+		return `/private/${ ZDRScopeDirectory }/${ inputData }`;
+	};
+
 	const _ZDRStorageFission = function (inputData = {}) {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
+		const _ZDRScopeDirectory = inputData.ZDRScopeDirectory || ZDRScopeDirectory;
 
 		return mod.ZDRWrap(Object.assign({
 			ZDRParamLibrary: webnative,
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
+				ZDRScopeDirectory: _ZDRScopeDirectory,
 			}, inputData))],
 			ZDRParamReadyCallback: (function () {}),
 		}, inputData))[ZDRScopeKey];
@@ -174,12 +182,13 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 			};
 
 			await rejects(_ZDRStorageFission({
+				ZDRScopeDirectory,
 				ZDRParamLibrary: uStubFission({
 					write: (function () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteObject(param1, param2), [param1, JSON.stringify(param2)]);
+			}).ZDRStorageWriteObject(param1, param2), [uScopePath(param1), JSON.stringify(param2)]);
 		});
 	
 	});
@@ -196,7 +205,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteFile(param1, param2, Math.random().toString()), [param1, param2]);
+			}).ZDRStorageWriteFile(param1, param2, Math.random().toString()), [uScopePath(param1), param2]);
 		});
 	
 	});
@@ -215,7 +224,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return JSON.stringify([item, ...arguments]);
 					}),
 				}),
-			}).ZDRStorageReadObject(path), [item, path]);
+			}).ZDRStorageReadObject(path), [item, uScopePath(path)]);
 		});
 	
 	});
@@ -234,7 +243,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return [item, ...arguments];
 					}),
 				}),
-			}).ZDRStorageReadFile(path), [item, path]);
+			}).ZDRStorageReadFile(path), [item, uScopePath(path)]);
 		});
 	
 	});
@@ -252,7 +261,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListObjects(item), [item]);
+			}).ZDRStorageListObjects(item), [uScopePath(item)]);
 		});
 
 		it('calls fs.cat', async function () {
@@ -262,7 +271,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 				ZDRParamLibrary: uStubFission({
 					ls: (function (inputData) {
 						return {
-							[inputData.slice(1)]: {
+							[item]: {
 								isFile: true,
 							},
 						};
@@ -271,7 +280,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListObjects(item), [item.slice(1)]);
+			}).ZDRStorageListObjects(Date.now().toString()), [item]);
 		});
 
 		it('excludes folder', async function () {
@@ -344,7 +353,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStoragePaths(item), [item]);
+			}).ZDRStoragePaths(item), [uScopePath(item)]);
 		});
 
 		it('converts folder', async function () {
@@ -392,7 +401,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return [...arguments];
 					}),
 				}),
-			}).ZDRStorageDelete(item), [item]);
+			}).ZDRStorageDelete(item), [uScopePath(item)]);
 		});
 	
 	});
