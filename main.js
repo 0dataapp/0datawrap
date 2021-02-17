@@ -215,7 +215,7 @@ const mod = {
 	_ZDRClientInterface (_client, protocol) {
 		return {
 
-				async ClientStoreObject (param1, param2) {
+				async ClientWriteObject (param1, param2) {
 					await ({
 						[mod.ZDRProtocolRemoteStorage()]: (function () {
 							return _client.storeFile('application/json', param1, JSON.stringify(param2))
@@ -228,7 +228,7 @@ const mod = {
 					return param2;
 				},
 
-				async ClientStoreFile (param1, param2, param3) {
+				async ClientWriteFile (param1, param2, param3) {
 					await ({
 						[mod.ZDRProtocolRemoteStorage()]: (function () {
 							return _client.storeFile(param3, param1, param2);
@@ -241,7 +241,7 @@ const mod = {
 					return param2;
 				},
 
-				ClientGetObject (inputData) {
+				ClientReadObject (inputData) {
 					return ({
 						[mod.ZDRProtocolRemoteStorage()]: (function () {
 							return _client.getObject(inputData, false);
@@ -252,7 +252,7 @@ const mod = {
 					})[protocol]();
 				},
 
-				ClientGetFile (inputData) {
+				ClientReadFile (inputData) {
 					return ({
 						[mod.ZDRProtocolRemoteStorage()]: (function () {
 							return _client.getFile(inputData, false);
@@ -263,7 +263,7 @@ const mod = {
 					})[protocol]();
 				},
 
-				async ClientGetAll (inputData) {
+				async ClientListObjects (inputData) {
 					return (await ({
 						[mod.ZDRProtocolRemoteStorage()]: (async function () {
 							return Object.entries(await _client.getAll(inputData, false)).filter(function ([key, value]) {
@@ -302,7 +302,7 @@ const mod = {
 					}, {});
 				},
 
-				async ClientGetListing (inputData) {
+				async ClientPaths (inputData) {
 					return await ({
 						[mod.ZDRProtocolRemoteStorage()]: (async function () {
 							return Object.keys(await _client.getListing(inputData, false));
@@ -315,7 +315,7 @@ const mod = {
 					})[protocol]();
 				},
 				
-				ClientRemove (inputData) {
+				ClientDelete (inputData) {
 					return ({
 						[mod.ZDRProtocolRemoteStorage()]: (function () {
 							return _client.remove(inputData);
@@ -550,7 +550,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientStoreObject(param1, param2);
+						return client.ClientWriteObject(param1, param2);
 					},
 
 					ZDRStorageWriteFile (param1, param2, param3) {
@@ -562,7 +562,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientStoreFile(param1, param2, param3);
+						return client.ClientWriteFile(param1, param2, param3);
 					},
 
 					ZDRStorageReadObject (inputData) {
@@ -570,7 +570,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientGetObject(inputData);
+						return client.ClientReadObject(inputData);
 					},
 
 					ZDRStorageReadFile (inputData) {
@@ -578,7 +578,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientGetFile(inputData);
+						return client.ClientReadFile(inputData);
 					},
 
 					ZDRStorageListObjects (inputData) {
@@ -586,7 +586,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientGetAll(inputData);
+						return client.ClientListObjects(inputData);
 					},
 
 					ZDRStorageListPaths (inputData) {
@@ -594,7 +594,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientGetListing(inputData);
+						return client.ClientPaths(inputData);
 					},
 
 					async _ZDRStorageListPathsRecursive (inputData) {
@@ -617,7 +617,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientRemove(inputData);
+						return client.ClientDelete(inputData);
 					},
 
 				}, schemas.reduce(function (map, model) {
