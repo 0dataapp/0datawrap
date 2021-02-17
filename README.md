@@ -84,13 +84,13 @@ Read from storage in path directory (non-recursive); group by path.
 
 Returns key/value object.
 
-### ZDRStorageListPaths(path)
+### ZDRStoragePaths(path)
 
 List paths (non-recursive).
 
 Returns array of paths.
 
-### ZDRStorageListPathsRecursive(path)
+### ZDRStoragePathsRecursive(path)
 
 List paths recursively.
 

@@ -589,7 +589,7 @@ const mod = {
 						return client.ClientListObjects(inputData);
 					},
 
-					ZDRStorageListPaths (inputData) {
+					ZDRStoragePaths (inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
@@ -597,19 +597,19 @@ const mod = {
 						return client.ClientPaths(inputData);
 					},
 
-					async _ZDRStorageListPathsRecursive (inputData) {
+					async _ZDRStoragePathsRecursive (inputData) {
 						const _this = this;
-						return uFlatten(await Promise.all((await _this.ZDRStorageListPaths(inputData)).map(function (e) {
-							return mod._ZDRPathIsDirectory(e) ? _this.ZDRStorageListPathsRecursive(e) : inputData + e;
+						return uFlatten(await Promise.all((await _this.ZDRStoragePaths(inputData)).map(function (e) {
+							return mod._ZDRPathIsDirectory(e) ? _this.ZDRStoragePathsRecursive(e) : inputData + e;
 						})));
 					},
 
-					ZDRStorageListPathsRecursive (inputData) {
+					ZDRStoragePathsRecursive (inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return this._ZDRStorageListPathsRecursive(inputData);
+						return this._ZDRStoragePathsRecursive(inputData);
 					},
 
 					ZDRStorageDelete (inputData) {
@@ -647,7 +647,7 @@ const mod = {
 							async _ZDRModelListObjects () {
 								const _this = this;
 
-								return (await coll[item.ZDRScopeKey].ZDRStorageListPathsRecursive('')).filter(function (e) {
+								return (await coll[item.ZDRScopeKey].ZDRStoragePathsRecursive('')).filter(function (e) {
 									return e === _this.ZDRModelPath(model.ZDRSchemaStubCallback(e));
 								});
 							},

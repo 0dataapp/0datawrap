@@ -512,52 +512,52 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	
 	});
 
-	context('ZDRStorageListPaths', function test_ZDRStorageListPaths () {
+	context('ZDRStoragePaths', function test_ZDRStoragePaths () {
 
 		it('throws if not string', function() {
 			throws(function() {
-				__ZDRStorage().ZDRStorageListPaths(null);
+				__ZDRStorage().ZDRStoragePaths(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
 		it('returns array', async function () {
-			deepEqual(await __ZDRStorage().ZDRStorageListPaths(Math.random().toString()), []);
+			deepEqual(await __ZDRStorage().ZDRStoragePaths(Math.random().toString()), []);
 		});
 	
 	});
 
-	context('ZDRStorageListPathsRecursive', function test_ZDRStorageListPathsRecursive () {
+	context('ZDRStoragePathsRecursive', function test_ZDRStoragePathsRecursive () {
 
 		it('throws if not string', function() {
 			throws(function() {
-				__ZDRStorage().ZDRStorageListPathsRecursive(null);
+				__ZDRStorage().ZDRStoragePathsRecursive(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
-		it('calls ZDRStorageListPaths', async function () {
+		it('calls ZDRStoragePaths', async function () {
 			const inputData = Math.random().toString();
 			const file = Math.random().toString();
 			const item = Object.assign(__ZDRStorage(), {
-				ZDRStorageListPaths: (function () {
+				ZDRStoragePaths: (function () {
 					return [file];
 				}),
 			});
-			deepEqual(await item.ZDRStorageListPathsRecursive(inputData), [inputData + file]);
+			deepEqual(await item.ZDRStoragePathsRecursive(inputData), [inputData + file]);
 		});
 
-		it('calls ZDRStorageListPaths recursively', async function () {
+		it('calls ZDRStoragePaths recursively', async function () {
 			const folder = Math.random().toString() + '/';
 			const file = Math.random().toString();
 			const item = Object.assign(__ZDRStorage(), {
-				ZDRStorageListPaths: (function (inputData) {
+				ZDRStoragePaths: (function (inputData) {
 					return [inputData === folder ? file : folder];
 				}),
 			});
-			deepEqual(await item.ZDRStorageListPathsRecursive(Math.random().toString() + '/'), [folder + file]);
+			deepEqual(await item.ZDRStoragePathsRecursive(Math.random().toString() + '/'), [folder + file]);
 		});
 
 		it('returns array', async function () {
-			deepEqual(await __ZDRStorage().ZDRStorageListPathsRecursive(Math.random().toString()), []);
+			deepEqual(await __ZDRStorage().ZDRStoragePathsRecursive(Math.random().toString()), []);
 		});
 	
 	});
@@ -674,11 +674,11 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 		context('_ZDRModelListObjects', function test__ZDRModelListObjects () {
 
-			it('calls ZDRStorageListPathsRecursive', function () {
+			it('calls ZDRStoragePathsRecursive', function () {
 				const item = []
 
 				const model = _ZDRModel({
-					ZDRStorageListPathsRecursive: (function () {
+					ZDRStoragePathsRecursive: (function () {
 						item.push(...arguments);
 
 						return [];
@@ -691,7 +691,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 			it('excludes if no match', async function () {
 				const item = Math.random().toString();
 				deepEqual(await _ZDRModel({
-					ZDRStorageListPathsRecursive: (function () {
+					ZDRStoragePathsRecursive: (function () {
 						return [item];
 					}),
 					ZDRSchemaStubCallback: (function () {
@@ -706,7 +706,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 			it('include if match', async function () {
 				const item = Math.random().toString();
 				deepEqual(await _ZDRModel({
-					ZDRStorageListPathsRecursive: (function () {
+					ZDRStoragePathsRecursive: (function () {
 						return [item];
 					}),
 					ZDRSchemaStubCallback: (function () {

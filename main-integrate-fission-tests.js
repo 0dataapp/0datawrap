@@ -331,7 +331,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 	
 	});
 
-	context('ZDRStorageListPaths', function test_ZDRStorageListPaths () {
+	context('ZDRStoragePaths', function test_ZDRStoragePaths () {
 
 		const ZDRScopeKey = Date.now().toString();
 
@@ -344,7 +344,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListPaths(item), [item]);
+			}).ZDRStoragePaths(item), [item]);
 		});
 
 		it('converts folder', async function () {
@@ -360,7 +360,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						};
 					}),
 				}),
-			}).ZDRStorageListPaths(Math.random().toString()), [item + '/']);
+			}).ZDRStoragePaths(Math.random().toString()), [item + '/']);
 		});
 
 		it('converts file', async function () {
@@ -376,7 +376,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						};
 					}),
 				}),
-			}).ZDRStorageListPaths(Math.random().toString()), [item]);
+			}).ZDRStoragePaths(Math.random().toString()), [item]);
 		});
 	
 	});
