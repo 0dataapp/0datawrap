@@ -64,6 +64,12 @@
 			return RemoteStorage;
 		},
 
+		uStubFission (inputData = {}) {
+			return Object.assign({
+				InitializationError: {},
+			}, inputData);
+		},
+
 	}).map(function (e) {
 		return global[e.shift()]  = e.pop();
 	});

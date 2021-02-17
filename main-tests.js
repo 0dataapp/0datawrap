@@ -285,11 +285,28 @@ describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput(
 
 });
 
+describe('ZDRProtocolRemoteStorage', function test_ZDRProtocolRemoteStorage() {
+
+	it('returns array', function() {
+		deepEqual(mod.ZDRProtocolRemoteStorage(), 'ZDR_PROTOCOL_REMOTE_STORAGE');
+	});
+
+});
+
+describe('ZDRProtocolFission', function test_ZDRProtocolFission() {
+
+	it('returns array', function() {
+		deepEqual(mod.ZDRProtocolFission(), 'ZDR_PROTOCOL_FISSION');
+	});
+
+});
+
 describe('_ZDRProtocols', function test__ZDRProtocols() {
 
 	it('returns array', function() {
 		deepEqual(mod._ZDRProtocols(), [
-			'ZDR_PROTOCOL_REMOTE_STORAGE',
+			mod.ZDRProtocolRemoteStorage(),
+			mod.ZDRProtocolFission(),
 		]);
 	});
 
@@ -298,7 +315,11 @@ describe('_ZDRProtocols', function test__ZDRProtocols() {
 describe('_ZDRProtocol', function test__ZDRProtocol() {
 
 	it('returns type if remoteStorage', function() {
-		deepEqual(mod._ZDRProtocol(uStubRemoteStorage()), 'ZDR_PROTOCOL_REMOTE_STORAGE');
+		deepEqual(mod._ZDRProtocol(uStubRemoteStorage()), mod.ZDRProtocolRemoteStorage());
+	});
+
+	it('returns type if Fission', function() {
+		deepEqual(mod._ZDRProtocol(uStubFission()), mod.ZDRProtocolFission());
 	});
 
 	it('throws', function() {
@@ -313,7 +334,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	const _ZDRWrap = function (inputData = {}) {
 		return mod.ZDRWrap(Object.assign({
-			ZDRParamLibrary: uStubRemoteStorage(),
+			ZDRParamLibrary: uStubFission(),
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeSchemas: [uStubSchema(inputData)],
 			}, inputData))],
@@ -558,7 +579,10 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	context('ZDRStorageProtocol', function test_ZDRStorageProtocol () {
 
 		it('returns ZDRProtocol', function () {
-			deepEqual(_ZDRWrap().ZDRStorageProtocol, 'ZDR_PROTOCOL_REMOTE_STORAGE');
+			const ZDRParamLibrary = uRandomElement(uStubRemoteStorage(), uStubFission());
+			deepEqual(_ZDRWrap({
+				ZDRParamLibrary,
+			}).ZDRStorageProtocol, mod._ZDRProtocol(ZDRParamLibrary));
 		});
 	
 	});
