@@ -175,10 +175,10 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		it('calls scope.getObject', async function () {
 			const item = Math.random().toString();
 			
-			await rejects(_ZDRStorageRemoteStorage({
+			deepEqual(await _ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getObject: (function () {
-						return Promise.reject([...arguments]);
+						return [...arguments];
 					}),
 				}),
 			}).ZDRStorageReadObject(item), [item, false]);
@@ -191,10 +191,10 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		it('calls scope.getFile', async function () {
 			const item = Math.random().toString();
 			
-			await rejects(_ZDRStorageRemoteStorage({
+			deepEqual(await _ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getFile: (function () {
-						return Promise.reject([...arguments]);
+						return [...arguments];
 					}),
 				}),
 			}).ZDRStorageReadFile(item), [item, false]);
