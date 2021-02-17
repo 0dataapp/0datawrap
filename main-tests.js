@@ -334,7 +334,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	const _ZDRWrap = function (inputData = {}) {
 		return mod.ZDRWrap(Object.assign({
-			ZDRParamLibrary: uStubFission(),
+			ZDRParamLibrary: uRandomElement(uStubRemoteStorage(), uStubFission()),
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeSchemas: [uStubSchema(inputData)],
 			}, inputData))],
@@ -478,8 +478,8 @@ describe('ZDRWrap', function test_ZDRWrap () {
 			}, /ZDRErrorInputNotValid/);
 		});
 
-		it('returns null', function () {
-			deepEqual(__ZDRStorage().ZDRStorageReadObject(Math.random().toString()), null);
+		it('returns null', async function () {
+			deepEqual(await __ZDRStorage().ZDRStorageReadObject(Math.random().toString()), null);
 		});
 	
 	});

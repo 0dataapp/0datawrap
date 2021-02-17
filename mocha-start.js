@@ -66,6 +66,23 @@
 
 		uStubFission (inputData = {}) {
 			return Object.assign({
+				initialize: (function () {}),
+				leave: (function () {}),
+				fs: Object.assign({
+					write: (async function () {}),
+					cat: (function () {
+						return null;
+					}),
+					ls: (function () {
+						return {};
+					}),
+					rm: (function () {}),
+				}, inputData),
+				Scenario: {
+					AuthSucceeded: 'AuthSucceeded',
+					Continuation: 'Continuation',
+				},
+
 				InitializationError: {},
 			}, inputData);
 		},
