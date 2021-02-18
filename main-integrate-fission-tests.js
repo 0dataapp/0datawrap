@@ -46,150 +46,66 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	it('calls redirectToLobby if state.scenario NotAuthorised', async function () {
-		const permissions = {
-			[ Math.random().toString()]: Math.random().toString(),
-		};
-		await rejects((new Promise(function (res, rej) {
-			_ZDRStorageFission({
+	it('updates on initialize', async function () {
+		const username = Math.random().toString();
+
+		deepEqual(await (new Promise(function (res, rej) {
+			const item = mod.ZDRWrap({
 				ZDRParamLibrary: uStubFission({
 					initialize: (function () {
 						return {
-							scenario: uStubFission().Scenario['NotAuthorised'],
-							permissions,
+							scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
+							username,
 						};
-					}), 
-					redirectToLobby: (function () {
-						return rej([...arguments]);
-					}),
-				}),
-			})
-		})), [permissions]);
-	});
-
-	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
-
-		it('calls initialize with fs single', function () {
-			const ZDRScopeDirectory = Math.random().toString();
-
-			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
-					ZDRParamLibrary: uStubFission({
-						initialize: (function () {
-							outputData.push(...arguments);
-						}),
-					}),
-					ZDRParamScopes: [uStubScope({
-						ZDRScopeDirectory,
-					})],
-					ZDRParamDispatchReady: (function () {}),
-				}).ZDRCloudConnect(Math.random().toString());
-			}).pop().permissions, {
-				fs: {
-				  privatePaths: [
-			    	ZDRScopeDirectory,
-			    ],
-				},
-			});
-		});
-
-		it('calls initialize with fs multiple', function () {
-			const ZDRScopeDirectory1 = Math.random().toString();
-			const ZDRScopeDirectory2 = Math.random().toString();
-
-			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
-					ZDRParamLibrary: uStubFission({
-						initialize: (function () {
-							outputData.push(...arguments);
-						}),
-					}),
-					ZDRParamScopes: [uStubScope({
-						ZDRScopeDirectory: ZDRScopeDirectory1,
-					}), uStubScope({
-						ZDRScopeDirectory: ZDRScopeDirectory2,
-					})],
-					ZDRParamDispatchReady: (function () {}),
-				}).ZDRCloudConnect(Math.random().toString());
-			}).pop().permissions, {
-				fs: {
-				  privatePaths: [
-				  	ZDRScopeDirectory1,
-				  	ZDRScopeDirectory2,
-				  ],
-				},
-			});
-		});
-
-		it('calls initialize with app if ZDRScopeCreatorDirectory', function () {
-			const ZDRScopeDirectory = Math.random().toString();
-			const ZDRScopeCreatorDirectory = Math.random().toString();
-
-			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
-					ZDRParamLibrary: uStubFission({
-						initialize: (function () {
-							outputData.push(...arguments);
-						}),
-					}),
-					ZDRParamScopes: [uStubScope({
-						ZDRScopeDirectory,
-						ZDRScopeCreatorDirectory,
-					})],
-					ZDRParamDispatchReady: (function () {}),
-				}).ZDRCloudConnect(Math.random().toString());
-			}).pop().permissions, {
-				app: {
-				  name: ZDRScopeDirectory,
-				  creator: ZDRScopeCreatorDirectory,
-				},
-			});
-		});
-
-		it('calls initialize with app if ZDRScopeCreatorDirectory multiple', function () {
-			const ZDRScopeDirectory = Math.random().toString();
-			const ZDRScopeCreatorDirectory = Math.random().toString();
-
-			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
-					ZDRParamLibrary: uStubFission({
-						initialize: (function () {
-							outputData.push(...arguments);
-						}),
-					}),
-					ZDRParamScopes: [uStubScope({
-						ZDRScopeDirectory,
-						ZDRScopeCreatorDirectory,
-					}), uStubScope({
-						ZDRScopeDirectory: Math.random().toString(),
-						ZDRScopeCreatorDirectory: Math.random().toString(),
-					})],
-					ZDRParamDispatchReady: (function () {}),
-				}).ZDRCloudConnect(Math.random().toString());
-			}).pop().permissions, {
-				app: {
-				  name: ZDRScopeDirectory,
-				  creator: ZDRScopeCreatorDirectory,
-				},
-			});
-		});
-	
-	});
-
-	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
-
-		it('calls leave', async function () {
-			const item = Math.random().toString();
-			
-			await rejects(mod.ZDRWrap({
-				ZDRParamLibrary: uStubFission({
-					leave: (function () {
-						return Promise.reject([item]);
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudDisconnect(), [item]);
+				ZDRParamDispatchReady: (function () {
+					res(item.ZDRCloudIdentity)
+				}),
+			})
+		})), username);
+	});
+
+	context('scenario', function () {
+		
+		it('calls redirectToLobby if NotAuthorised', async function () {
+			const permissions = {
+				[ Math.random().toString()]: Math.random().toString(),
+			};
+			await rejects((new Promise(function (res, rej) {
+				_ZDRStorageFission({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							return {
+								scenario: uStubFission().Scenario['NotAuthorised'],
+								permissions,
+							};
+						}), 
+						redirectToLobby: (function () {
+							return rej([...arguments]);
+						}),
+					}),
+				})
+			})), [permissions]);
+		});
+
+		it('calls ZDRParamDispatchReady if state.scenario success', async function () {
+			const item = Math.random().toString();
+			await rejects((new Promise(function (res, rej) {
+				_ZDRStorageFission({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							return {
+								scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
+							};
+						}),
+					}),
+					ZDRParamDispatchReady: (function () {
+						rej([item])
+					}),
+				})
+			})), [item]);
 		});
 	
 	});
@@ -427,51 +343,131 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 	
 	});
 
-	context('ZDRParamDispatchReady', function test_ZDRParamDispatchReady () {
+	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
 
-		it('calls if state.scenario success', async function () {
-			const item = Math.random().toString();
-			await rejects((new Promise(function (res, rej) {
-				_ZDRStorageFission({
+		it('calls initialize with fs single', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							return {
-								scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
-							};
+							outputData.push(...arguments);
 						}),
 					}),
-					ZDRParamDispatchReady: (function () {
-						rej([item])
+					ZDRParamScopes: [uStubScope({
+						ZDRScopeDirectory,
+					})],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudConnect(Math.random().toString());
+			}).pop().permissions, {
+				fs: {
+				  privatePaths: [
+			    	ZDRScopeDirectory,
+			    ],
+				},
+			});
+		});
+
+		it('calls initialize with fs multiple', function () {
+			const ZDRScopeDirectory1 = Math.random().toString();
+			const ZDRScopeDirectory2 = Math.random().toString();
+
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							outputData.push(...arguments);
+						}),
 					}),
-				})
-			})), [item]);
+					ZDRParamScopes: [uStubScope({
+						ZDRScopeDirectory: ZDRScopeDirectory1,
+					}), uStubScope({
+						ZDRScopeDirectory: ZDRScopeDirectory2,
+					})],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudConnect(Math.random().toString());
+			}).pop().permissions, {
+				fs: {
+				  privatePaths: [
+				  	ZDRScopeDirectory1,
+				  	ZDRScopeDirectory2,
+				  ],
+				},
+			});
+		});
+
+		it('calls initialize with app if ZDRScopeCreatorDirectory', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const ZDRScopeCreatorDirectory = Math.random().toString();
+
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							outputData.push(...arguments);
+						}),
+					}),
+					ZDRParamScopes: [uStubScope({
+						ZDRScopeDirectory,
+						ZDRScopeCreatorDirectory,
+					})],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudConnect(Math.random().toString());
+			}).pop().permissions, {
+				app: {
+				  name: ZDRScopeDirectory,
+				  creator: ZDRScopeCreatorDirectory,
+				},
+			});
+		});
+
+		it('calls initialize with app if ZDRScopeCreatorDirectory multiple', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const ZDRScopeCreatorDirectory = Math.random().toString();
+
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							outputData.push(...arguments);
+						}),
+					}),
+					ZDRParamScopes: [uStubScope({
+						ZDRScopeDirectory,
+						ZDRScopeCreatorDirectory,
+					}), uStubScope({
+						ZDRScopeDirectory: Math.random().toString(),
+						ZDRScopeCreatorDirectory: Math.random().toString(),
+					})],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudConnect(Math.random().toString());
+			}).pop().permissions, {
+				app: {
+				  name: ZDRScopeDirectory,
+				  creator: ZDRScopeCreatorDirectory,
+				},
+			});
 		});
 	
 	});
 
-	context('ZDRCloudIdentity', function test_ZDRCloudIdentity () {
+	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
 
-		it('updates on initialize', async function () {
-			const username = Math.random().toString();
-
-			deepEqual(await (new Promise(function (res, rej) {
-				const item = mod.ZDRWrap({
-					ZDRParamLibrary: uStubFission({
-						initialize: (function () {
-							return {
-								scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
-								username,
-							};
-						}),
+		it('calls leave', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(mod.ZDRWrap({
+				ZDRParamLibrary: uStubFission({
+					leave: (function () {
+						return Promise.reject([item]);
 					}),
-					ZDRParamScopes: [uStubScope()],
-					ZDRParamDispatchReady: (function () {
-						res(item.ZDRCloudIdentity)
-					}),
-				})
-			})), username);
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRCloudDisconnect(), [item]);
 		});
-
+	
 	});
 	
 });

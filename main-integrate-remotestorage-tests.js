@@ -106,39 +106,140 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		}), [`/${ ZDRScopeDirectory }/`]);
 	});
 
-	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
+	context('error', function () {
 
-		it('calls connect', async function () {
+		it('calls ZDRParamDispatchError', function () {
 			const item = Math.random().toString();
-			await rejects(mod.ZDRWrap({
-				ZDRParamLibrary: uStubRemoteStorage({
-					connect: (function () {
-						return Promise.reject([...arguments]);
+
+			deepEqual(uCapture(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'error') {
+								return;
+							}
+
+							return param2(item);
+						}),
 					}),
-				}),
-				ZDRParamScopes: [uStubScope()],
-				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudConnect(item), [item]);
+					ZDRParamDispatchError: (function () {
+						outputData.push(...arguments);
+					}),
+				})
+			}), [item]);
+		});
+
+		it('ignores if offline and sync failed', function () {
+			deepEqual(uCapture(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'error') {
+								return;
+							}
+							
+							return param2(new Error('Sync failed: Network request failed.'));
+						}),
+						remote: {
+							online: false,
+						},
+					}),
+					ZDRParamDispatchError: (function () {
+						outputData.push(...arguments);
+					}),
+				})
+			}), []);
 		});
 	
 	});
 
-	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
+	context('ready', function () {
 
-		it('calls disconnect', async function () {
+		it('calls ZDRParamDispatchReady', function () {
 			const item = Math.random().toString();
-			
-			await rejects(mod.ZDRWrap({
+			deepEqual(uCapture(function (outputData) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'ready') {
+								return;
+							}
+
+							return param2();
+						}),
+					}),
+					ZDRParamDispatchReady: (function () {
+						outputData.push(item);
+					}),
+				});
+			}), [item]);
+		});
+	
+	});
+
+	context('connected', function () {
+
+		it('updates on connected', function () {
+			const userAddress = Math.random().toString();
+
+			deepEqual(mod.ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
-					disconnect: (function () {
-						return Promise.reject([item]);
+					on: (function (param1, param2) {
+						if (param1 !== 'connected') {
+							return;
+						}
+
+						return param2();
+					}),
+					remote: {
+						userAddress,
+					},
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRCloudIdentity, userAddress);
+		});
+
+	});
+
+	context('network-online', function () {
+
+		it('updates on network-online', function () {
+			deepEqual(mod.ZDRWrap({
+				ZDRParamLibrary: uStubRemoteStorage({
+					on: (function (param1, param2) {
+						if (param1 !== 'network-online') {
+							return;
+						}
+
+						return param2();
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
 				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudDisconnect(), [item]);
+			}).ZDRCloudIsOnline(), true);
 		});
-	
+
+	});
+
+	context('network-offline', function () {
+
+		it('updates on network-offline', function () {
+			deepEqual(mod.ZDRWrap({
+				ZDRParamLibrary: uStubRemoteStorage({
+					on: (function (param1, param2) {
+						if (!['network-online', 'network-offline'].includes(param1)) {
+							return;
+						}
+
+						return param2();
+					}),
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRCloudIsOnline(), false);
+		});
+
 	});
 
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
@@ -330,134 +431,37 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 	
 	});
 
-	context('ZDRParamDispatchReady', function test_ZDRParamDispatchReady () {
+	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
 
-		it('subscribes to ready', function () {
+		it('calls connect', async function () {
 			const item = Math.random().toString();
-			deepEqual(uCapture(function (outputData) {
-				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uStubRemoteStorage({
-						on: (function (param1, param2) {
-							if (param1 !== 'ready') {
-								return;
-							}
-
-							return param2();
-						}),
+			await rejects(mod.ZDRWrap({
+				ZDRParamLibrary: uStubRemoteStorage({
+					connect: (function () {
+						return Promise.reject([...arguments]);
 					}),
-					ZDRParamDispatchReady: (function () {
-						outputData.push(item);
-					}),
-				});
-			}), [item]);
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRCloudConnect(item), [item]);
 		});
 	
 	});
 
-	context('ZDRParamDispatchError', function test_ZDRParamDispatchError () {
+	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
 
-		it('subscribes to error', function () {
+		it('calls disconnect', async function () {
 			const item = Math.random().toString();
-
-			deepEqual(uCapture(function (outputData) {
-				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uStubRemoteStorage({
-						on: (function (param1, param2) {
-							if (param1 !== 'error') {
-								return;
-							}
-
-							return param2(item);
-						}),
-					}),
-					ZDRParamDispatchError: (function () {
-						outputData.push(...arguments);
-					}),
-				})
-			}), [item]);
-		});
-
-		it('ignores if offline and sync failed', function () {
-			deepEqual(uCapture(function (outputData) {
-				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uStubRemoteStorage({
-						on: (function (param1, param2) {
-							if (param1 !== 'error') {
-								return;
-							}
-							
-							return param2(new Error('Sync failed: Network request failed.'));
-						}),
-						remote: {
-							online: false,
-						},
-					}),
-					ZDRParamDispatchError: (function () {
-						outputData.push(...arguments);
-					}),
-				})
-			}), []);
-		});
-	
-	});
-
-	context('ZDRCloudIdentity', function test_ZDRCloudIdentity () {
-
-		it('updates on connected', function () {
-			const userAddress = Math.random().toString();
-
-			deepEqual(mod.ZDRWrap({
+			
+			await rejects(mod.ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
-					on: (function (param1, param2) {
-						if (param1 !== 'connected') {
-							return;
-						}
-
-						return param2();
-					}),
-					remote: {
-						userAddress,
-					},
-				}),
-				ZDRParamScopes: [uStubScope()],
-				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudIdentity, userAddress);
-		});
-
-	});
-
-	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
-
-		it('updates on network-online', function () {
-			deepEqual(mod.ZDRWrap({
-				ZDRParamLibrary: uStubRemoteStorage({
-					on: (function (param1, param2) {
-						if (param1 !== 'network-online') {
-							return;
-						}
-
-						return param2();
+					disconnect: (function () {
+						return Promise.reject([item]);
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
 				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudIsOnline(), true);
-		});
-
-		it('updates on network-offline', function () {
-			deepEqual(mod.ZDRWrap({
-				ZDRParamLibrary: uStubRemoteStorage({
-					on: (function (param1, param2) {
-						if (!['network-online', 'network-offline'].includes(param1)) {
-							return;
-						}
-
-						return param2();
-					}),
-				}),
-				ZDRParamScopes: [uStubScope()],
-				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudIsOnline(), false);
+			}).ZDRCloudDisconnect(), [item]);
 		});
 	
 	});
