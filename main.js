@@ -448,6 +448,12 @@ const mod = {
 			}
 		};
 
+		if (typeof inputData.ZDRParamDispatchOffline !== 'undefined') {
+			if (typeof inputData.ZDRParamDispatchOffline !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		};
+
 		const library = (function() {
 			if (ZDRStorageProtocol !== mod.ZDRProtocolRemoteStorage()) {
 				return inputData.ZDRParamLibrary;
@@ -587,7 +593,7 @@ const mod = {
 			});
 
 			library.on('network-offline', function () {
-				outputData._ZDRCloudIsOnline = false;
+				inputData.ZDRParamDispatchOffline && inputData.ZDRParamDispatchOffline();
 			});
 
 			library.on('ready', function () {
