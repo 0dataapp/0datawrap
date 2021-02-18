@@ -967,14 +967,6 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	
 	});
 
-	context('ZDRCloudIsOnline', function test_ZDRCloudIsOnline () {
-
-		it('returns false', function () {
-			deepEqual(_ZDRWrap().ZDRCloudIsOnline(), false);
-		});
-	
-	});
-
 	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
 
 		it('throws if not string', function() {

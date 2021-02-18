@@ -107,12 +107,6 @@ Returns null.
 
 ## Cloud
 
-### ZDRCloudIsOnline()
-
-*remoteStorage only*
-
-Returns boolean.
-
 ### ZDRCloudConnect(address)
 
 Start authorization process corresponding to `ZDRParamLibrary`.

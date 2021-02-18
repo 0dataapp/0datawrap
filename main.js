@@ -536,11 +536,6 @@ const mod = {
 				})[ZDRStorageProtocol]()
 			},
 
-			_ZDRCloudIsOnline: false,
-			ZDRCloudIsOnline () {
-				return outputData._ZDRCloudIsOnline;
-			},
-
 			ZDRCloudConnect (inputData) {
 				if (typeof inputData !== 'string') {
 					throw new Error('ZDRErrorInputNotValid');
