@@ -92,6 +92,7 @@
 					rm: (function () {}),
 				}, inputData),
 				Scenario: {
+					NotAuthorised: 'NotAuthorised',
 					AuthSucceeded: 'AuthSucceeded',
 					Continuation: 'Continuation',
 				},

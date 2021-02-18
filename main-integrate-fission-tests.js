@@ -46,6 +46,27 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 		}, inputData))[ZDRScopeKey];
 	};
 
+	it('calls redirectToLobby if state.scenario NotAuthorised', async function () {
+		const permissions = {
+			[ Math.random().toString()]: Math.random().toString(),
+		};
+		await rejects((new Promise(function (res, rej) {
+			_ZDRStorageFission({
+				ZDRParamLibrary: uStubFission({
+					initialize: (function () {
+						return {
+							scenario: uStubFission().Scenario['NotAuthorised'],
+							permissions,
+						};
+					}), 
+					redirectToLobby: (function () {
+						return rej([...arguments]);
+					}),
+				}),
+			})
+		})), [permissions]);
+	});
+
 	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
 
 		it('calls initialize with fs single', function () {

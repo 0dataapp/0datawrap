@@ -488,8 +488,7 @@ const mod = {
 			}
 
 			if (state.scenario === library.Scenario.NotAuthorised) {
-				// library.redirectToLobby(state.permissions)
-				return;
+				return library.redirectToLobby(state.permissions);
 			}
 
 			if (![library.Scenario.AuthSucceeded, library.Scenario.Continuation].includes(state.scenario)) {
