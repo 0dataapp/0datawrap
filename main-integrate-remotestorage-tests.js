@@ -27,7 +27,7 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 			origin: 'remote',
 			oldValue: undefined,
 			newValue: Math.random().toString(),
-		}), 'ZDRSchemaSyncCallbackCreate');
+		}), 'ZDRSchemaDispatchSyncCreate');
 	});
 
 	it('returns string if remote update', function() {
@@ -35,7 +35,7 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 			origin: 'remote',
 			oldValue: Math.random().toString(),
 			newValue: Math.random().toString(),
-		}), 'ZDRSchemaSyncCallbackUpdate');
+		}), 'ZDRSchemaDispatchSyncUpdate');
 	});
 
 	it('returns string if remote delete', function() {
@@ -43,13 +43,13 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 			origin: 'remote',
 			oldValue: Math.random().toString(),
 			newValue: undefined,
-		}), 'ZDRSchemaSyncCallbackDelete');
+		}), 'ZDRSchemaDispatchSyncDelete');
 	});
 
 	it('returns string if conflict', function() {
 		deepEqual(mod._ZDRModelSyncCallbackSignature({
 			origin: 'conflict',
-		}), 'ZDRSchemaSyncCallbackConflict');
+		}), 'ZDRSchemaDispatchSyncConflict');
 	});
 
 });
@@ -72,7 +72,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 				ZDRScopeKey,
 				ZDRScopeDirectory: _ZDRScopeDirectory,
 			}, inputData))],
-			ZDRParamReadyCallback: (function () {}),
+			ZDRParamDispatchReady: (function () {}),
 		}, inputData))[ZDRScopeKey];
 	};
 
@@ -117,7 +117,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamReadyCallback: (function () {}),
+				ZDRParamDispatchReady: (function () {}),
 			}).ZDRCloudConnect(item), [item]);
 		});
 	
@@ -135,7 +135,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamReadyCallback: (function () {}),
+				ZDRParamDispatchReady: (function () {}),
 			}).ZDRCloudDisconnect(), [item]);
 		});
 	
@@ -330,7 +330,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 	
 	});
 
-	context('ZDRParamReadyCallback', function test_ZDRParamReadyCallback () {
+	context('ZDRParamDispatchReady', function test_ZDRParamDispatchReady () {
 
 		it('subscribes to ready', function () {
 			const item = Math.random().toString();
@@ -345,7 +345,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 							return param2();
 						}),
 					}),
-					ZDRParamReadyCallback: (function () {
+					ZDRParamDispatchReady: (function () {
 						outputData.push(item);
 					}),
 				});
@@ -354,7 +354,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 	
 	});
 
-	context('ZDRParamErrorCallback', function test_ZDRParamErrorCallback () {
+	context('ZDRParamDispatchError', function test_ZDRParamDispatchError () {
 
 		it('subscribes to error', function () {
 			const item = Math.random().toString();
@@ -370,7 +370,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 							return param2(item);
 						}),
 					}),
-					ZDRParamErrorCallback: (function () {
+					ZDRParamDispatchError: (function () {
 						outputData.push(...arguments);
 					}),
 				})
@@ -392,7 +392,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 							online: false,
 						},
 					}),
-					ZDRParamErrorCallback: (function () {
+					ZDRParamDispatchError: (function () {
 						outputData.push(...arguments);
 					}),
 				})
@@ -420,7 +420,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 					},
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamReadyCallback: (function () {}),
+				ZDRParamDispatchReady: (function () {}),
 			}).ZDRCloudIdentity, userAddress);
 		});
 
@@ -440,8 +440,8 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamReadyCallback: (function () {}),
-			}).ZDRCloudIsOnline, true);
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRCloudIsOnline(), true);
 		});
 
 		it('updates on network-offline', function () {
@@ -456,8 +456,8 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamReadyCallback: (function () {}),
-			}).ZDRCloudIsOnline, false);
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRCloudIsOnline(), false);
 		});
 	
 	});
@@ -489,10 +489,10 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						}),
 					}, params);
 				}, {
-					ZDRSchemaStubCallback: (function (inputData) {
+					ZDRSchemaStub: (function (inputData) {
 						return Object.fromEntries([inputData.split('.')]);
 					}),
-					ZDRSchemaPathCallback: (function (inputData) {
+					ZDRSchemaPath: (function (inputData) {
 						return Object.entries(inputData).pop().join('.');
 					}),
 				}))],
@@ -503,23 +503,23 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 						}
 
 						return param2(Object.assign({
-							origin: params.signature === 'ZDRSchemaSyncCallbackConflict' ? 'conflict' : 'remote',
+							origin: params.signature === 'ZDRSchemaDispatchSyncConflict' ? 'conflict' : 'remote',
 							relativePath: Math.random().toString(),
 						}, (function(inputData) {
-							if (params.signature === 'ZDRSchemaSyncCallbackCreate') {
+							if (params.signature === 'ZDRSchemaDispatchSyncCreate') {
 								return {
 									newValue: Math.random().toString(),
 								};
 							};
 
-							if (params.signature === 'ZDRSchemaSyncCallbackUpdate') {
+							if (params.signature === 'ZDRSchemaDispatchSyncUpdate') {
 								return {
 									oldValue: Math.random().toString(),
 									newValue: Math.random().toString(),
 								};
 							};
 
-							if (params.signature === 'ZDRSchemaSyncCallbackDelete') {
+							if (params.signature === 'ZDRSchemaDispatchSyncDelete') {
 								return {
 									oldValue: Math.random().toString(),
 								};
@@ -535,7 +535,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 			deepEqual(uCapture(function (outputData) {
 				uChange({
 					signature,
-					ZDRSchemaPathCallback: (function (inputData) {
+					ZDRSchemaPath: (function (inputData) {
 						return Math.random().toString();
 					}),
 				}, outputData);

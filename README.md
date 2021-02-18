@@ -11,7 +11,7 @@ _Unified JavaScript API for Fission + remoteStorage._
 ```javascript
 const api = zerodatawrap.ZDRWrap({
 
-  // import the corresponding javascript library, then pass it directly
+  // include then pass directly
   ZDRParamLibrary: RemoteStorage, // or webnative
 
   // read/write permissions
@@ -22,6 +22,7 @@ const api = zerodatawrap.ZDRWrap({
 
     // top-level storage directory
     ZDRScopeDirectory: 'bravo',
+
   }],
   
 });
@@ -36,18 +37,18 @@ await api.alfa.ZDRStorageWriteObject('/charlie.json', {
 
 | param | type | notes |
 |-------|---------|-------|
-| ZDRParamLibrary — **Required** | pass `RemoteStorage` or `webnative` | |
-| ZDRParamScopes — **Required** | array of `ZDRScope` objects | |
-| ZDRParamReadyCallback | function | called when the library is prepared |
-| ZDRParamErrorCallback | function | called on sync errors |
+| ZDRParamLibrary <br> **Required** | pass `RemoteStorage` or `webnative` | |
+| ZDRParamScopes <br> **Required** | array of `ZDRScope` objects | |
+| ZDRParamDispatchReady | function | called when the library is prepared |
+| ZDRParamDispatchError | function | called on network or sync errors |
 
 ### ZDRScope
 
 | param | type | notes |
 |-------|---------|-------|
-| ZDRScopeKey — **Required** | string, non-empty, trimmed | convenience accessor for code only |
-| ZDRScopeDirectory — **Required** | string, non-empty, trimmed | top-level directory for claiming read/write access |
-| ZDRScopeCreatorDirectory | string, non-empty, trimmed | used by Fission above the top-level directory |
+| ZDRScopeKey <br> **Required** | string, non-empty, trimmed | convenience accessor for code only |
+| ZDRScopeDirectory <br> **Required** | string, non-empty, trimmed | top-level directory for claiming read/write access |
+| ZDRScopeCreatorDirectory | string, non-empty, trimmed | if Fission, sets `permissions.app` instead of `permissions.fs` |
 | ZDRScopeSchemas | array of `ZDRSchema` objects | defines model helpers |
 
 ## Storage
@@ -60,23 +61,23 @@ Returns input object.
 
 ### ZDRStorageWriteFile(path, data, mimetype)
 
-Write to storage. Mimetype used by remoteStorage.
+*`mimetype` used by remoteStorage.*
+
+Write to storage.
 
 Returns input data.
 
-### ZDRStorageReadObject(path, object)
+### ZDRStorageReadObject(path)
 
-Read from storage; call`JSON.parse`.
+Read from storage; call `JSON.parse`.
 
-Returns input object.
+Returns object.
 
-### ZDRStorageReadFile(path, data, mimetype)
-
-*`mimetype` used by remoteStorage.*
+### ZDRStorageReadFile(path)
 
 Read from storage.
 
-Returns input data.
+Returns data.
 
 ### ZDRStorageListObjects(path)
 
@@ -86,13 +87,13 @@ Returns key/value object.
 
 ### ZDRStoragePaths(path)
 
-List paths (non-recursive).
+Fetch paths (non-recursive).
 
 Returns array of paths.
 
 ### ZDRStoragePathsRecursive(path)
 
-List paths recursively.
+Fetch paths recursively.
 
 Returns flat array of paths.
 
@@ -102,11 +103,13 @@ Delete from storage.
 
 Returns null.
 
-**Note: Fission can delete folders directly whereas this action is invalid in remoteStorage**
+**Note: Deleting folders directly is valid in Fission and invalid in remoteStorage**
 
 ## Cloud
 
 ### ZDRCloudIsOnline()
+
+*remoteStorage only*
 
 Returns boolean.
 
@@ -140,12 +143,12 @@ const api = zerodatawrap.ZDRWrap({
       ZDRSchemaKey: 'cars',
 
       // path for a given object
-      ZDRSchemaPathCallback (object) {
+      ZDRSchemaPath (object) {
         return `/cars/${ object.id }.json`;
       },
 
       // object information for a given path
-      ZDRSchemaStubCallback (path) {
+      ZDRSchemaStub (path) {
         return {
           id: path.split('/').pop().split('.json').shift(),
         };
@@ -171,15 +174,15 @@ await api.alfa.cars.ZDRModelWriteObject({
 
 | param | type | notes |
 |-------|---------|-------|
-| ZDRSchemaKey – **Required** | string, non-empty, trimmed | convenience accessor for code only |
-| ZDRSchemaPathCallback – **Required** | function | constructs the path for a given object |
-| ZDRSchemaStubCallback – **Required** | function | constructs object information for a given path, used for routing sync events |
+| ZDRSchemaKey <br> **Required** | string, non-empty, trimmed | convenience accessor for code only |
+| ZDRSchemaPath <br> **Required** | function | constructs the path for a given object |
+| ZDRSchemaStub <br> **Required** | function | constructs object information for a given path, used for filtering paths in recursion and routing sync events |
 | ZDRSchemaMethods | object | defines methods to be accessed from the api interface (bound to `this`) |
-| ZDRSchemaValidationCallback | function | called before `ZDRModelWriteObject` |
-| ZDRSchemaSyncCallbackCreate | function | called on remote create |
-| ZDRSchemaSyncCallbackUpdate | function | called on remote update |
-| ZDRSchemaSyncCallbackDelete | function | called on remote delete |
-| ZDRSchemaSyncCallbackConflict | function | called on remote conflict |
+| ZDRSchemaDispatchValidate | function | called before `ZDRModelWriteObject` |
+| ZDRSchemaDispatchSyncCreate | function | called on remote create *remoteStorage only* |
+| ZDRSchemaDispatchSyncUpdate | function | called on remote update *remoteStorage only* |
+| ZDRSchemaDispatchSyncDelete | function | called on remote delete *remoteStorage only* |
+| ZDRSchemaDispatchSyncConflict | function | called on remote conflict *remoteStorage only* |
 
 ### Specify a validation function
 
@@ -197,7 +200,7 @@ const api = zerodatawrap.ZDRWrap({
       // ...
 
       // path for a given object
-      ZDRSchemaValidationCallback (object) {
+      ZDRSchemaDispatchValidate (object) {
         if (typeof object.id !== 'string') {
           return {
             not: 'so fast',
@@ -222,8 +225,8 @@ try {
   await api.alfa.cars.ZDRModelWriteObject({
     id: 123,
   });
-} catch (e) {
-  console.log(e.not); // so fast
+} catch (truthy) {
+  console.log(truthy.not); // so fast
 }
 ```
 
@@ -288,18 +291,18 @@ const api = zerodatawrap.ZDRWrap({
       // ...
 
       // update the interface for remote changes
-      ZDRSchemaSyncCallbackCreate (object) {
+      ZDRSchemaDispatchSyncCreate (object) {
         console.log('create', object);
       },
-      ZDRSchemaSyncCallbackUpdate (object) {
+      ZDRSchemaDispatchSyncUpdate (object) {
         console.log('update', object);
       },
-      ZDRSchemaSyncCallbackDelete (object) {
+      ZDRSchemaDispatchSyncDelete (object) {
         console.log('delete', object);
       },
 
       // handle conflict
-      ZDRSchemaSyncCallbackConflict (event) {
+      ZDRSchemaDispatchSyncConflict (event) {
         console.log('conflict', event);
       },
 
@@ -318,11 +321,11 @@ const api = zerodatawrap.ZDRWrap({
 
 ### ZDRModelPath(object)
 
-Returns object path via `ZDRSchemaPathCallback`.
+Returns object path via `ZDRSchemaPath`.
 
-### ZDRStorageWriteObject(object)
+### ZDRModelWriteObject(object)
 
-Validate with `ZDRSchemaValidationCallback`, reject if truthy; write object to path from `ZDRModelPath`.
+Validate with `ZDRSchemaDispatchValidate`, reject if truthy; write object to path from `ZDRModelPath`.
 
 Returns input data.
 
@@ -335,6 +338,8 @@ Returns array of objects.
 ### ZDRModelDeleteObject(object)
 
 Delete object from storage.
+
+Returns input.
 
 # License
 

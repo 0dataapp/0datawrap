@@ -42,7 +42,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 				ZDRScopeKey,
 				ZDRScopeDirectory: _ZDRScopeDirectory,
 			}, inputData))],
-			ZDRParamReadyCallback: (function () {}),
+			ZDRParamDispatchReady: (function () {}),
 		}, inputData))[ZDRScopeKey];
 	};
 
@@ -61,7 +61,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 					ZDRParamScopes: [uStubScope({
 						ZDRScopeDirectory,
 					})],
-					ZDRParamReadyCallback: (function () {}),
+					ZDRParamDispatchReady: (function () {}),
 				}).ZDRCloudConnect(Math.random().toString());
 			}).pop().permissions, {
 				fs: {
@@ -88,7 +88,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 					}), uStubScope({
 						ZDRScopeDirectory: ZDRScopeDirectory2,
 					})],
-					ZDRParamReadyCallback: (function () {}),
+					ZDRParamDispatchReady: (function () {}),
 				}).ZDRCloudConnect(Math.random().toString());
 			}).pop().permissions, {
 				fs: {
@@ -115,7 +115,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						ZDRScopeDirectory,
 						ZDRScopeCreatorDirectory,
 					})],
-					ZDRParamReadyCallback: (function () {}),
+					ZDRParamDispatchReady: (function () {}),
 				}).ZDRCloudConnect(Math.random().toString());
 			}).pop().permissions, {
 				app: {
@@ -143,7 +143,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						ZDRScopeDirectory: Math.random().toString(),
 						ZDRScopeCreatorDirectory: Math.random().toString(),
 					})],
-					ZDRParamReadyCallback: (function () {}),
+					ZDRParamDispatchReady: (function () {}),
 				}).ZDRCloudConnect(Math.random().toString());
 			}).pop().permissions, {
 				app: {
@@ -167,7 +167,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamReadyCallback: (function () {}),
+				ZDRParamDispatchReady: (function () {}),
 			}).ZDRCloudDisconnect(), [item]);
 		});
 	
@@ -406,7 +406,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 	
 	});
 
-	context('ZDRParamReadyCallback', function test_ZDRParamReadyCallback () {
+	context('ZDRParamDispatchReady', function test_ZDRParamDispatchReady () {
 
 		it('calls if state.scenario success', async function () {
 			const item = Math.random().toString();
@@ -419,7 +419,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 							};
 						}),
 					}),
-					ZDRParamReadyCallback: (function () {
+					ZDRParamDispatchReady: (function () {
 						rej([item])
 					}),
 				})
@@ -444,7 +444,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 						}),
 					}),
 					ZDRParamScopes: [uStubScope()],
-					ZDRParamReadyCallback: (function () {
+					ZDRParamDispatchReady: (function () {
 						res(item.ZDRCloudIdentity)
 					}),
 				})

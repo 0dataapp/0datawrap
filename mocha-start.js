@@ -4,10 +4,10 @@
 		uStubSchema (inputData = {})	{
 			return Object.assign({
 				ZDRSchemaKey: Math.random().toString(),
-				ZDRSchemaPathCallback: (function () {
+				ZDRSchemaPath: (function () {
 					return Math.random().toString();
 				}),
-				ZDRSchemaStubCallback: (function () {
+				ZDRSchemaStub: (function () {
 					return {};
 				}),
 			}, inputData);
