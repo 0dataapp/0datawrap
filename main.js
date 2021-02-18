@@ -314,8 +314,8 @@ const mod = {
 						[mod.ZDRProtocolFission()]: (async function () {
 							return JSON.parse(await _client().cat(inputData));
 						}),
-						[mod.ZDRProtocolCustom()]: (function () {
-							return _client.ZDRClientReadFile(inputData);
+						[mod.ZDRProtocolCustom()]: (async function () {
+							return JSON.parse(await _client.ZDRClientReadFile(inputData));
 						}),
 					})[protocol]();
 				},

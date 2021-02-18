@@ -23,7 +23,9 @@
 		uStubCustomClient (inputData = {})	{
 			return Object.assign({
 				ZDRClientWriteFile: (function () {}),
-				ZDRClientReadFile: (function () {}),
+				ZDRClientReadFile: (function () {
+					return null;
+				}),
 				ZDRClientListObjects: (function () {
 					return {};
 				}),
