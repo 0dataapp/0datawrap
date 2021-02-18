@@ -644,7 +644,7 @@ const mod = {
 			}[ZDRStorageProtocol]();
 			const client = mod._ZDRClientInterface(_client, ZDRStorageProtocol);
 
-			if (schemas.filter(function (e) {
+			if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && schemas.filter(function (e) {
 				return Object.keys(e).filter(function (e) {
 					return mod._ZDRModelSyncCallbackSignatures().includes(e);
 				}).length;
