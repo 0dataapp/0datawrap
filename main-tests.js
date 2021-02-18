@@ -262,6 +262,14 @@ describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate () {
 		}, /ZDRErrorInputNotFunction/);
 	});
 
+	it('throws if ZDRClientReconnect not function', function() {
+		throws(function() {
+			mod._ZDRClientObjectValidate(uStubCustomClient({
+				ZDRClientReconnect: null,
+			}));
+		}, /ZDRErrorInputNotFunction/);
+	});
+
 	it('throws if ZDRClientDisconnect not function', function() {
 		throws(function() {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
@@ -977,6 +985,14 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 		it('returns undefined', function () {
 			deepEqual(_ZDRWrap().ZDRCloudConnect(Math.random().toString()), undefined);
+		});
+	
+	});
+
+	context('ZDRCloudReconnect', function test_ZDRCloudReconnect () {
+
+		it('returns undefined', function () {
+			deepEqual(_ZDRWrap().ZDRCloudReconnect(), undefined);
 		});
 	
 	});

@@ -66,6 +66,7 @@
 						enable: (function () {}),
 					}, inputData),
 					connect: (function () {}),
+					reconnect: (function () {}),
 					disconnect: (function () {}),
 					on: (function () {}),
 					remote: {},

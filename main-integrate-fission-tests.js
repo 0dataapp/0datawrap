@@ -453,6 +453,24 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 	
 	});
 
+	context('ZDRCloudReconnect', function test_ZDRCloudReconnect () {
+
+		it('calls leave', async function () {
+			const item = Math.random().toString();
+			
+			await rejects(mod.ZDRWrap({
+				ZDRParamLibrary: uStubFission({
+					initialize: (function () {
+						return Promise.reject([item]);
+					}),
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRCloudReconnect(), [item]);
+		});
+	
+	});
+
 	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
 
 		it('calls leave', async function () {

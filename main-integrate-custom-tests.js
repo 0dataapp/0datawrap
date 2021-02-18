@@ -37,5 +37,42 @@ describe('ZDRWrap_Custom', function test_ZDRWrap_Custom () {
 		});
 	
 	});
+
+	context('ZDRCloudReconnect', function test_ZDRCloudReconnect () {
+
+		it('calls ZDRClientConnect', async function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
+					ZDRParamLibrary: uStubCustomClient({
+						ZDRClientConnect: (function () {
+							outputData.push(item);
+						}),
+					}),
+					ZDRParamScopes: [uStubScope()],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudReconnect()
+			}), [item]);
+		});
+
+		it('calls ZDRClientReconnect if defined', async function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
+					ZDRParamLibrary: uStubCustomClient({
+						ZDRClientReconnect: (function () {
+							outputData.push(item);
+						}),
+						ZDRClientConnect: (function () {
+							outputData.push(Math.random().toString());
+						}),
+					}),
+					ZDRParamScopes: [uStubScope()],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudReconnect()
+			}), [item]);
+		});
+	
+	});
 	
 });

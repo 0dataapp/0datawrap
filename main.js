@@ -153,6 +153,12 @@ const mod = {
 			}
 		}
 
+		if (inputData.ZDRClientReconnect !== undefined) {
+			if (typeof inputData.ZDRClientReconnect !== 'function') {
+				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
 		if (inputData.ZDRClientDisconnect !== undefined) {
 			if (typeof inputData.ZDRClientDisconnect !== 'function') {
 				throw new Error('ZDRErrorInputNotFunction');
@@ -550,6 +556,20 @@ const mod = {
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return library.ZDRClientConnect(inputData);
+					}),
+				})[ZDRStorageProtocol]();
+			},
+
+			ZDRCloudReconnect () {
+				return ({
+					[mod.ZDRProtocolRemoteStorage()]: (function () {
+						return library.reconnect(inputData);
+					}),
+					[mod.ZDRProtocolFission()]: (function () {
+						return library.initialize(fissionPermissions);
+					}),
+					[mod.ZDRProtocolCustom()]: (function () {
+						return !library.ZDRClientReconnect ? library.ZDRClientConnect() : library.ZDRClientReconnect();
 					}),
 				})[ZDRStorageProtocol]();
 			},
