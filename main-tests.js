@@ -520,6 +520,14 @@ describe('ZDRWrap', function test_ZDRWrap () {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('throws if ZDRParamDispatchConnected not function', function () {
+		throws(function () {
+			_ZDRWrap({
+				ZDRParamDispatchConnected: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
 	const __ZDRStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 

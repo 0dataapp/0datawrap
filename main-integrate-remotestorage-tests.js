@@ -179,25 +179,30 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 	context('connected', function () {
 
-		it('updates on connected', function () {
+		it('calls ZDRParamDispatchConnected', function () {
 			const userAddress = Math.random().toString();
 
-			deepEqual(mod.ZDRWrap({
-				ZDRParamLibrary: uStubRemoteStorage({
-					on: (function (param1, param2) {
-						if (param1 !== 'connected') {
-							return;
-						}
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'connected') {
+								return;
+							}
 
-						return param2();
+							return param2();
+						}),
+						remote: {
+							userAddress,
+						},
 					}),
-					remote: {
-						userAddress,
-					},
-				}),
-				ZDRParamScopes: [uStubScope()],
-				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudIdentity, userAddress);
+					ZDRParamScopes: [uStubScope()],
+					ZDRParamDispatchReady: (function () {}),
+					ZDRParamDispatchConnected: (function () {
+						outputData.push(...arguments);
+					}),
+				})
+			}), [userAddress]);
 		});
 
 	});

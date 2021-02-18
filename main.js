@@ -436,6 +436,12 @@ const mod = {
 			}
 		};
 
+		if (typeof inputData.ZDRParamDispatchConnected !== 'undefined') {
+			if (typeof inputData.ZDRParamDispatchConnected !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		};
+
 		const library = (function() {
 			if (ZDRStorageProtocol !== mod.ZDRProtocolRemoteStorage()) {
 				return inputData.ZDRParamLibrary;
@@ -498,7 +504,7 @@ const mod = {
 
 	    fissionClient = state.fs;
 
-	    outputData.ZDRCloudIdentity = state.username;
+	    inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username);
 
 	    inputData.ZDRParamDispatchReady();
 		})();
@@ -567,7 +573,7 @@ const mod = {
 			});
 
 			library.on('connected', function () {
-				outputData.ZDRCloudIdentity = library.remote.userAddress
+				inputData.ZDRParamDispatchConnected(library.remote.userAddress);
 			});
 
 			library.on('network-online', function () {

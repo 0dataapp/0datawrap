@@ -46,7 +46,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	it('updates on initialize', async function () {
+	it('calls ZDRParamDispatchConnected', async function () {
 		const username = Math.random().toString();
 
 		deepEqual(await (new Promise(function (res, rej) {
@@ -60,9 +60,10 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
-				ZDRParamDispatchReady: (function () {
-					res(item.ZDRCloudIdentity)
+				ZDRParamDispatchConnected: (function () {
+					return res(...arguments);
 				}),
+				ZDRParamDispatchReady: (function () {}),
 			})
 		})), username);
 	});
