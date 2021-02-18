@@ -176,7 +176,7 @@ await api.alfa.cars.ZDRModelWriteObject({
 | ZDRSchemaDispatchSyncCreate | function | called on remote create *remoteStorage only* |
 | ZDRSchemaDispatchSyncUpdate | function | called on remote update *remoteStorage only* |
 | ZDRSchemaDispatchSyncDelete | function | called on remote delete *remoteStorage only* |
-| ZDRSchemaDispatchSyncConflict | function | called on remote conflict *remoteStorage only* |
+| ZDRSchemaDispatchSyncConflict | function | called on remote conflict *remoteStorage only* <br> **Note: this passes the remoteStorage change event directly** |
 
 ### Specify a validation function
 
