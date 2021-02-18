@@ -193,12 +193,12 @@ const api = zerodatawrap.ZDRWrap({
 
       // …
 
-      // path for a given object
+      // truthy values cause a promise rejection
       ZDRSchemaDispatchValidate (object) {
         if (typeof object.id !== 'string') {
           return {
             not: 'so fast',
-          }; // truthy values cause a promise rejection
+          };
         }
       },
 
