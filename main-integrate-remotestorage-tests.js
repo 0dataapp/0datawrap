@@ -209,20 +209,26 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 	context('network-online', function () {
 
-		it('updates on network-online', function () {
-			deepEqual(mod.ZDRWrap({
-				ZDRParamLibrary: uStubRemoteStorage({
-					on: (function (param1, param2) {
-						if (param1 !== 'network-online') {
-							return;
-						}
+		it('calls ZDRParamDispatchOnline', function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (outputData) {
+				mod.ZDRWrap({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'network-online') {
+								return;
+							}
 
-						return param2();
+							return param2();
+						}),
 					}),
-				}),
-				ZDRParamScopes: [uStubScope()],
-				ZDRParamDispatchReady: (function () {}),
-			}).ZDRCloudIsOnline(), true);
+					ZDRParamScopes: [uStubScope()],
+					ZDRParamDispatchOnline: (function () {
+						outputData.push(item);
+					}),
+					ZDRParamDispatchReady: (function () {}),
+				})
+			}), [item]);
 		});
 
 	});
