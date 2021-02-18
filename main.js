@@ -580,7 +580,7 @@ const mod = {
 			});
 
 			library.on('connected', function () {
-				inputData.ZDRParamDispatchConnected(library.remote.userAddress);
+				inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(library.remote.userAddress);
 			});
 
 			library.on('network-online', function () {
