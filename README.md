@@ -28,7 +28,7 @@ const api = zerodatawrap.ZDRWrap({
 });
 
 // write `{"foo":"bar"}` to /bravo/charlie.json
-await api.alfa.ZDRStorageWriteObject('/charlie.json', {
+await api.alfa.ZDRStorageWriteObject('charlie.json', {
   foo: 'bar',
 });
 ```
@@ -144,7 +144,7 @@ const api = zerodatawrap.ZDRWrap({
 
       // path for a given object
       ZDRSchemaPath (object) {
-        return `/cars/${ object.id }.json`;
+        return `cars/${ object.id }.json`;
       },
 
       // object information for a given path
