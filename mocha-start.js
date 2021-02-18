@@ -20,11 +20,13 @@
 			}, inputData);
 		},
 
-		uStubClient (inputData = {})	{
+		uStubCustomClient (inputData = {})	{
 			return Object.assign({
 				ZDRClientWriteFile: (function () {}),
 				ZDRClientReadFile: (function () {}),
-				ZDRClientListObjects: (function () {}),
+				ZDRClientListObjects: (function () {
+					return {};
+				}),
 				ZDRClientDelete: (function () {}),
 			}, inputData);
 		},
