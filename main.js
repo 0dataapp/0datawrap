@@ -348,11 +348,7 @@ const mod = {
 									return false;
 								}
 
-								if (value === true) {
-									return false;
-								}
-
-								return true;
+								return value !== true;
 							});
 						}),
 						[mod.ZDRProtocolFission()]: (async function () {
