@@ -246,6 +246,14 @@ describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate () {
 		deepEqual(mod._ZDRClientObjectValidate(uStubCustomClient()), true);
 	});
 
+	it('throws if ZDRClientPrepare not function', function() {
+		throws(function() {
+			mod._ZDRClientObjectValidate(uStubCustomClient({
+				ZDRClientPrepare: null,
+			}));
+		}, /ZDRErrorInputNotFunction/);
+	});
+
 	it('throws if ZDRClientConnect not function', function() {
 		throws(function() {
 			mod._ZDRClientObjectValidate(uStubCustomClient({

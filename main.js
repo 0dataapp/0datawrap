@@ -141,6 +141,12 @@ const mod = {
 			throw new Error('ZDRErrorInputNotFunction');
 		}
 
+		if (inputData.ZDRClientPrepare !== undefined) {
+			if (typeof inputData.ZDRClientPrepare !== 'function') {
+				throw new Error('ZDRErrorInputNotFunction');
+			}
+		}
+
 		if (inputData.ZDRClientConnect !== undefined) {
 			if (typeof inputData.ZDRClientConnect !== 'function') {
 				throw new Error('ZDRErrorInputNotFunction');
@@ -576,6 +582,10 @@ const mod = {
 			library.on('ready', function () {
 				inputData.ZDRParamDispatchReady();
 			});
+		}
+
+		if (ZDRStorageProtocol === mod.ZDRProtocolCustom()) {
+			Promise.resolve((library.ZDRClientPrepare || function () {})()).then(inputData.ZDRParamDispatchReady)
 		}
 
 		return scopes.reduce(function (coll, item) {
