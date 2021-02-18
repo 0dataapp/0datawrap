@@ -563,7 +563,7 @@ const mod = {
 					return;
 				};
 				
-				inputData.ZDRParamDispatchError(error);
+				inputData.ZDRParamDispatchError && inputData.ZDRParamDispatchError(error);
 			});
 
 			library.on('connected', function () {
