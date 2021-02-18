@@ -388,28 +388,27 @@ const mod = {
 			}
 		};
 
-		const library = {
-			[mod.ZDRProtocolRemoteStorage()]: (function () {
-				return new (inputData.ZDRParamLibrary)({
-					modules: scopes.reduce(function (coll, item) {
-						return coll.concat({
-							name: item.ZDRScopeDirectory,
-							builder: (function (privateClient, publicClient) {
-								return {
-									exports: {
-										privateClient,
-										publicClient,
-									},
-								};
-							}),
-						});
-					}, [])
-				});
-			}),
-			[mod.ZDRProtocolFission()]: (function () {
+		const library = (function() {
+			if (ZDRStorageProtocol !== mod.ZDRProtocolRemoteStorage()) {
 				return inputData.ZDRParamLibrary;
-			}),
-		}[ZDRStorageProtocol]();
+			}
+
+			return new (inputData.ZDRParamLibrary)({
+				modules: scopes.reduce(function (coll, item) {
+					return coll.concat({
+						name: item.ZDRScopeDirectory,
+						builder: (function (privateClient, publicClient) {
+							return {
+								exports: {
+									privateClient,
+									publicClient,
+								},
+							};
+						}),
+					});
+				}, [])
+			});
+		})();
 
 		const fissionPermissions = {
 			permissions: scopes.reduce(function (coll, item) {
@@ -505,46 +504,38 @@ const mod = {
 
 		};
 
-		({
-			[mod.ZDRProtocolRemoteStorage()]: (function () {
-				library.on('error', function (error) {
-					if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
-						return;
-					};
-					
-					inputData.ZDRParamDispatchError(error);
-				});
+		if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage()) {
+			library.on('error', function (error) {
+				if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
+					return;
+				};
+				
+				inputData.ZDRParamDispatchError(error);
+			});
 
-				library.on('connected', function () {
-					outputData.ZDRCloudIdentity = library.remote.userAddress
-				});
+			library.on('connected', function () {
+				outputData.ZDRCloudIdentity = library.remote.userAddress
+			});
 
-				library.on('network-online', function () {
-					outputData._ZDRCloudIsOnline = true;
-				});
+			library.on('network-online', function () {
+				outputData._ZDRCloudIsOnline = true;
+			});
 
-				library.on('network-offline', function () {
-					outputData._ZDRCloudIsOnline = false;
-				});
+			library.on('network-offline', function () {
+				outputData._ZDRCloudIsOnline = false;
+			});
 
-				library.on('ready', function () {
-					inputData.ZDRParamDispatchReady();
-				});
-			}),
-			[mod.ZDRProtocolFission()]: (function () {
-				return inputData.ZDRParamLibrary;
-			}),
-		})[ZDRStorageProtocol]();
+			library.on('ready', function () {
+				inputData.ZDRParamDispatchReady();
+			});
+		}
 
 		return scopes.reduce(function (coll, item) {
-			({
-				[mod.ZDRProtocolRemoteStorage()]: (function () {
-					library.access.claim(item.ZDRScopeDirectory, 'rw');
-					
-					library.caching.enable(`/${ item.ZDRScopeDirectory }/`);
-				}),
-				[mod.ZDRProtocolFission()]: (function () {}),
-			})[ZDRStorageProtocol]();
+			if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage()) {
+				library.access.claim(item.ZDRScopeDirectory, 'rw');
+				
+				library.caching.enable(`/${ item.ZDRScopeDirectory }/`);
+			}
 
 			const schemas = (item.ZDRScopeSchemas || []).filter(mod._ZDRSchemaObjectValidate);
 
