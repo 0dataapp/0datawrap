@@ -24,6 +24,11 @@ const api = zerodatawrap.ZDRWrap({
     ZDRScopeDirectory: 'bravo',
 
   }],
+
+  // notify when prepared
+  ZDRParamDispatchReady () {
+    // ready
+  },
   
 });
 
@@ -39,7 +44,7 @@ await api.alfa.ZDRStorageWriteObject('charlie.json', {
 |-------|---------|-------|
 | ZDRParamLibrary <br> **Required** | pass `RemoteStorage` or `webnative` | |
 | ZDRParamScopes <br> **Required** | array of `ZDRScope` objects | |
-| ZDRParamDispatchReady | function | called when the library is prepared |
+| ZDRParamDispatchReady <br> **Required** | function | called when the library is prepared |
 | ZDRParamDispatchError | function | called on network or sync errors |
 
 ### ZDRScope
