@@ -202,6 +202,52 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 
 });
 
+describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate () {
+
+	it('throws if not object', function() {
+		throws(function() {
+			mod._ZDRClientObjectValidate(null);
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('throws if ZDRClientWriteFile not function', function() {
+		throws(function() {
+			mod._ZDRClientObjectValidate(uStubClient({
+				ZDRClientWriteFile: null,
+			}));
+		}, /ZDRErrorInputNotFunction/);
+	});
+
+	it('throws if ZDRClientReadFile not function', function() {
+		throws(function() {
+			mod._ZDRClientObjectValidate(uStubClient({
+				ZDRClientReadFile: null,
+			}));
+		}, /ZDRErrorInputNotFunction/);
+	});
+
+	it('throws if ZDRClientListObjects not function', function() {
+		throws(function() {
+			mod._ZDRClientObjectValidate(uStubClient({
+				ZDRClientListObjects: null,
+			}));
+		}, /ZDRErrorInputNotFunction/);
+	});
+
+	it('throws if ZDRClientDelete not function', function() {
+		throws(function() {
+			mod._ZDRClientObjectValidate(uStubClient({
+				ZDRClientDelete: null,
+			}));
+		}, /ZDRErrorInputNotFunction/);
+	});
+
+	it('returns true', function () {
+		deepEqual(mod._ZDRClientObjectValidate(uStubClient()), true);
+	});
+
+});
+
 describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory () {
 
 	it('throws if not string', function() {

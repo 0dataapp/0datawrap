@@ -120,6 +120,30 @@ const mod = {
 		return true;
 	},
 
+	_ZDRClientObjectValidate (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		if (typeof inputData.ZDRClientWriteFile !== 'function') {
+			throw new Error('ZDRErrorInputNotFunction');
+		}
+
+		if (typeof inputData.ZDRClientReadFile !== 'function') {
+			throw new Error('ZDRErrorInputNotFunction');
+		}
+
+		if (typeof inputData.ZDRClientListObjects !== 'function') {
+			throw new Error('ZDRErrorInputNotFunction');
+		}
+
+		if (typeof inputData.ZDRClientDelete !== 'function') {
+			throw new Error('ZDRErrorInputNotFunction');
+		}
+
+		return true;
+	},
+
 	_ZDRPathIsDirectory (inputData) {
 		if (typeof inputData !== 'string') {
 			throw new Error('ZDRErrorInputNotValid');

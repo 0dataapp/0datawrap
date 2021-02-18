@@ -20,6 +20,15 @@
 			}, inputData);
 		},
 
+		uStubClient (inputData = {})	{
+			return Object.assign({
+				ZDRClientWriteFile: (function () {}),
+				ZDRClientReadFile: (function () {}),
+				ZDRClientListObjects: (function () {}),
+				ZDRClientDelete: (function () {}),
+			}, inputData);
+		},
+
 		uStubRemoteStorage (inputData = {}) {
 			const RemoteStorage = function (params = {}) {
 				const scope = (function () {
