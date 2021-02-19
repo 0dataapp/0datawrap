@@ -807,6 +807,21 @@ const mod = {
 		}, outputData);
 	},
 
+	ZDRWrap (inputData = {}) {
+		const _this = this;
+		return new Promise(async function (res, rej) {
+			try {
+				const outputData = _this._ZDRWrap(Object.assign(inputData, {
+					ZDRParamDispatchReady: (function () {
+						res(outputData);
+					}),
+				}));
+			} catch (error) {
+				rej(e);
+			}
+		})
+	},
+
 };
 
 Object.assign(exports, mod);

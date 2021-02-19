@@ -9,7 +9,7 @@ _Unified JavaScript API for Fission + remoteStorage._
 ## Setup
 
 ```javascript
-const api = zerodatawrap.ZDRWrap({
+const api = await zerodatawrap.ZDRWrap({
 
   // include then pass directly
   ZDRParamLibrary: RemoteStorage, // or webnative
@@ -24,13 +24,10 @@ const api = zerodatawrap.ZDRWrap({
     ZDRScopeDirectory: 'bravo',
 
   }],
-
-  // notify when prepared
-  ZDRParamDispatchReady () {
-    // ready
-  },
   
 });
+
+// ready
 
 // write `{"foo":"bar"}` to /bravo/charlie.json
 await api.alfa.ZDRStorageWriteObject('charlie.json', {
@@ -44,7 +41,6 @@ await api.alfa.ZDRStorageWriteObject('charlie.json', {
 |-------|---------|-------|
 | ZDRParamLibrary <br> **Required** | pass `RemoteStorage` or `webnative` | |
 | ZDRParamScopes <br> **Required** | array of `ZDRScope` objects | |
-| ZDRParamDispatchReady <br> **Required** | function | called when the library is prepared |
 | ZDRParamDispatchError | function | called on network or sync errors |
 
 ### ZDRScope

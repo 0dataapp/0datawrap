@@ -1006,3 +1006,30 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 	});
 	
 });
+
+describe('ZDRWrap', function test_ZDRWrap() {
+
+	it('calls _ZDRWrap', function () {
+		const item = {
+			[Math.random().toString()]: Math.random().toString(),
+		};
+		deepEqual(uCapture(function (outputData) {
+			Object.assign(Object.assign({}, mod), {
+				_ZDRWrap: (function () {
+					outputData.push([...arguments]);
+				}),
+			}).ZDRWrap(item);
+		}), [[item]]);
+	});
+
+	it('sets ZDRParamDispatchReady', async function () {
+		const ZDRScopeKey = Math.random().toString();
+		deepEqual((await mod.ZDRWrap({
+			ZDRParamLibrary: uRandomElement(uStubRemoteStorage(), uStubFission(), uStubCustomClient()),
+			ZDRParamScopes: [uStubScope({
+				ZDRScopeKey
+			})],
+		})).hasOwnProperty(ZDRScopeKey), true);
+	});
+	
+});
