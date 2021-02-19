@@ -843,6 +843,10 @@ const mod = {
 		return api.getItem('ZDR_PREFERENCE_PROTOCOL');
 	},
 
+	ZDRPreferenceProtocolMigrate (_localStorage) {
+		return (typeof localStorage === 'object' ? localStorage : _localStorage).getItem('ZDR_PREFERENCE_PROTOCOL_MIGRATE');
+	},
+
 };
 
 Object.assign(exports, mod);

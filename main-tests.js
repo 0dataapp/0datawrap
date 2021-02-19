@@ -1087,3 +1087,28 @@ describe('ZDRPreferenceProtocol', function test_ZDRPreferenceProtocol() {
 	});
 	
 });
+
+describe('ZDRPreferenceProtocolMigrate', function test_ZDRPreferenceProtocolMigrate() {
+
+	it('calls localStorage.getItem', function () {
+		deepEqual(uCapture(function (capture) {
+			mod.ZDRPreferenceProtocolMigrate(uStubLocalStorage({
+				getItem: (function () {
+					capture(...arguments);
+				}),
+			}));
+		}), [
+			'ZDR_PREFERENCE_PROTOCOL_MIGRATE',
+		]);
+	});
+
+	it('returns localStorage.getItem', function () {
+		const item = Math.random().toString();
+		deepEqual(mod.ZDRPreferenceProtocolMigrate(uStubLocalStorage({
+			getItem: (function () {
+				return item;
+			}),
+		})), item);
+	});
+	
+});
