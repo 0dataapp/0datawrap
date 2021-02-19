@@ -125,7 +125,7 @@ Returns null.
 
 Start authorization process corresponding to `ZDRParamLibrary`.
 
-Returns boolean.
+Returns undefined.
 
 ### ZDRCloudReconnect()
 
