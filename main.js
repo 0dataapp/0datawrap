@@ -819,7 +819,7 @@ const mod = {
 					}),
 				}));
 			} catch (error) {
-				rej(e);
+				rej(error);
 			}
 		})
 	},
