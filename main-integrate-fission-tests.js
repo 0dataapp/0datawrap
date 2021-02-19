@@ -349,11 +349,11 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission () {
 		it('calls initialize with fs single', function () {
 			const ZDRScopeDirectory = Math.random().toString();
 
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							outputData.push(...arguments);
+							capture(...arguments);
 						}),
 					}),
 					ZDRParamScopes: [uStubScope({
@@ -374,11 +374,11 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission () {
 			const ZDRScopeDirectory1 = Math.random().toString();
 			const ZDRScopeDirectory2 = Math.random().toString();
 
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							outputData.push(...arguments);
+							capture(...arguments);
 						}),
 					}),
 					ZDRParamScopes: [uStubScope({
@@ -402,11 +402,11 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission () {
 			const ZDRScopeDirectory = Math.random().toString();
 			const ZDRScopeCreatorDirectory = Math.random().toString();
 
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							outputData.push(...arguments);
+							capture(...arguments);
 						}),
 					}),
 					ZDRParamScopes: [uStubScope({
@@ -427,11 +427,11 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission () {
 			const ZDRScopeDirectory = Math.random().toString();
 			const ZDRScopeCreatorDirectory = Math.random().toString();
 
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							outputData.push(...arguments);
+							capture(...arguments);
 						}),
 					}),
 					ZDRParamScopes: [uStubScope({

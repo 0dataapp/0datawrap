@@ -42,11 +42,11 @@ describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom () {
 
 		it('calls ZDRClientConnect', async function () {
 			const item = Math.random().toString();
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubCustomClient({
 						ZDRClientConnect: (function () {
-							outputData.push(item);
+							capture(item);
 						}),
 					}),
 					ZDRParamScopes: [uStubScope()],
@@ -57,14 +57,14 @@ describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom () {
 
 		it('calls ZDRClientReconnect if defined', async function () {
 			const item = Math.random().toString();
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubCustomClient({
 						ZDRClientReconnect: (function () {
-							outputData.push(item);
+							capture(item);
 						}),
 						ZDRClientConnect: (function () {
-							outputData.push(Math.random().toString());
+							capture(Math.random().toString());
 						}),
 					}),
 					ZDRParamScopes: [uStubScope()],

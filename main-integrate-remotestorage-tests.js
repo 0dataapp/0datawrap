@@ -79,12 +79,12 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 	it('calls client.access.claim', function () {
 		const ZDRScopeDirectory = Math.random().toString();
 
-		deepEqual(uCapture(function (outputData) {
+		deepEqual(uCapture(function (capture) {
 			_ZDRStorageRemoteStorage({
 				ZDRScopeDirectory,
 				ZDRParamLibrary: uStubRemoteStorage({
 					claim: (function () {
-						outputData.push(...arguments);
+						capture(...arguments);
 					}),
 				}),
 			})
@@ -94,12 +94,12 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 	it('calls client.caching.enable', function () {
 		const ZDRScopeDirectory = Math.random().toString();
 
-		deepEqual(uCapture(function (outputData) {
+		deepEqual(uCapture(function (capture) {
 			_ZDRStorageRemoteStorage({
 				ZDRScopeDirectory,
 				ZDRParamLibrary: uStubRemoteStorage({
 					enable: (function () {
-						outputData.push(...arguments);
+						capture(...arguments);
 					}),
 				}),
 			})
@@ -111,7 +111,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 		it('calls ZDRParamDispatchError', function () {
 			const item = Math.random().toString();
 
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
@@ -123,14 +123,14 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						}),
 					}),
 					ZDRParamDispatchError: (function () {
-						outputData.push(...arguments);
+						capture(...arguments);
 					}),
 				})
 			}), [item]);
 		});
 
 		it('ignores if offline and sync failed', function () {
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
@@ -145,7 +145,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						},
 					}),
 					ZDRParamDispatchError: (function () {
-						outputData.push(...arguments);
+						capture(...arguments);
 					}),
 				})
 			}), []);
@@ -157,7 +157,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 
 		it('calls ZDRParamDispatchReady', function () {
 			const item = Math.random().toString();
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
@@ -169,7 +169,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						}),
 					}),
 					ZDRParamDispatchReady: (function () {
-						outputData.push(item);
+						capture(item);
 					}),
 				});
 			}), [item]);
@@ -182,7 +182,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 		it('calls ZDRParamDispatchConnected', function () {
 			const userAddress = Math.random().toString();
 
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
@@ -199,7 +199,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 					ZDRParamScopes: [uStubScope()],
 					ZDRParamDispatchReady: (function () {}),
 					ZDRParamDispatchConnected: (function () {
-						outputData.push(...arguments);
+						capture(...arguments);
 					}),
 				})
 			}), [userAddress]);
@@ -211,7 +211,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 
 		it('calls ZDRParamDispatchOnline', function () {
 			const item = Math.random().toString();
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
@@ -224,7 +224,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 					}),
 					ZDRParamScopes: [uStubScope()],
 					ZDRParamDispatchOnline: (function () {
-						outputData.push(item);
+						capture(item);
 					}),
 					ZDRParamDispatchReady: (function () {}),
 				})
@@ -237,7 +237,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 
 		it('calls ZDRParamDispatchOffline', function () {
 			const item = Math.random().toString();
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
@@ -250,7 +250,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 					}),
 					ZDRParamScopes: [uStubScope()],
 					ZDRParamDispatchOffline: (function () {
-						outputData.push(item);
+						capture(item);
 					}),
 					ZDRParamDispatchReady: (function () {}),
 				})
@@ -503,7 +503,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 	context('change', function () {
 		
 		it('skips if no _ZDRModelSyncCallbackSignatures', function () {
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
@@ -511,19 +511,19 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 								return;
 							}
 
-							outputData.push(...arguments);
+							capture(...arguments);
 						}),
 					}),
 				});
 			}), []);
 		});
 
-		const uChange = function (params = {}, outputData) {
+		const uChange = function (params = {}) {
 			return _ZDRStorageRemoteStorage({
 				ZDRScopeSchemas: [uStubSchema(mod._ZDRModelSyncCallbackSignatures().reduce(function (coll, item) {
 					return Object.assign(coll, {
 						[item]: (function () {
-							outputData.push(...arguments);
+							capture(...arguments);
 						}),
 					}, params);
 				}, {
@@ -570,43 +570,43 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 		
 		it('ignores if no match', function () {
 			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				uChange({
 					signature,
 					ZDRSchemaPath: (function (inputData) {
 						return Math.random().toString();
 					}),
-				}, outputData);
+				});
 			}), []);
 		});
 		
 		it('ignores if no signature', function () {
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				uChange({
 					signature: Math.random().toString(),
-				}, outputData);
+				});
 			}), []);
 		});
 		
 		it('ignores if no callback', function () {
 			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				uChange({
 					signature,
 					[signature]: undefined,
-				}, outputData);
+				});
 			}), []);
 		});
 
 		it('calls callback at signature', function () {
 			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
-			deepEqual(uCapture(function (outputData) {
+			deepEqual(uCapture(function (capture) {
 				uChange({
 					signature,
 					[signature]: (function () {
-						outputData.push(signature);
+						capture(signature);
 					}),
-				}, outputData);
+				});
 			}), [signature]);
 		});
 	

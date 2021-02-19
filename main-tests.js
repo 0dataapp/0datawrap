@@ -1013,13 +1013,13 @@ describe('ZDRWrap', function test_ZDRWrap() {
 		const item = {
 			[Math.random().toString()]: Math.random().toString(),
 		};
-		deepEqual(uCapture(function (outputData) {
+		deepEqual(uCapture(function (capture) {
 			Object.assign(Object.assign({}, mod), {
 				_ZDRWrap: (function () {
-					outputData.push([...arguments]);
+					capture(...arguments);
 				}),
 			}).ZDRWrap(item);
-		}), [[item]]);
+		}), [item]);
 	});
 
 	it('sets ZDRParamDispatchReady', async function () {
