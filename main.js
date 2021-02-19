@@ -847,6 +847,10 @@ const mod = {
 		return (typeof localStorage === 'object' ? localStorage : _localStorage).getItem('ZDR_PREFERENCE_PROTOCOL_MIGRATE');
 	},
 
+	ZDRPreferenceProtocolMigrateClear (_localStorage) {
+		return (typeof localStorage === 'object' ? localStorage : _localStorage).removeItem('ZDR_PREFERENCE_PROTOCOL_MIGRATE');
+	},
+
 	ZDRPreferenceProtocolConnect (inputData, _localStorage) {
 		const protocol = this.ZDRProtocolForIdentity(inputData);
 

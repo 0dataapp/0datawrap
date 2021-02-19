@@ -1113,6 +1113,31 @@ describe('ZDRPreferenceProtocolMigrate', function test_ZDRPreferenceProtocolMigr
 	
 });
 
+describe('ZDRPreferenceProtocolMigrateClear', function test_ZDRPreferenceProtocolMigrateClear() {
+
+	it('calls localStorage.removeItem', function () {
+		deepEqual(uCapture(function (capture) {
+			mod.ZDRPreferenceProtocolMigrateClear(uStubLocalStorage({
+				removeItem: (function () {
+					capture(...arguments);
+				}),
+			}));
+		}), [
+			'ZDR_PREFERENCE_PROTOCOL_MIGRATE',
+		]);
+	});
+
+	it('returns localStorage.removeItem', function () {
+		const item = Math.random().toString();
+		deepEqual(mod.ZDRPreferenceProtocolMigrateClear(uStubLocalStorage({
+			removeItem: (function () {
+				return item;
+			}),
+		})), item);
+	});
+	
+});
+
 describe('ZDRPreferenceProtocolConnect', function test_ZDRPreferenceProtocolConnect() {
 
 	it('throws if not string', function () {
