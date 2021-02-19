@@ -847,6 +847,20 @@ const mod = {
 		return (typeof localStorage === 'object' ? localStorage : _localStorage).getItem('ZDR_PREFERENCE_PROTOCOL_MIGRATE');
 	},
 
+	ZDRPreferenceProtocolConnect (inputData, _localStorage) {
+		const protocol = this.ZDRProtocolForIdentity(inputData);
+
+		const api = typeof localStorage === 'object' ? localStorage : _localStorage;
+
+		if (api.getItem('ZDR_PREFERENCE_PROTOCOL') && (api.getItem('ZDR_PREFERENCE_PROTOCOL') !== protocol)) {
+			api.setItem('ZDR_PREFERENCE_PROTOCOL_MIGRATE', api.getItem('ZDR_PREFERENCE_PROTOCOL'));
+		}
+
+		api.setItem('ZDR_PREFERENCE_PROTOCOL', protocol);
+
+		return protocol;
+	},
+
 };
 
 Object.assign(exports, mod);

@@ -1112,3 +1112,53 @@ describe('ZDRPreferenceProtocolMigrate', function test_ZDRPreferenceProtocolMigr
 	});
 	
 });
+
+describe('ZDRPreferenceProtocolConnect', function test_ZDRPreferenceProtocolConnect() {
+
+	it('throws if not string', function () {
+		throws(function () {
+			mod.ZDRPreferenceProtocolConnect(null);
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('calls ZDRProtocolForIdentity', function () {
+		const item = Math.random().toString();
+		deepEqual(uCapture(function (capture) {
+			Object.assign(Object.assign({}, mod), {
+				ZDRProtocolForIdentity: (function () {
+					capture(...arguments);
+
+					return uRandomElement(mod._ZDRProtocols());
+				}),
+			}).ZDRPreferenceProtocolConnect(item, uStubLocalStorage());
+		}), [item]);
+	});
+
+	it('sets ZDR_PREFERENCE_PROTOCOL_MIGRATE if different', function () {
+		const item = uRandomElement(true, false);
+		deepEqual(uCapture(function (capture) {
+			mod.ZDRPreferenceProtocolConnect(item ? Math.random().toString() : 'fission.codes', uStubLocalStorage({
+				getItem: (function () {
+					return mod.ZDRProtocolRemoteStorage();
+				}),
+				setItem: (function () {
+					capture(...arguments);
+				}),
+			}));
+		}), item ? [
+			'ZDR_PREFERENCE_PROTOCOL',
+			mod.ZDRProtocolRemoteStorage(),
+		] : [
+			'ZDR_PREFERENCE_PROTOCOL_MIGRATE',
+			mod.ZDRProtocolRemoteStorage(),
+			'ZDR_PREFERENCE_PROTOCOL',
+			mod.ZDRProtocolFission(),
+		]);
+	});
+
+	it('returns ZDRProtocol', function () {
+		const item = uRandomElement(true, false);
+		deepEqual(mod.ZDRPreferenceProtocolConnect(item ? Math.random().toString() : 'fission.codes', uStubLocalStorage()), item ? mod.ZDRProtocolRemoteStorage() : mod.ZDRProtocolFission());
+	});
+	
+});
