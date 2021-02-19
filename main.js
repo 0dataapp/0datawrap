@@ -824,6 +824,19 @@ const mod = {
 		})
 	},
 
+	ZDRPreferenceProtocol (inputData, _localStorage) {
+		if (!mod._ZDRProtocols().includes(inputData)) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		const api = typeof localStorage === 'object' ? localStorage : _localStorage;
+		if (!api.getItem('ZDR_PREFERENCE_PROTOCOL')) {
+			api.setItem('ZDR_PREFERENCE_PROTOCOL', inputData);
+		}
+
+		return api.getItem('ZDR_PREFERENCE_PROTOCOL');
+	},
+
 };
 
 Object.assign(exports, mod);

@@ -105,6 +105,13 @@
 			}, inputData);
 		},
 
+		uStubLocalStorage (inputData = {}) {
+			return Object.assign({
+				getItem: (function () {}),
+				setItem: (function () {}),
+			}, inputData);
+		},
+
 	}).map(function (e) {
 		return global[e.shift()]  = e.pop();
 	});

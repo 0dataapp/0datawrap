@@ -1041,3 +1041,49 @@ describe('ZDRWrap', function test_ZDRWrap() {
 	});
 	
 });
+
+describe('ZDRPreferenceProtocol', function test_ZDRPreferenceProtocol() {
+
+	it('throws if not valid', function () {
+		throws(function () {
+			mod.ZDRPreferenceProtocol(Math.random().toString());
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('calls localStorage.getItem', function () {
+		deepEqual(uCapture(function (capture) {
+			mod.ZDRPreferenceProtocol(uRandomElement(mod._ZDRProtocols()), uStubLocalStorage({
+				getItem: (function () {
+					capture(...arguments);
+				}),
+			}));
+		}), [
+			'ZDR_PREFERENCE_PROTOCOL',
+			'ZDR_PREFERENCE_PROTOCOL',
+		]);
+	});
+
+	it('calls localStorage.setItem if localStorage.getItem falsey', function () {
+		const item = uRandomElement(Math.random().toString(), false);
+		deepEqual(uCapture(function (capture) {
+			mod.ZDRPreferenceProtocol(uRandomElement(mod._ZDRProtocols()), uStubLocalStorage({
+				getItem: (function () {
+					return item;
+				}),
+				setItem: (function () {
+					capture(item);
+				}),
+			}));
+		}), item ? [] : [item]);
+	});
+
+	it('returns localStorage.getItem', function () {
+		const item = Math.random().toString();
+		deepEqual(mod.ZDRPreferenceProtocol(uRandomElement(mod._ZDRProtocols()), uStubLocalStorage({
+			getItem: (function () {
+				return item;
+			}),
+		})), item);
+	});
+	
+});
