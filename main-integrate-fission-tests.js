@@ -24,7 +24,7 @@ describe('_ZDRFissionObjectFilter', function test__ZDRFissionObjectFilter() {
 
 });
 
-describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
+describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission () {
 
 	const ZDRScopeDirectory = Math.random().toString();
 
@@ -36,7 +36,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 		const _ZDRScopeDirectory = inputData.ZDRScopeDirectory || ZDRScopeDirectory;
 
-		return mod.ZDRWrap(Object.assign({
+		return mod._ZDRWrap(Object.assign({
 			ZDRParamLibrary: webnative,
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
@@ -50,7 +50,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 		const username = Math.random().toString();
 
 		deepEqual(await (new Promise(function (res, rej) {
-			const item = mod.ZDRWrap({
+			const item = mod._ZDRWrap({
 				ZDRParamLibrary: uStubFission({
 					initialize: (function () {
 						return {
@@ -350,7 +350,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 			const ZDRScopeDirectory = Math.random().toString();
 
 			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
+				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
 							outputData.push(...arguments);
@@ -375,7 +375,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 			const ZDRScopeDirectory2 = Math.random().toString();
 
 			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
+				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
 							outputData.push(...arguments);
@@ -403,7 +403,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 			const ZDRScopeCreatorDirectory = Math.random().toString();
 
 			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
+				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
 							outputData.push(...arguments);
@@ -428,7 +428,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 			const ZDRScopeCreatorDirectory = Math.random().toString();
 
 			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
+				mod._ZDRWrap({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
 							outputData.push(...arguments);
@@ -458,7 +458,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 		it('calls leave', async function () {
 			const item = Math.random().toString();
 			
-			await rejects(mod.ZDRWrap({
+			await rejects(mod._ZDRWrap({
 				ZDRParamLibrary: uStubFission({
 					initialize: (function () {
 						return Promise.reject([item]);
@@ -476,7 +476,7 @@ describe('ZDRWrap_Fission', function test_ZDRWrap_Fission () {
 		it('calls leave', async function () {
 			const item = Math.random().toString();
 			
-			await rejects(mod.ZDRWrap({
+			await rejects(mod._ZDRWrap({
 				ZDRParamLibrary: uStubFission({
 					leave: (function () {
 						return Promise.reject([item]);

@@ -54,7 +54,7 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 
 });
 
-describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
+describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 
 	const ZDRScopeDirectory = Date.now().toString();
 
@@ -66,7 +66,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 		const _ZDRScopeDirectory = inputData.ZDRScopeDirectory || ZDRScopeDirectory;
 
-		return mod.ZDRWrap(Object.assign({
+		return mod._ZDRWrap(Object.assign({
 			ZDRParamLibrary: RemoteStorage,
 			ZDRParamScopes: [uStubScope(Object.assign({
 				ZDRScopeKey,
@@ -183,7 +183,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 			const userAddress = Math.random().toString();
 
 			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
+				mod._ZDRWrap({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
 							if (param1 !== 'connected') {
@@ -212,7 +212,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		it('calls ZDRParamDispatchOnline', function () {
 			const item = Math.random().toString();
 			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
+				mod._ZDRWrap({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
 							if (param1 !== 'network-online') {
@@ -238,7 +238,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		it('calls ZDRParamDispatchOffline', function () {
 			const item = Math.random().toString();
 			deepEqual(uCapture(function (outputData) {
-				mod.ZDRWrap({
+				mod._ZDRWrap({
 					ZDRParamLibrary: uStubRemoteStorage({
 						on: (function (param1, param2) {
 							if (param1 !== 'network-offline') {
@@ -452,7 +452,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 		it('calls connect', async function () {
 			const item = Math.random().toString();
-			await rejects(mod.ZDRWrap({
+			await rejects(mod._ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
 					connect: (function () {
 						return Promise.reject([...arguments]);
@@ -469,7 +469,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 
 		it('calls reconnect', async function () {
 			const item = Math.random().toString();
-			await rejects(mod.ZDRWrap({
+			await rejects(mod._ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
 					reconnect: (function () {
 						return Promise.reject([item]);
@@ -487,7 +487,7 @@ describe('ZDRWrap_RemoteStorage', function test_ZDRWrap_RemoteStorage () {
 		it('calls disconnect', async function () {
 			const item = Math.random().toString();
 			
-			await rejects(mod.ZDRWrap({
+			await rejects(mod._ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
 					disconnect: (function () {
 						return Promise.reject([item]);

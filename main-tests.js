@@ -439,10 +439,10 @@ describe('_ZDRProtocol', function test__ZDRProtocol() {
 
 });
 
-describe('ZDRWrap', function test_ZDRWrap () {
+describe('_ZDRWrap', function test__ZDRWrap () {
 
-	const _ZDRWrap = function (inputData = {}) {
-		return mod.ZDRWrap(Object.assign({
+	const __ZDRWrap = function (inputData = {}) {
+		return mod._ZDRWrap(Object.assign({
 			ZDRParamLibrary: uRandomElement(uStubRemoteStorage(), uStubFission(), uStubCustomClient({
 				ZDRClientConnect: (function () {}),
 				ZDRClientDisconnect: (function () {}),
@@ -456,13 +456,13 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if not object', function() {
 		throws(function() {
-			mod.ZDRWrap(null);
+			mod._ZDRWrap(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
 	it('throws if ZDRParamLibrary not valid', function() {
 		throws(function() {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamLibrary: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -470,7 +470,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRParamScopes not array', function() {
 		throws(function() {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamScopes: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -478,7 +478,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRParamScopes not filled', function() {
 		throws(function() {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamScopes: [],
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -486,7 +486,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRParamScopes element not valid', function() {
 		throws(function() {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamScopes: [{
 					ZDRScopeKey: null,
 				}],
@@ -496,7 +496,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRScopeSchemas element not valid', function() {
 		throws(function() {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamScopes: [{
 					ZDRScopeKey: Math.random().toString(),
 					ZDRScopeDirectory: Math.random().toString(),
@@ -510,19 +510,19 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRParamDispatchReady not function', function () {
 		throws(function () {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamDispatchReady: null,
 			});
 		}, /ZDRErrorInputNotValid/);
 	});
 
 	it('returns object', function () {
-		deepEqual(typeof _ZDRWrap(), 'object');
+		deepEqual(typeof __ZDRWrap(), 'object');
 	});
 
 	it('throws if ZDRParamDispatchError not function', function () {
 		throws(function () {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamDispatchError: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -530,7 +530,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRParamDispatchConnected not function', function () {
 		throws(function () {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamDispatchConnected: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -538,7 +538,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRParamDispatchOnline not function', function () {
 		throws(function () {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamDispatchOnline: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -546,7 +546,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 	it('throws if ZDRParamDispatchOffline not function', function () {
 		throws(function () {
-			_ZDRWrap({
+			__ZDRWrap({
 				ZDRParamDispatchOffline: null,
 			});
 		}, /ZDRErrorInputNotValid/);
@@ -555,7 +555,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	const __ZDRStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 
-		return _ZDRWrap(Object.assign({
+		return __ZDRWrap(Object.assign({
 			ZDRScopeKey,
 		}, inputData))[ZDRScopeKey];
 	};
@@ -716,7 +716,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 		it('returns ZDRProtocol', function () {
 			const ZDRParamLibrary = uRandomElement(uStubRemoteStorage(), uStubFission());
-			deepEqual(_ZDRWrap({
+			deepEqual(__ZDRWrap({
 				ZDRParamLibrary,
 			}).ZDRStorageProtocol, mod._ZDRProtocol(ZDRParamLibrary));
 		});
@@ -727,7 +727,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 		it('exposes client for remoteStorage', function () {
 			const ZDRScopeDirectory = Math.random().toString();
-			deepEqual(Object.keys(_ZDRWrap({
+			deepEqual(Object.keys(__ZDRWrap({
 				ZDRParamScopes: [uStubScope({
 					ZDRScopeDirectory,
 				})],
@@ -736,7 +736,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 		});
 
 		it('exposes client for Fission', function () {
-			deepEqual(typeof _ZDRWrap({
+			deepEqual(typeof __ZDRWrap({
 				ZDRParamLibrary: uStubFission(),
 			}).ZDRStorageClient().write, 'function');
 		});
@@ -945,7 +945,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 			it('throws if not function', function () {
 				throws(function () {
-					_ZDRWrap(Object.assign({
+					__ZDRWrap(Object.assign({
 						ZDRSchemaMethods: {
 							[Math.random().toString()]: Math.random().toString(),
 						},
@@ -958,7 +958,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 				const ZDRSchemaKey = Math.random().toString();
 				const item = Math.random().toString();
 
-				const wrap = _ZDRWrap(Object.assign({
+				const wrap = __ZDRWrap(Object.assign({
 					ZDRScopeKey,
 					ZDRSchemaKey,
 					ZDRSchemaMethods: {
@@ -979,12 +979,12 @@ describe('ZDRWrap', function test_ZDRWrap () {
 
 		it('throws if not string', function() {
 			throws(function() {
-				_ZDRWrap().ZDRCloudConnect(null);
+				__ZDRWrap().ZDRCloudConnect(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
 		it('returns undefined', function () {
-			deepEqual(_ZDRWrap().ZDRCloudConnect(Math.random().toString()), undefined);
+			deepEqual(__ZDRWrap().ZDRCloudConnect(Math.random().toString()), undefined);
 		});
 	
 	});
@@ -992,7 +992,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	context('ZDRCloudReconnect', function test_ZDRCloudReconnect () {
 
 		it('returns undefined', function () {
-			deepEqual(_ZDRWrap().ZDRCloudReconnect(), undefined);
+			deepEqual(__ZDRWrap().ZDRCloudReconnect(), undefined);
 		});
 	
 	});
@@ -1000,7 +1000,7 @@ describe('ZDRWrap', function test_ZDRWrap () {
 	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
 
 		it('returns undefined', function () {
-			deepEqual(_ZDRWrap().ZDRCloudDisconnect(), undefined);
+			deepEqual(__ZDRWrap().ZDRCloudDisconnect(), undefined);
 		});
 	
 	});

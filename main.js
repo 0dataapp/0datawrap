@@ -411,7 +411,7 @@ const mod = {
 			};
 	},
 
-	ZDRWrap (inputData) {
+	_ZDRWrap (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('ZDRErrorInputNotValid');
 		}
