@@ -1024,8 +1024,16 @@ describe('ZDRWrap', function test_ZDRWrap() {
 
 	it('sets ZDRParamDispatchReady', async function () {
 		const ZDRScopeKey = Math.random().toString();
+		const ZDRParamLibrary = uRandomElement(uStubRemoteStorage(), uStubFission({
+			initialize: (function () {
+				return {
+					scenario: 'AuthSucceeded',
+				};
+			}),
+		}), uStubCustomClient());
+
 		deepEqual((await mod.ZDRWrap({
-			ZDRParamLibrary: uRandomElement(uStubRemoteStorage(), uStubFission(), uStubCustomClient()),
+			ZDRParamLibrary,
 			ZDRParamScopes: [uStubScope({
 				ZDRScopeKey
 			})],

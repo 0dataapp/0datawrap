@@ -813,7 +813,9 @@ const mod = {
 			try {
 				const outputData = _this._ZDRWrap(Object.assign(inputData, {
 					ZDRParamDispatchReady: (function () {
-						res(outputData);
+						setTimeout(function () {
+							return res(outputData);
+						});
 					}),
 				}));
 			} catch (error) {

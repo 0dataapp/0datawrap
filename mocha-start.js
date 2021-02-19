@@ -47,7 +47,6 @@
 							return {};
 						}),
 						remove: (function() {}),
-						on: (function () {}),
 					}, inputData);
 				});
 				
@@ -68,7 +67,13 @@
 					connect: (function () {}),
 					reconnect: (function () {}),
 					disconnect: (function () {}),
-					on: (function () {}),
+					on: (function (param1, param2) {
+						if (param1 !== 'ready') {
+							return;
+						}
+
+						return param2();
+					}),
 					remote: {},
 				}, inputData));
 			};
