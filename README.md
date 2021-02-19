@@ -39,7 +39,7 @@ await api.alfa.ZDRStorageWriteObject('charlie.json', {
 
 | param | type | notes |
 |-------|---------|-------|
-| ZDRParamLibrary <br> **Required** | pass `RemoteStorage` or `webnative` | |
+| ZDRParamLibrary <br> **Required** | pass `RemoteStorage` or `webnative` or an object conforming to `ZDRClient` | |
 | ZDRParamScopes <br> **Required** | array of `ZDRScope` objects | |
 | ZDRParamDispatchError | function | called on network or sync errors |
 
@@ -51,6 +51,19 @@ await api.alfa.ZDRStorageWriteObject('charlie.json', {
 | ZDRScopeDirectory <br> **Required** | string, non-empty, trimmed | top-level directory for claiming read/write access |
 | ZDRScopeCreatorDirectory | string, non-empty, trimmed | if Fission, sets `permissions.app` instead of `permissions.fs` |
 | ZDRScopeSchemas | array of `ZDRSchema` objects | defines model helpers |
+
+### ZDRClient (for custom storage only)
+
+| function | notes |
+|-------|---------|
+| ZDRClientWriteFile <br> **Required** | called by `ZDRStorageWriteFile` |
+| ZDRClientReadFile <br> **Required** | called by `ZDRStorageReadFile` |
+| ZDRClientListObjects <br> **Required** | called by `ZDRStorageListObjects` |
+| ZDRClientDelete <br> **Required** | called by `ZDRStorageDelete` |
+| ZDRClientPrepare | called before returning wrapper |
+| ZDRClientConnect | called by `ZDRCloudConnect` |
+| ZDRClientReconnect | called by `ZDRCloudReconnect` |
+| ZDRClientDisconnect | called by `ZDRCloudDisconnect` |
 
 ## Storage
 
