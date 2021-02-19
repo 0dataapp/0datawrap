@@ -27,8 +27,6 @@ const api = await zerodatawrap.ZDRWrap({
   
 });
 
-// ready
-
 // write `{"foo":"bar"}` to /bravo/charlie.json
 await api.alfa.ZDRStorageWriteObject('charlie.json', {
   foo: 'bar',
