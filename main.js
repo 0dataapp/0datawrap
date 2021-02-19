@@ -516,6 +516,12 @@ const mod = {
 				return;
 			}
 
+	    await Promise.all(scopes.map(async function (e) {
+	    	if (!(await fissionClient.exists(`/private/${ e.ZDRScopeDirectory }`))) {
+  	      await fissionClient.mkdir(`/private/${ e.ZDRScopeDirectory }`)
+  	    }
+			}));
+
 	    fissionClient = state.fs;
 
 	    inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username);

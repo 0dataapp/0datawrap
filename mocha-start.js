@@ -96,6 +96,9 @@
 						return {};
 					}),
 					rm: (function () {}),
+					exists: (function () {
+						return true;
+					}),
 				}, inputData),
 				Scenario: {
 					NotAuthorised: 'NotAuthorised',
