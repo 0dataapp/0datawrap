@@ -6,23 +6,23 @@ const RemoteStorage = require('remotestoragejs');
 
 describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSignature() {
 
-	it('returns undefined', function() {
+	it('returns undefined', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignature(), undefined);
 	});
 
-	it('returns undefined if window', function() {
+	it('returns undefined if window', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignature({
 			origin: 'window',
 		}), undefined);
 	});
 
-	it('returns undefined if local init', function() {
+	it('returns undefined if local init', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignature({
 			origin: 'local',
 		}), undefined);
 	});
 
-	it('returns string if remote create', function() {
+	it('returns string if remote create', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignature({
 			origin: 'remote',
 			oldValue: undefined,
@@ -30,7 +30,7 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 		}), 'ZDRSchemaDispatchSyncCreate');
 	});
 
-	it('returns string if remote update', function() {
+	it('returns string if remote update', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignature({
 			origin: 'remote',
 			oldValue: Math.random().toString(),
@@ -38,7 +38,7 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 		}), 'ZDRSchemaDispatchSyncUpdate');
 	});
 
-	it('returns string if remote delete', function() {
+	it('returns string if remote delete', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignature({
 			origin: 'remote',
 			oldValue: Math.random().toString(),
@@ -46,7 +46,7 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 		}), 'ZDRSchemaDispatchSyncDelete');
 	});
 
-	it('returns string if conflict', function() {
+	it('returns string if conflict', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignature({
 			origin: 'conflict',
 		}), 'ZDRSchemaDispatchSyncConflict');
@@ -54,7 +54,7 @@ describe('_ZDRModelSyncCallbackSignature', function test__ZDRModelSyncCallbackSi
 
 });
 
-describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
+describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	const ZDRScopeDirectory = Date.now().toString();
 
@@ -87,7 +87,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						capture(...arguments);
 					}),
 				}),
-			})
+			});
 		}), [ZDRScopeDirectory, 'rw']);
 	});
 
@@ -102,7 +102,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						capture(...arguments);
 					}),
 				}),
-			})
+			});
 		}), [`/${ ZDRScopeDirectory }/`]);
 	});
 
@@ -125,7 +125,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 					ZDRParamDispatchError: (function () {
 						capture(...arguments);
 					}),
-				})
+				});
 			}), [item]);
 		});
 
@@ -137,7 +137,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 							if (param1 !== 'error') {
 								return;
 							}
-							
+
 							return param2(new Error('Sync failed: Network request failed.'));
 						}),
 						remote: {
@@ -147,10 +147,10 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 					ZDRParamDispatchError: (function () {
 						capture(...arguments);
 					}),
-				})
+				});
 			}), []);
 		});
-	
+
 	});
 
 	context('ready', function () {
@@ -174,7 +174,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				});
 			}), [item]);
 		});
-	
+
 	});
 
 	context('connected', function () {
@@ -201,7 +201,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 					ZDRParamDispatchConnected: (function () {
 						capture(...arguments);
 					}),
-				})
+				});
 			}), [userAddress]);
 		});
 
@@ -227,7 +227,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						capture(item);
 					}),
 					ZDRParamDispatchReady: (function () {}),
-				})
+				});
 			}), [item]);
 		});
 
@@ -253,13 +253,13 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						capture(item);
 					}),
 					ZDRParamDispatchReady: (function () {}),
-				})
+				});
 			}), [item]);
 		});
 
 	});
 
-	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
+	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject() {
 
 		it('calls scope.storeFile', async function () {
 			const param1 = Math.random().toString();
@@ -275,10 +275,10 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				}),
 			}).ZDRStorageWriteObject(param1, param2), ['application/json', uScopePath(param1), JSON.stringify(param2)]);
 		});
-	
+
 	});
 
-	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile () {
+	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		it('calls scope.storeFile', async function () {
 			const param1 = Math.random().toString();
@@ -293,14 +293,14 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				}),
 			}).ZDRStorageWriteFile(param1, param2, param3), [param3, uScopePath(param1), param2]);
 		});
-	
+
 	});
 
-	context('ZDRStorageReadObject', function test_ZDRStorageReadObject () {
+	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
 
 		it('calls scope.getObject', async function () {
 			const item = Math.random().toString();
-			
+
 			deepEqual(await _ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getObject: (function () {
@@ -309,14 +309,14 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				}),
 			}).ZDRStorageReadObject(item), [uScopePath(item), false]);
 		});
-	
+
 	});
 
-	context('ZDRStorageReadFile', function test_ZDRStorageReadFile () {
+	context('ZDRStorageReadFile', function test_ZDRStorageReadFile() {
 
 		it('calls scope.getFile', async function () {
 			const item = Math.random().toString();
-			
+
 			deepEqual(await _ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getFile: (function () {
@@ -325,16 +325,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				}),
 			}).ZDRStorageReadFile(item), [uScopePath(item), false]);
 		});
-	
+
 	});
 
-	context('ZDRStorageListObjects', function test_ZDRStorageListObjects () {
+	context('ZDRStorageListObjects', function test_ZDRStorageListObjects() {
 
 		const ZDRScopeKey = Date.now().toString();
 
 		it('calls scope.getAll', async function () {
 			const item = Math.random().toString();
-			
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getAll: (function () {
@@ -350,7 +350,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 			await client.ZDRStorageWriteObject(Date.now().toString() + '/' + Math.random().toString(), {
 				[Math.random().toString()]: Math.random().toString(),
 			});
-			
+
 			deepEqual(await client.ZDRStorageListObjects(uRandomElement('', '/')), {});
 		});
 
@@ -358,7 +358,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 			const client = _ZDRStorageRemoteStorage();
 
 			await client.ZDRStorageWriteFile(Math.random().toString(), Math.random().toString(), 'text/plain');
-			
+
 			deepEqual(await client.ZDRStorageListObjects(uRandomElement('', '/')), {});
 		});
 
@@ -371,21 +371,21 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 			const client = _ZDRStorageRemoteStorage();
 
 			await client.ZDRStorageWriteObject(path, object);
-			
+
 			deepEqual(await client.ZDRStorageListObjects(uRandomElement('', '/')), {
 				[path]: object,
 			});
 		});
-	
+
 	});
 
-	context('ZDRStoragePaths', function test_ZDRStoragePaths () {
+	context('ZDRStoragePaths', function test_ZDRStoragePaths() {
 
 		const ZDRScopeKey = Date.now().toString();
 
 		it('calls scope.getListing', async function () {
 			const item = Math.random().toString();
-			
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getListing: (function () {
@@ -401,7 +401,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 			const client = _ZDRStorageRemoteStorage();
 
 			await client.ZDRStorageWriteObject(path + '/' + Math.random().toString(), {});
-			
+
 			deepEqual(await client.ZDRStoragePaths(uRandomElement('', '/')), [path + '/']);
 		});
 
@@ -411,7 +411,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 			const client = _ZDRStorageRemoteStorage();
 
 			await client.ZDRStorageWriteFile(path, Math.random().toString(), 'text/plain');
-			
+
 			deepEqual(await client.ZDRStoragePaths(uRandomElement('', '/')), [path]);
 		});
 
@@ -426,17 +426,17 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 			});
 
 			await client.ZDRStorageWriteObject(path, object);
-			
+
 			deepEqual(await client.ZDRStoragePaths(uRandomElement('', '/')), [path]);
 		});
-	
+
 	});
 
-	context('ZDRStorageDelete', function test_ZDRStorageDelete () {
+	context('ZDRStorageDelete', function test_ZDRStorageDelete() {
 
 		it('calls scope.remove', async function () {
 			const item = Math.random().toString();
-			
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					remove: (function () {
@@ -445,10 +445,10 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				}),
 			}).ZDRStorageDelete(item), [uScopePath(item)]);
 		});
-	
+
 	});
 
-	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
+	context('ZDRCloudConnect', function test_ZDRCloudConnect() {
 
 		it('calls connect', async function () {
 			const item = Math.random().toString();
@@ -462,10 +462,10 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				ZDRParamDispatchReady: (function () {}),
 			}).ZDRCloudConnect(item), [item]);
 		});
-	
+
 	});
 
-	context('ZDRCloudReconnect', function test_ZDRCloudReconnect () {
+	context('ZDRCloudReconnect', function test_ZDRCloudReconnect() {
 
 		it('calls reconnect', async function () {
 			const item = Math.random().toString();
@@ -479,14 +479,14 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				ZDRParamDispatchReady: (function () {}),
 			}).ZDRCloudReconnect(), [item]);
 		});
-	
+
 	});
 
-	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
+	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect() {
 
 		it('calls disconnect', async function () {
 			const item = Math.random().toString();
-			
+
 			await rejects(mod._ZDRWrap({
 				ZDRParamLibrary: uStubRemoteStorage({
 					disconnect: (function () {
@@ -497,11 +497,11 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				ZDRParamDispatchReady: (function () {}),
 			}).ZDRCloudDisconnect(), [item]);
 		});
-	
+
 	});
 
 	context('change', function () {
-		
+
 		it('skips if no _ZDRModelSyncCallbackSignatures', function () {
 			deepEqual(uCapture(function (capture) {
 				_ZDRStorageRemoteStorage({
@@ -543,31 +543,31 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 						return param2(Object.assign({
 							origin: params.signature === 'ZDRSchemaDispatchSyncConflict' ? 'conflict' : 'remote',
 							relativePath: Math.random().toString(),
-						}, (function(inputData) {
+						}, (function (inputData) {
 							if (params.signature === 'ZDRSchemaDispatchSyncCreate') {
 								return {
 									newValue: Math.random().toString(),
 								};
-							};
+							}
 
 							if (params.signature === 'ZDRSchemaDispatchSyncUpdate') {
 								return {
 									oldValue: Math.random().toString(),
 									newValue: Math.random().toString(),
 								};
-							};
+							}
 
 							if (params.signature === 'ZDRSchemaDispatchSyncDelete') {
 								return {
 									oldValue: Math.random().toString(),
 								};
-							};
+							}
 						})()));
 					}),
 				}),
 			});
 		};
-		
+
 		it('ignores if no match', function () {
 			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
 			deepEqual(uCapture(function (capture) {
@@ -579,7 +579,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				});
 			}), []);
 		});
-		
+
 		it('ignores if no signature', function () {
 			deepEqual(uCapture(function (capture) {
 				uChange({
@@ -587,7 +587,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				});
 			}), []);
 		});
-		
+
 		it('ignores if no callback', function () {
 			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
 			deepEqual(uCapture(function (capture) {
@@ -609,7 +609,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage () {
 				});
 			}), [signature]);
 		});
-	
+
 	});
-	
+
 });

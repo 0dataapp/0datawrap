@@ -1,7 +1,7 @@
 (function KVCMochaStubs() {
 	Object.entries({
 
-		uStubSchema (inputData = {})	{
+		uStubSchema(inputData = {}) {
 			return Object.assign({
 				ZDRSchemaKey: Math.random().toString(),
 				ZDRSchemaPath: (function () {
@@ -13,14 +13,14 @@
 			}, inputData);
 		},
 
-		uStubScope (inputData = {})	{
+		uStubScope(inputData = {}) {
 			return Object.assign({
 				ZDRScopeKey: Math.random().toString(),
 				ZDRScopeDirectory: Math.random().toString(),
 			}, inputData);
 		},
 
-		uStubCustomClient (inputData = {})	{
+		uStubCustomClient(inputData = {}) {
 			return Object.assign({
 				ZDRClientWriteFile: (function () {}),
 				ZDRClientReadFile: (function () {
@@ -33,23 +33,23 @@
 			}, inputData);
 		},
 
-		uStubRemoteStorage (inputData = {}) {
+		uStubRemoteStorage(inputData = {}) {
 			const RemoteStorage = function (params = {}) {
 				const scope = (function () {
 					return Object.assign({
-						storeFile: (function() {}),
-						getObject: (function() {}),
-						getFile: (function() {}),
-						getAll: (function() {
+						storeFile: (function () {}),
+						getObject: (function () {}),
+						getFile: (function () {}),
+						getAll: (function () {
 							return {};
 						}),
-						getListing: (function() {
+						getListing: (function () {
 							return {};
 						}),
-						remove: (function() {}),
+						remove: (function () {}),
 					}, inputData);
 				});
-				
+
 				return (params.modules || []).reduce(function (coll, item) {
 					return Object.assign(coll, {
 						[item.name]: {
@@ -83,7 +83,7 @@
 			return RemoteStorage;
 		},
 
-		uStubFission (inputData = {}) {
+		uStubFission(inputData = {}) {
 			return Object.assign({
 				initialize: (function () {}),
 				leave: (function () {}),
@@ -108,7 +108,7 @@
 			}, inputData);
 		},
 
-		uStubLocalStorage (inputData = {}) {
+		uStubLocalStorage(inputData = {}) {
 			return Object.assign({
 				getItem: (function () {}),
 				setItem: (function () {}),
@@ -116,6 +116,6 @@
 		},
 
 	}).map(function (e) {
-		return global[e.shift()]  = e.pop();
+		return global[e.shift()] = e.pop();
 	});
 })();

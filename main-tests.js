@@ -2,52 +2,52 @@ const { throws, rejects, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
-describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
+describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate() {
 
 	const __ZDRSchemaObjectValidate = function (inputData = {}) {
 		return mod._ZDRSchemaObjectValidate(uStubSchema(inputData));
 	};
 
-	it('throws if not object', function() {
-		throws(function() {
+	it('throws if not object', function () {
+		throws(function () {
 			mod._ZDRSchemaObjectValidate(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRSchemaKey not string', function() {
-		throws(function() {
+	it('throws if ZDRSchemaKey not string', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaKey: null,
 			});
 		}, /ZDRErrorInputNotString/);
 	});
 
-	it('throws if ZDRSchemaKey not filled', function() {
-		throws(function() {
+	it('throws if ZDRSchemaKey not filled', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaKey: ' ',
 			});
 		}, /ZDRErrorInputNotFilled/);
 	});
 
-	it('throws if ZDRSchemaKey not trimmed', function() {
-		throws(function() {
+	it('throws if ZDRSchemaKey not trimmed', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaKey: ' ' + Math.random().toString() + ' ',
 			});
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
-	it('throws if ZDRSchemaStub not function', function() {
-		throws(function() {
+	it('throws if ZDRSchemaStub not function', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaStub: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRSchemaPath not function', function() {
-		throws(function() {
+	it('throws if ZDRSchemaPath not function', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaPath: null,
 			});
@@ -58,48 +58,48 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 		deepEqual(__ZDRSchemaObjectValidate(), true);
 	});
 
-	it('throws if ZDRSchemaMethods not object', function() {
-		throws(function() {
+	it('throws if ZDRSchemaMethods not object', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaMethods: null,
 			});
 		}, /ZDRErrorInputNotObject/);
 	});
 
-	it('throws if ZDRSchemaDispatchValidate not function', function() {
-		throws(function() {
+	it('throws if ZDRSchemaDispatchValidate not function', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaDispatchValidate: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRSchemaDispatchSyncCreate not function', function() {
-		throws(function() {
+	it('throws if ZDRSchemaDispatchSyncCreate not function', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaDispatchSyncCreate: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRSchemaDispatchSyncUpdate not function', function() {
-		throws(function() {
+	it('throws if ZDRSchemaDispatchSyncUpdate not function', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaDispatchSyncUpdate: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRSchemaDispatchSyncDelete not function', function() {
-		throws(function() {
+	it('throws if ZDRSchemaDispatchSyncDelete not function', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaDispatchSyncDelete: null,
 			});
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRSchemaDispatchSyncConflict not function', function() {
-		throws(function() {
+	it('throws if ZDRSchemaDispatchSyncConflict not function', function () {
+		throws(function () {
 			__ZDRSchemaObjectValidate({
 				ZDRSchemaDispatchSyncConflict: null,
 			});
@@ -108,56 +108,56 @@ describe('_ZDRSchemaObjectValidate', function test__ZDRSchemaObjectValidate () {
 
 });
 
-describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
+describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate() {
 
-	it('throws if not object', function() {
-		throws(function() {
+	it('throws if not object', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRScopeKey not string', function() {
-		throws(function() {
+	it('throws if ZDRScopeKey not string', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeKey: null,
 			}));
 		}, /ZDRErrorInputNotString/);
 	});
 
-	it('throws if ZDRScopeKey not filled', function() {
-		throws(function() {
+	it('throws if ZDRScopeKey not filled', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeKey: ' ',
 			}));
 		}, /ZDRErrorInputNotFilled/);
 	});
 
-	it('throws if ZDRScopeKey not trimmed', function() {
-		throws(function() {
+	it('throws if ZDRScopeKey not trimmed', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeKey: ' ' + Math.random().toString() + ' ',
 			}));
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
-	it('throws if ZDRScopeDirectory not string', function() {
-		throws(function() {
+	it('throws if ZDRScopeDirectory not string', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeDirectory: null,
 			}));
 		}, /ZDRErrorInputNotString/);
 	});
 
-	it('throws if ZDRScopeDirectory not filled', function() {
-		throws(function() {
+	it('throws if ZDRScopeDirectory not filled', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeDirectory: ' ',
 			}));
 		}, /ZDRErrorInputNotFilled/);
 	});
 
-	it('throws if ZDRScopeDirectory not trimmed', function() {
-		throws(function() {
+	it('throws if ZDRScopeDirectory not trimmed', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeDirectory: ' ' + Math.random().toString() + ' ',
 			}));
@@ -168,32 +168,32 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 		deepEqual(mod._ZDRScopeObjectValidate(uStubScope()), true);
 	});
 
-	it('throws if ZDRScopeSchemas not array', function() {
-		throws(function() {
+	it('throws if ZDRScopeSchemas not array', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeSchemas: null,
 			}));
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRScopeCreatorDirectory not string', function() {
-		throws(function() {
+	it('throws if ZDRScopeCreatorDirectory not string', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeCreatorDirectory: null,
 			}));
 		}, /ZDRErrorInputNotString/);
 	});
 
-	it('throws if ZDRScopeCreatorDirectory not filled', function() {
-		throws(function() {
+	it('throws if ZDRScopeCreatorDirectory not filled', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeCreatorDirectory: ' ',
 			}));
 		}, /ZDRErrorInputNotFilled/);
 	});
 
-	it('throws if ZDRScopeCreatorDirectory not trimmed', function() {
-		throws(function() {
+	it('throws if ZDRScopeCreatorDirectory not trimmed', function () {
+		throws(function () {
 			mod._ZDRScopeObjectValidate(uStubScope({
 				ZDRScopeCreatorDirectory: ' ' + Math.random().toString() + ' ',
 			}));
@@ -202,40 +202,40 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate () {
 
 });
 
-describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate () {
+describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate() {
 
-	it('throws if not object', function() {
-		throws(function() {
+	it('throws if not object', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRClientWriteFile not function', function() {
-		throws(function() {
+	it('throws if ZDRClientWriteFile not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientWriteFile: null,
 			}));
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRClientReadFile not function', function() {
-		throws(function() {
+	it('throws if ZDRClientReadFile not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientReadFile: null,
 			}));
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRClientListObjects not function', function() {
-		throws(function() {
+	it('throws if ZDRClientListObjects not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientListObjects: null,
 			}));
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRClientDelete not function', function() {
-		throws(function() {
+	it('throws if ZDRClientDelete not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientDelete: null,
 			}));
@@ -246,32 +246,32 @@ describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate () {
 		deepEqual(mod._ZDRClientObjectValidate(uStubCustomClient()), true);
 	});
 
-	it('throws if ZDRClientPrepare not function', function() {
-		throws(function() {
+	it('throws if ZDRClientPrepare not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientPrepare: null,
 			}));
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRClientConnect not function', function() {
-		throws(function() {
+	it('throws if ZDRClientConnect not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientConnect: null,
 			}));
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRClientReconnect not function', function() {
-		throws(function() {
+	it('throws if ZDRClientReconnect not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientReconnect: null,
 			}));
 		}, /ZDRErrorInputNotFunction/);
 	});
 
-	it('throws if ZDRClientDisconnect not function', function() {
-		throws(function() {
+	it('throws if ZDRClientDisconnect not function', function () {
+		throws(function () {
 			mod._ZDRClientObjectValidate(uStubCustomClient({
 				ZDRClientDisconnect: null,
 			}));
@@ -280,10 +280,10 @@ describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate () {
 
 });
 
-describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory () {
+describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory() {
 
-	it('throws if not string', function() {
-		throws(function() {
+	it('throws if not string', function () {
+		throws(function () {
 			mod._ZDRPathIsDirectory(null);
 		}, /ZDRErrorInputNotValid/);
 	});
@@ -300,7 +300,7 @@ describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory () {
 
 describe('_ZDRModelSyncCallbackSignatures', function test__ZDRModelSyncCallbackSignatures() {
 
-	it('returns array', function() {
+	it('returns array', function () {
 		deepEqual(mod._ZDRModelSyncCallbackSignatures(), [
 			'ZDRSchemaDispatchSyncCreate',
 			'ZDRSchemaDispatchSyncUpdate',
@@ -319,13 +319,13 @@ describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput(
 		}, param2));
 	};
 
-	it('throws if param1 not valid', function() {
+	it('throws if param1 not valid', function () {
 		throws(function () {
 			__ZDRModelSyncCallbackInput(Math.random().toString());
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if param2 not valid', function() {
+	it('throws if param2 not valid', function () {
 		throws(function () {
 			mod._ZDRModelSyncCallbackInput(uRandomElement(mod._ZDRModelSyncCallbackSignatures()), {
 				origin: null,
@@ -333,28 +333,28 @@ describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput(
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('returns newValue if ZDRSchemaDispatchSyncCreate', function() {
+	it('returns newValue if ZDRSchemaDispatchSyncCreate', function () {
 		const newValue = Math.random().toString();
 		deepEqual(__ZDRModelSyncCallbackInput('ZDRSchemaDispatchSyncCreate', {
 			newValue,
 		}), newValue);
 	});
 
-	it('returns newValue if ZDRSchemaDispatchSyncUpdate', function() {
+	it('returns newValue if ZDRSchemaDispatchSyncUpdate', function () {
 		const newValue = Math.random().toString();
 		deepEqual(__ZDRModelSyncCallbackInput('ZDRSchemaDispatchSyncUpdate', {
 			newValue,
 		}), newValue);
 	});
 
-	it('returns oldValue if ZDRSchemaDispatchSyncDelete', function() {
+	it('returns oldValue if ZDRSchemaDispatchSyncDelete', function () {
 		const oldValue = Math.random().toString();
 		deepEqual(__ZDRModelSyncCallbackInput('ZDRSchemaDispatchSyncDelete', {
 			oldValue,
 		}), oldValue);
 	});
 
-	it('returns param2 if conflict', function() {
+	it('returns param2 if conflict', function () {
 		const item = {
 			origin: Math.random().toString(),
 		};
@@ -365,7 +365,7 @@ describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput(
 
 describe('ZDRProtocolRemoteStorage', function test_ZDRProtocolRemoteStorage() {
 
-	it('returns array', function() {
+	it('returns array', function () {
 		deepEqual(mod.ZDRProtocolRemoteStorage(), 'ZDR_PROTOCOL_REMOTE_STORAGE');
 	});
 
@@ -373,7 +373,7 @@ describe('ZDRProtocolRemoteStorage', function test_ZDRProtocolRemoteStorage() {
 
 describe('ZDRProtocolFission', function test_ZDRProtocolFission() {
 
-	it('returns array', function() {
+	it('returns array', function () {
 		deepEqual(mod.ZDRProtocolFission(), 'ZDR_PROTOCOL_FISSION');
 	});
 
@@ -381,7 +381,7 @@ describe('ZDRProtocolFission', function test_ZDRProtocolFission() {
 
 describe('ZDRProtocolCustom', function test_ZDRProtocolCustom() {
 
-	it('returns array', function() {
+	it('returns array', function () {
 		deepEqual(mod.ZDRProtocolCustom(), 'ZDR_PROTOCOL_CUSTOM');
 	});
 
@@ -389,7 +389,7 @@ describe('ZDRProtocolCustom', function test_ZDRProtocolCustom() {
 
 describe('_ZDRProtocols', function test__ZDRProtocols() {
 
-	it('returns array', function() {
+	it('returns array', function () {
 		deepEqual(mod._ZDRProtocols(), [
 			mod.ZDRProtocolRemoteStorage(),
 			mod.ZDRProtocolFission(),
@@ -401,17 +401,17 @@ describe('_ZDRProtocols', function test__ZDRProtocols() {
 
 describe('ZDRProtocolForIdentity', function test_ZDRProtocolForIdentity() {
 
-	it('throws if not string', function() {
+	it('throws if not string', function () {
 		throws(function () {
 			mod.ZDRProtocolForIdentity(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('returns ZDRProtocolRemoteStorage', function() {
+	it('returns ZDRProtocolRemoteStorage', function () {
 		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString()), mod.ZDRProtocolRemoteStorage());
 	});
 
-	it('returns ZDRProtocolFission if match fission.codes', function() {
+	it('returns ZDRProtocolFission if match fission.codes', function () {
 		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString() + 'fission.codes' + Math.random().toString()), mod.ZDRProtocolFission());
 	});
 
@@ -419,27 +419,27 @@ describe('ZDRProtocolForIdentity', function test_ZDRProtocolForIdentity() {
 
 describe('_ZDRProtocol', function test__ZDRProtocol() {
 
-	it('returns type if remoteStorage', function() {
+	it('returns type if remoteStorage', function () {
 		deepEqual(mod._ZDRProtocol(uStubRemoteStorage()), mod.ZDRProtocolRemoteStorage());
 	});
 
-	it('returns type if Fission', function() {
+	it('returns type if Fission', function () {
 		deepEqual(mod._ZDRProtocol(uStubFission()), mod.ZDRProtocolFission());
 	});
 
-	it('returns type if custom', function() {
+	it('returns type if custom', function () {
 		deepEqual(mod._ZDRProtocol(uStubCustomClient()), mod.ZDRProtocolCustom());
 	});
 
-	it('throws', function() {
-		throws(function() {
+	it('throws', function () {
+		throws(function () {
 			mod._ZDRProtocol({});
 		}, /ZDRErrorInputNotValid/);
 	});
 
 });
 
-describe('_ZDRWrap', function test__ZDRWrap () {
+describe('_ZDRWrap', function test__ZDRWrap() {
 
 	const __ZDRWrap = function (inputData = {}) {
 		return mod._ZDRWrap(Object.assign({
@@ -454,38 +454,38 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		}, inputData));
 	};
 
-	it('throws if not object', function() {
-		throws(function() {
+	it('throws if not object', function () {
+		throws(function () {
 			mod._ZDRWrap(null);
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRParamLibrary not valid', function() {
-		throws(function() {
+	it('throws if ZDRParamLibrary not valid', function () {
+		throws(function () {
 			__ZDRWrap({
 				ZDRParamLibrary: null,
 			});
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRParamScopes not array', function() {
-		throws(function() {
+	it('throws if ZDRParamScopes not array', function () {
+		throws(function () {
 			__ZDRWrap({
 				ZDRParamScopes: null,
 			});
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRParamScopes not filled', function() {
-		throws(function() {
+	it('throws if ZDRParamScopes not filled', function () {
+		throws(function () {
 			__ZDRWrap({
 				ZDRParamScopes: [],
 			});
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if ZDRParamScopes element not valid', function() {
-		throws(function() {
+	it('throws if ZDRParamScopes element not valid', function () {
+		throws(function () {
 			__ZDRWrap({
 				ZDRParamScopes: [{
 					ZDRScopeKey: null,
@@ -494,8 +494,8 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		}, /ZDRErrorInputNotString/);
 	});
 
-	it('throws if ZDRScopeSchemas element not valid', function() {
-		throws(function() {
+	it('throws if ZDRScopeSchemas element not valid', function () {
+		throws(function () {
 			__ZDRWrap({
 				ZDRParamScopes: [{
 					ZDRScopeKey: Math.random().toString(),
@@ -560,16 +560,16 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject () {
+	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject() {
 
-		it('throws if param1 not string', function() {
-			throws(function() {
+		it('throws if param1 not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageWriteObject(null, {});
 			}, /ZDRErrorInputNotValid/);
 		});
-		
-		it('throws if param2 not object', function() {
-			throws(function() {
+
+		it('throws if param2 not object', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageWriteObject(Math.random().toString(), null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -580,36 +580,36 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 			};
 			deepEqual(await __ZDRStorage().ZDRStorageWriteObject(Math.random().toString(), item), item);
 		});
-	
+
 	});
 
-	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile () {
+	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		const param3 = Date.now().toString() + '/' + Date.now().toString();
 
-		it('throws if param1 not string', function() {
-			throws(function() {
+		it('throws if param1 not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageWriteFile(null, {}, param3);
 			}, /ZDRErrorInputNotValid/);
 		});
-		
-		it('throws if param3 not string', function() {
-			throws(function() {
+
+		it('throws if param3 not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), {}, null);
 			}, /ZDRErrorInputNotValid/);
 		});
-		
+
 		it('returns param2', async function () {
 			const item = Math.random().toString();
 			deepEqual(await __ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), item, param3), item);
 		});
-	
+
 	});
 
-	context('ZDRStorageReadObject', function test_ZDRStorageReadObject () {
+	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
 
-		it('throws if not string', function() {
-			throws(function() {
+		it('throws if not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageReadObject(null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -617,13 +617,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		it('returns null', async function () {
 			deepEqual(await __ZDRStorage().ZDRStorageReadObject(Math.random().toString()), null);
 		});
-	
+
 	});
 
-	context('ZDRStorageReadFile', function test_ZDRStorageReadFile () {
+	context('ZDRStorageReadFile', function test_ZDRStorageReadFile() {
 
-		it('throws if not string', function() {
-			throws(function() {
+		it('throws if not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageReadFile(null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -631,13 +631,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		it('returns null', function () {
 			deepEqual(__ZDRStorage().ZDRStorageReadFile(Math.random().toString()), null);
 		});
-	
+
 	});
 
-	context('ZDRStorageListObjects', function test_ZDRStorageListObjects () {
+	context('ZDRStorageListObjects', function test_ZDRStorageListObjects() {
 
-		it('throws if not string', function() {
-			throws(function() {
+		it('throws if not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageListObjects(null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -645,13 +645,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		it('returns object', async function () {
 			deepEqual(await __ZDRStorage().ZDRStorageListObjects(Math.random().toString()), {});
 		});
-	
+
 	});
 
-	context('ZDRStoragePaths', function test_ZDRStoragePaths () {
+	context('ZDRStoragePaths', function test_ZDRStoragePaths() {
 
-		it('throws if not string', function() {
-			throws(function() {
+		it('throws if not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStoragePaths(null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -659,13 +659,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		it('returns array', async function () {
 			deepEqual(await __ZDRStorage().ZDRStoragePaths(Math.random().toString()), []);
 		});
-	
+
 	});
 
-	context('ZDRStoragePathsRecursive', function test_ZDRStoragePathsRecursive () {
+	context('ZDRStoragePathsRecursive', function test_ZDRStoragePathsRecursive() {
 
-		it('throws if not string', function() {
-			throws(function() {
+		it('throws if not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStoragePathsRecursive(null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -695,13 +695,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		it('returns array', async function () {
 			deepEqual(await __ZDRStorage().ZDRStoragePathsRecursive(Math.random().toString()), []);
 		});
-	
+
 	});
 
-	context('ZDRStorageDelete', function test_ZDRStorageDelete () {
+	context('ZDRStorageDelete', function test_ZDRStorageDelete() {
 
-		it('throws if not string', function() {
-			throws(function() {
+		it('throws if not string', function () {
+			throws(function () {
 				__ZDRStorage().ZDRStorageDelete(null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -709,10 +709,10 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		it('returns null', function () {
 			deepEqual(__ZDRStorage().ZDRStorageDelete(Math.random().toString()), null);
 		});
-	
+
 	});
 
-	context('ZDRStorageProtocol', function test_ZDRStorageProtocol () {
+	context('ZDRStorageProtocol', function test_ZDRStorageProtocol() {
 
 		it('returns ZDRProtocol', function () {
 			const ZDRParamLibrary = uRandomElement(uStubRemoteStorage(), uStubFission());
@@ -720,10 +720,10 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 				ZDRParamLibrary,
 			}).ZDRStorageProtocol, mod._ZDRProtocol(ZDRParamLibrary));
 		});
-	
+
 	});
 
-	context('ZDRStorageClient', function test_ZDRStorageClient () {
+	context('ZDRStorageClient', function test_ZDRStorageClient() {
 
 		it('exposes client for remoteStorage', function () {
 			const ZDRScopeDirectory = Math.random().toString();
@@ -740,7 +740,7 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 				ZDRParamLibrary: uStubFission(),
 			}).ZDRStorageClient().write, 'function');
 		});
-	
+
 	});
 
 	context('ZDRModel', function () {
@@ -753,10 +753,10 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 			}, inputData)), inputData)[ZDRSchemaKey], inputData);
 		};
 
-		context('ZDRModelPath', function test_ZDRModelPath () {
+		context('ZDRModelPath', function test_ZDRModelPath() {
 
-			it('throws if not object', function() {
-				throws(function() {
+			it('throws if not object', function () {
+				throws(function () {
 					_ZDRModel().ZDRModelPath(null);
 				}, /ZDRErrorInputNotValid/);
 			});
@@ -781,13 +781,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 					}),
 				}).ZDRModelPath({}), item);
 			});
-		
+
 		});
 
-		context('ZDRModelWriteObject', function test_ZDRModelWriteObject () {
+		context('ZDRModelWriteObject', function test_ZDRModelWriteObject() {
 
-			it('throws if not object', function() {
-				throws(function() {
+			it('throws if not object', function () {
+				throws(function () {
 					_ZDRModel().ZDRModelWriteObject(null);
 				}, /ZDRErrorInputNotValid/);
 			});
@@ -825,13 +825,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 				};
 				deepEqual(await _ZDRModel().ZDRModelWriteObject(item), item);
 			});
-		
+
 		});
 
-		context('_ZDRModelListObjects', function test__ZDRModelListObjects () {
+		context('_ZDRModelListObjects', function test__ZDRModelListObjects() {
 
 			it('calls ZDRStoragePathsRecursive', function () {
-				const item = []
+				const item = [];
 
 				const model = _ZDRModel({
 					ZDRStoragePathsRecursive: (function () {
@@ -873,13 +873,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 					}),
 				})._ZDRModelListObjects(), [item]);
 			});
-		
+
 		});
 
-		context('ZDRModelListObjects', function test_ZDRModelListObjects () {
+		context('ZDRModelListObjects', function test_ZDRModelListObjects() {
 
 			it('calls _ZDRModelListObjects', function () {
-				const item = []
+				const item = [];
 
 				const model = _ZDRModel({
 					_ZDRModelListObjects: (function () {
@@ -889,7 +889,9 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 					}),
 				}).ZDRModelListObjects();
 
-				deepEqual(item, [[]]);
+				deepEqual(item, [
+					[]
+				]);
 			});
 
 			it('maps ZDRStorageReadObject', async function () {
@@ -903,13 +905,13 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 					}),
 				}).ZDRModelListObjects(), [item.split('.')]);
 			});
-		
+
 		});
 
-		context('ZDRModelDeleteObject', function test_ZDRModelDeleteObject () {
+		context('ZDRModelDeleteObject', function test_ZDRModelDeleteObject() {
 
-			it('throws if not object', function() {
-				throws(function() {
+			it('throws if not object', function () {
+				throws(function () {
 					_ZDRModel().ZDRModelDeleteObject(null);
 				}, /ZDRErrorInputNotValid/);
 			});
@@ -938,10 +940,10 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 				};
 				deepEqual(await _ZDRModel().ZDRModelWriteObject(item), item);
 			});
-		
+
 		});
 
-		context('ZDRSchemaMethods', function test_ZDRSchemaMethods () {
+		context('ZDRSchemaMethods', function test_ZDRSchemaMethods() {
 
 			it('throws if not function', function () {
 				throws(function () {
@@ -949,7 +951,7 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 						ZDRSchemaMethods: {
 							[Math.random().toString()]: Math.random().toString(),
 						},
-					}))
+					}));
 				}, /ZDRErrorInputNotFunction/);
 			});
 
@@ -970,15 +972,15 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 
 				deepEqual(wrap[ZDRScopeKey][ZDRSchemaKey][item](item), [wrap, item]);
 			});
-		
+
 		});
-	
+
 	});
 
-	context('ZDRCloudConnect', function test_ZDRCloudConnect () {
+	context('ZDRCloudConnect', function test_ZDRCloudConnect() {
 
-		it('throws if not string', function() {
-			throws(function() {
+		it('throws if not string', function () {
+			throws(function () {
 				__ZDRWrap().ZDRCloudConnect(null);
 			}, /ZDRErrorInputNotValid/);
 		});
@@ -986,25 +988,25 @@ describe('_ZDRWrap', function test__ZDRWrap () {
 		it('returns undefined', function () {
 			deepEqual(__ZDRWrap().ZDRCloudConnect(Math.random().toString()), undefined);
 		});
-	
+
 	});
 
-	context('ZDRCloudReconnect', function test_ZDRCloudReconnect () {
+	context('ZDRCloudReconnect', function test_ZDRCloudReconnect() {
 
 		it('returns undefined', function () {
 			deepEqual(__ZDRWrap().ZDRCloudReconnect(), undefined);
 		});
-	
+
 	});
 
-	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect () {
+	context('ZDRCloudDisconnect', function test_ZDRCloudDisconnect() {
 
 		it('returns undefined', function () {
 			deepEqual(__ZDRWrap().ZDRCloudDisconnect(), undefined);
 		});
-	
+
 	});
-	
+
 });
 
 describe('ZDRWrap', function test_ZDRWrap() {
@@ -1039,7 +1041,7 @@ describe('ZDRWrap', function test_ZDRWrap() {
 			})],
 		})).hasOwnProperty(ZDRScopeKey), true);
 	});
-	
+
 });
 
 describe('ZDRPreferenceProtocol', function test_ZDRPreferenceProtocol() {
@@ -1085,7 +1087,7 @@ describe('ZDRPreferenceProtocol', function test_ZDRPreferenceProtocol() {
 			}),
 		})), item);
 	});
-	
+
 });
 
 describe('ZDRPreferenceProtocolClear', function test_ZDRPreferenceProtocolClear() {
@@ -1110,7 +1112,7 @@ describe('ZDRPreferenceProtocolClear', function test_ZDRPreferenceProtocolClear(
 			}),
 		})), item);
 	});
-	
+
 });
 
 describe('ZDRPreferenceProtocolMigrate', function test_ZDRPreferenceProtocolMigrate() {
@@ -1135,7 +1137,7 @@ describe('ZDRPreferenceProtocolMigrate', function test_ZDRPreferenceProtocolMigr
 			}),
 		})), item);
 	});
-	
+
 });
 
 describe('ZDRPreferenceProtocolMigrateClear', function test_ZDRPreferenceProtocolMigrateClear() {
@@ -1160,7 +1162,7 @@ describe('ZDRPreferenceProtocolMigrateClear', function test_ZDRPreferenceProtoco
 			}),
 		})), item);
 	});
-	
+
 });
 
 describe('ZDRPreferenceProtocolConnect', function test_ZDRPreferenceProtocolConnect() {
@@ -1210,5 +1212,5 @@ describe('ZDRPreferenceProtocolConnect', function test_ZDRPreferenceProtocolConn
 		const item = uRandomElement(true, false);
 		deepEqual(mod.ZDRPreferenceProtocolConnect(item ? Math.random().toString() : 'fission.codes', uStubLocalStorage()), item ? mod.ZDRProtocolRemoteStorage() : mod.ZDRProtocolFission());
 	});
-	
+
 });

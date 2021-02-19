@@ -2,9 +2,9 @@ const { rejects, deepEqual } = require('assert');
 
 const mod = require('./main.js');
 
-describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom () {
+describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom() {
 
-	context('ZDRParamDispatchReady', function test_ZDRParamDispatchReady () {
+	context('ZDRParamDispatchReady', function test_ZDRParamDispatchReady() {
 
 		it('calls immediately', async function () {
 			const item = Math.random().toString();
@@ -13,9 +13,9 @@ describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom () {
 					ZDRParamLibrary: uStubCustomClient(),
 					ZDRParamScopes: [uStubScope()],
 					ZDRParamDispatchReady: (function () {
-						return res([item])
+						return res([item]);
 					}),
-				})
+				});
 			})), [item]);
 		});
 
@@ -25,20 +25,20 @@ describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom () {
 				mod._ZDRWrap({
 					ZDRParamLibrary: uStubCustomClient({
 						ZDRClientPrepare: (function () {
-							return Promise.resolve(item)
+							return Promise.resolve(item);
 						}),
 					}),
 					ZDRParamScopes: [uStubScope()],
 					ZDRParamDispatchReady: (function () {
-						return res(...arguments)
+						return res(...arguments);
 					}),
-				})
+				});
 			})), item);
 		});
-	
+
 	});
 
-	context('ZDRCloudReconnect', function test_ZDRCloudReconnect () {
+	context('ZDRCloudReconnect', function test_ZDRCloudReconnect() {
 
 		it('calls ZDRClientConnect', async function () {
 			const item = Math.random().toString();
@@ -51,7 +51,7 @@ describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom () {
 					}),
 					ZDRParamScopes: [uStubScope()],
 					ZDRParamDispatchReady: (function () {}),
-				}).ZDRCloudReconnect()
+				}).ZDRCloudReconnect();
 			}), [item]);
 		});
 
@@ -69,10 +69,10 @@ describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom () {
 					}),
 					ZDRParamScopes: [uStubScope()],
 					ZDRParamDispatchReady: (function () {}),
-				}).ZDRCloudReconnect()
+				}).ZDRCloudReconnect();
 			}), [item]);
 		});
-	
+
 	});
-	
+
 });
