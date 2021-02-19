@@ -42,6 +42,9 @@ await api.alfa.ZDRStorageWriteObject('charlie.json', {
 | ZDRParamLibrary <br> **Required** | pass `RemoteStorage` or `webnative` or an object conforming to `ZDRClient` | |
 | ZDRParamScopes <br> **Required** | array of `ZDRScope` objects | |
 | ZDRParamDispatchError | function | called on network or sync errors |
+| ZDRParamDispatchConnected | function | called if linked to a cloud account |
+| ZDRParamDispatchOnline | function | called when network is online |
+| ZDRParamDispatchOffline | function | called when network is offline |
 
 ### ZDRScope
 
