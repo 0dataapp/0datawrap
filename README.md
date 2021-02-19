@@ -127,6 +127,12 @@ Start authorization process corresponding to `ZDRParamLibrary`.
 
 Returns boolean.
 
+### ZDRCloudReconnect()
+
+Retry authorization process in case of expiry or denied access.
+
+Returns undefined.
+
 ### ZDRCloudDisconnect()
 
 Log out.
