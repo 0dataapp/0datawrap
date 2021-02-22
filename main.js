@@ -946,6 +946,32 @@ const mod = {
 		};
 	},
 
+	ZDRLauncherItemFakeDispatchSyncDidStart (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchSyncDidStart',
+			LCHRecipeCallback () {
+				return inputData.ZDRParamDispatchSyncDidStart();
+			},
+		};
+	},
+
+	ZDRLauncherItemFakeDispatchSyncDidStop (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchSyncDidStop',
+			LCHRecipeCallback () {
+				return inputData.ZDRParamDispatchSyncDidStop();
+			},
+		};
+	},
+
 	ZDRLauncherItemFakeDispatchDisconnected (inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
@@ -978,6 +1004,8 @@ const mod = {
 			mod.ZDRLauncherItemFakeDispatchConnected(params.ParamMod),
 			mod.ZDRLauncherItemFakeDispatchOnline(params.ParamMod),
 			mod.ZDRLauncherItemFakeDispatchOffline(params.ParamMod),
+			mod.ZDRLauncherItemFakeDispatchSyncDidStart(params.ParamMod),
+			mod.ZDRLauncherItemFakeDispatchSyncDidStop(params.ParamMod),
 			mod.ZDRLauncherItemFakeDispatchDisconnected(params.ParamMod),
 		].filter(function (e) {
 			if (params.ParamSpecUI) {

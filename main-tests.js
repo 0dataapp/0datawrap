@@ -1373,6 +1373,68 @@ describe('ZDRLauncherItemFakeDispatchOffline', function test_ZDRLauncherItemFake
 
 });
 
+describe('ZDRLauncherItemFakeDispatchSyncDidStart', function test_ZDRLauncherItemFakeDispatchSyncDidStart() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchSyncDidStart(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchSyncDidStart({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchSyncDidStart',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchSyncDidStart', function () {
+			const item = Math.random().toString();
+			deepEqual(mod.ZDRLauncherItemFakeDispatchSyncDidStart({
+				ZDRParamDispatchSyncDidStart: (function () {
+					return item;
+				}),
+			}).LCHRecipeCallback(), item);
+		});
+		
+	});
+
+});
+
+describe('ZDRLauncherItemFakeDispatchSyncDidStop', function test_ZDRLauncherItemFakeDispatchSyncDidStop() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchSyncDidStop(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchSyncDidStop({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchSyncDidStop',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchSyncDidStop', function () {
+			const item = Math.random().toString();
+			deepEqual(mod.ZDRLauncherItemFakeDispatchSyncDidStop({
+				ZDRParamDispatchSyncDidStop: (function () {
+					return item;
+				}),
+			}).LCHRecipeCallback(), item);
+		});
+		
+	});
+
+});
+
 describe('ZDRLauncherItemFakeDispatchDisconnected', function test_ZDRLauncherItemFakeDispatchDisconnected() {
 
 	it('throws if not object', function () {
