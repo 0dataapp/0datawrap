@@ -356,6 +356,20 @@ Delete object from storage.
 
 Returns input.
 
+## Protocol
+
+### ZDRProtocolRemoteStorage()
+
+Returns string.
+
+### ZDRProtocolFission()
+
+Returns string.
+
+### ZDRProtocolCustom()
+
+Returns string.
+
 # License
 
 The code is released under a [Hippocratic License](https://firstdonoharm.dev), modified to exclude its use for surveillance capitalism and also to require large for-profit entities to purchase a paid license.
