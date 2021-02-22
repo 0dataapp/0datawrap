@@ -351,14 +351,14 @@ When supporting multiple protocols, the library can help track which one was sel
 const api = await zerodatawrap.ZDRWrap({
 
   ZDRParamLibrary: (function() {
-    // get the selected protocol, use `ZDRProtocolCustom` as the default
-    const protocol = zerodatawrap.ZDRPreferenceProtocol(zerodatawrap.ZDRProtocolCustom());
+    // get the selected protocol, default to `ZDRProtocolCustom`
+    const selected = zerodatawrap.ZDRPreferenceProtocol(zerodatawrap.ZDRProtocolCustom());
 
-    if (protocol === zerodatawrap.ZDRProtocolFission()) {
+    if (selected === zerodatawrap.ZDRProtocolFission()) {
       return webnative;
     }
 
-    if (protocol === zerodatawrap.ZDRProtocolRemoteStorage()) {
+    if (selected === zerodatawrap.ZDRProtocolRemoteStorage()) {
       return RemoteStorage;
     }
 
@@ -389,15 +389,15 @@ Move from one protocol to the other by generating APIs from preferences:
 if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
 
   // generate apis from protocol
-  const api = function (protocol) {
+  const wrap = function (protocol) {
     return zerodatawrap.ZDRWrap({
 
       // …
       
     });
   };
-  const source = await api(zerodatawrap.ZDRPreferenceProtocolMigrate());
-  const destination = await api(zerodatawrap.ZDRPreferenceProtocol());
+  const source = await wrap(zerodatawrap.ZDRPreferenceProtocolMigrate());
+  const destination = await wrap(zerodatawrap.ZDRPreferenceProtocol());
   
   // get all objects (this is simplified, should be recursive)
   await Promise.all(Object.entries(await source.App.ZDRStorageListObjects('')).map(async function ([key, value]) {
