@@ -53,19 +53,6 @@ await api.alfa.ZDRStorageWriteObject('charlie.json', {
 | ZDRScopeCreatorDirectory | string, non-empty, trimmed | if Fission, sets `permissions.app` instead of `permissions.fs` |
 | ZDRScopeSchemas | array of `ZDRSchema` objects | defines model helpers |
 
-### ZDRClient (for custom storage only)
-
-| function | notes |
-|-------|---------|
-| ZDRClientWriteFile <br> **Required** | called by `ZDRStorageWriteFile` |
-| ZDRClientReadFile <br> **Required** | called by `ZDRStorageReadFile` |
-| ZDRClientListObjects <br> **Required** | called by `ZDRStorageListObjects` |
-| ZDRClientDelete <br> **Required** | called by `ZDRStorageDelete` |
-| ZDRClientPrepare | called before returning wrapper |
-| ZDRClientConnect | called by `ZDRCloudConnect` |
-| ZDRClientReconnect | called by `ZDRCloudReconnect` |
-| ZDRClientDisconnect | called by `ZDRCloudDisconnect` |
-
 ## Storage
 
 ### ZDRStorageWriteObject(path, object)
@@ -358,6 +345,44 @@ Returns input.
 
 ## Protocol
 
+When supporting multiple protocols, the library can help track which one was selected.
+
+```javascript
+const api = await zerodatawrap.ZDRWrap({
+
+  ZDRParamLibrary: (function() {
+    // get the selected protocol, use `ZDRProtocolCustom` as the default
+    const protocol = zerodatawrap.ZDRPreferenceProtocol(zerodatawrap.ZDRProtocolCustom());
+
+    if (protocol === zerodatawrap.ZDRProtocolFission()) {
+      return webnative;
+    }
+
+    if (protocol === zerodatawrap.ZDRProtocolRemoteStorage()) {
+      return RemoteStorage;
+    }
+
+    return {
+      ZDRClientWriteFile (param1, param2) {
+        console.log('custom protocol write', [...arguments]);
+      },
+      ZDRClientReadFile (inputData) {
+        console.log('custom protocol read', [...arguments]);
+      },
+      ZDRClientListObjects (inputData) {
+        console.log('custom protocol list objects', [...arguments]);
+      },
+      ZDRClientDelete (inputData) {
+        console.log('custom protocol delete', [...arguments]);
+      },
+    };
+  })(),
+
+  // …
+  
+});
+```
+
 ### ZDRProtocolRemoteStorage()
 
 Returns string.
@@ -398,9 +423,20 @@ Returns the 'to be migrated' protocol if set.
 
 Clears the 'to be migrated' protocol.
 
-Call `JSON.stringify`; write to storage.
-
 Returns input object.
+
+### ZDRClient (for custom protocol only)
+
+| function | notes |
+|-------|---------|
+| ZDRClientWriteFile <br> **Required** | called by `ZDRStorageWriteFile` |
+| ZDRClientReadFile <br> **Required** | called by `ZDRStorageReadFile` |
+| ZDRClientListObjects <br> **Required** | called by `ZDRStorageListObjects` |
+| ZDRClientDelete <br> **Required** | called by `ZDRStorageDelete` |
+| ZDRClientPrepare | called before returning wrapper |
+| ZDRClientConnect | called by `ZDRCloudConnect` |
+| ZDRClientReconnect | called by `ZDRCloudReconnect` |
+| ZDRClientDisconnect | called by `ZDRCloudDisconnect` |
 
 # License
 
