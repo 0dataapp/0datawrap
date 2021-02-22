@@ -1214,3 +1214,230 @@ describe('ZDRPreferenceProtocolConnect', function test_ZDRPreferenceProtocolConn
 	});
 
 });
+
+describe('ZDRLauncherFakeItemProxy', function test_ZDRLauncherFakeItemProxy() {
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherFakeItemProxy();
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherFakeItemProxy',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+		
+		it('returns undefined', function () {
+			deepEqual(mod.ZDRLauncherFakeItemProxy().LCHRecipeCallback(), undefined);
+		});
+
+	});
+
+});
+
+describe('ZDRLauncherItemFakeDispatchError', function test_ZDRLauncherItemFakeDispatchError() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchError(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchError({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchError',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchError', function () {
+			deepEqual(mod.ZDRLauncherItemFakeDispatchError({
+				ZDRParamDispatchError: (function () {
+					return [...arguments];
+				}),
+			}).LCHRecipeCallback(), [new Error('ZDR_FAKE_CLOUD_ERROR')]);
+		});
+		
+	});
+
+});
+
+describe('ZDRLauncherItemFakeDispatchConnected', function test_ZDRLauncherItemFakeDispatchConnected() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchConnected(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchConnected({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchConnected',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchConnected', function () {
+			deepEqual(mod.ZDRLauncherItemFakeDispatchConnected({
+				ZDRParamDispatchConnected: (function () {
+					return [...arguments];
+				}),
+			}).LCHRecipeCallback(), ['ZDR_FAKE_CLOUD_IDENTITY']);
+		});
+		
+	});
+
+});
+
+describe('ZDRLauncherItemFakeDispatchOnline', function test_ZDRLauncherItemFakeDispatchOnline() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchOnline(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchOnline({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchOnline',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchOnline', function () {
+			const item = Math.random().toString();
+			deepEqual(mod.ZDRLauncherItemFakeDispatchOnline({
+				ZDRParamDispatchOnline: (function () {
+					return item;
+				}),
+			}).LCHRecipeCallback(), item);
+		});
+		
+	});
+
+});
+
+describe('ZDRLauncherItemFakeDispatchOffline', function test_ZDRLauncherItemFakeDispatchOffline() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchOffline(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchOffline({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchOffline',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchOffline', function () {
+			const item = Math.random().toString();
+			deepEqual(mod.ZDRLauncherItemFakeDispatchOffline({
+				ZDRParamDispatchOffline: (function () {
+					return item;
+				}),
+			}).LCHRecipeCallback(), item);
+		});
+		
+	});
+
+});
+
+describe('ZDRLauncherItemFakeDispatchDisconnected', function test_ZDRLauncherItemFakeDispatchDisconnected() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchDisconnected(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchDisconnected({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchDisconnected',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchConnected', function () {
+			deepEqual(mod.ZDRLauncherItemFakeDispatchDisconnected({
+				ZDRParamDispatchConnected: (function () {
+					return [...arguments];
+				}),
+			}).LCHRecipeCallback().pop(), null);
+		});
+		
+	});
+
+});
+
+describe('ZDRRecipes', function test_ZDRRecipes() {
+
+	const _ZDRRecipes = function (inputData = {}) {
+		return mod.ZDRRecipes(Object.assign({
+			ParamMod: {},
+			ParamSpecUI: false,
+		}, inputData))
+	};
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRRecipes(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamMod not object', function () {
+		throws(function () {
+			_ZDRRecipes({
+				ParamMod: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('throws if ParamSpecUI not boolean', function () {
+		throws(function () {
+			_ZDRRecipes({
+				ParamSpecUI: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('includes production recipes', function () {
+		deepEqual(_ZDRRecipes().map(function (e) {
+			return e.LCHRecipeSignature || e.LCHRecipeName;
+		}), Object.keys(mod).filter(function (e) {
+			return e.match(/Launcher/) && !e.match(/Fake/);
+		}));
+	});
+
+	context('ParamSpecUI', function () {
+
+		it('includes all recipes', function () {
+			deepEqual(_ZDRRecipes({
+				ParamSpecUI: true,
+			}).map(function (e) {
+				return e.LCHRecipeSignature || e.LCHRecipeName;
+			}), Object.keys(mod).filter(function (e) {
+				return e.match(/Launcher/);
+			}));
+		});
+	
+	});
+
+});

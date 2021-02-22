@@ -871,6 +871,107 @@ const mod = {
 		return protocol;
 	},
 
+	ZDRLauncherFakeItemProxy () {
+		return {
+			LCHRecipeName: 'ZDRLauncherFakeItemProxy',
+			LCHRecipeCallback () {},
+		};
+	},
+
+	ZDRLauncherItemFakeDispatchError (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchError',
+			LCHRecipeCallback () {
+				return inputData.ZDRParamDispatchError(new Error('ZDR_FAKE_CLOUD_ERROR'));
+			},
+		};
+	},
+
+	ZDRLauncherItemFakeDispatchConnected (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchConnected',
+			LCHRecipeCallback () {
+				return inputData.ZDRParamDispatchConnected('ZDR_FAKE_CLOUD_IDENTITY');
+			},
+		};
+	},
+
+	ZDRLauncherItemFakeDispatchOnline (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchOnline',
+			LCHRecipeCallback () {
+				return inputData.ZDRParamDispatchOnline();
+			},
+		};
+	},
+
+	ZDRLauncherItemFakeDispatchOffline (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchOffline',
+			LCHRecipeCallback () {
+				return inputData.ZDRParamDispatchOffline();
+			},
+		};
+	},
+
+	ZDRLauncherItemFakeDispatchDisconnected (inputData) {
+		if (typeof inputData !== 'object' || inputData === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchDisconnected',
+			LCHRecipeCallback () {
+				return inputData.ZDRParamDispatchConnected(null);
+			},
+		};
+	},
+
+	ZDRRecipes (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamMod !== 'object' || params.ParamMod === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		if (typeof params.ParamSpecUI !== 'boolean') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return [
+			mod.ZDRLauncherFakeItemProxy(),
+			mod.ZDRLauncherItemFakeDispatchError(params.ParamMod),
+			mod.ZDRLauncherItemFakeDispatchConnected(params.ParamMod),
+			mod.ZDRLauncherItemFakeDispatchOnline(params.ParamMod),
+			mod.ZDRLauncherItemFakeDispatchOffline(params.ParamMod),
+			mod.ZDRLauncherItemFakeDispatchDisconnected(params.ParamMod),
+		].filter(function (e) {
+			if (params.ParamSpecUI) {
+				return true;
+			}
+
+			return !(e.LCHRecipeSignature || e.LCHRecipeName).match(/Fake/);
+		});
+	},
+
 };
 
 Object.assign(exports, mod);
