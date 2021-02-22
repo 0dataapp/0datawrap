@@ -543,6 +543,40 @@ const mod = {
 			inputData.ZDRParamDispatchReady();
 		})();
 
+		if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage()) {
+			library.on('error', function (error) {
+				if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
+					return;
+				}
+
+				inputData.ZDRParamDispatchError && inputData.ZDRParamDispatchError(error);
+			});
+
+			library.on('connected', function () {
+				inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(library.remote.userAddress);
+			});
+
+			library.on('network-online', function () {
+				inputData.ZDRParamDispatchOnline && inputData.ZDRParamDispatchOnline();
+			});
+
+			library.on('network-offline', function () {
+				inputData.ZDRParamDispatchOffline && inputData.ZDRParamDispatchOffline();
+			});
+
+			library.on('sync-done', function () {
+				inputData.ZDRParamDispatchSyncDidStop && inputData.ZDRParamDispatchSyncDidStop();
+			});
+
+			library.on('ready', function () {
+				inputData.ZDRParamDispatchReady();
+			});
+		}
+
+		if (ZDRStorageProtocol === mod.ZDRProtocolCustom()) {
+			Promise.resolve((library.ZDRClientPrepare || function () {})()).then(inputData.ZDRParamDispatchReady);
+		}
+
 		const outputData = {
 
 			ZDRStorageProtocol,
@@ -605,40 +639,6 @@ const mod = {
 			},
 
 		};
-
-		if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage()) {
-			library.on('error', function (error) {
-				if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
-					return;
-				}
-
-				inputData.ZDRParamDispatchError && inputData.ZDRParamDispatchError(error);
-			});
-
-			library.on('connected', function () {
-				inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(library.remote.userAddress);
-			});
-
-			library.on('network-online', function () {
-				inputData.ZDRParamDispatchOnline && inputData.ZDRParamDispatchOnline();
-			});
-
-			library.on('network-offline', function () {
-				inputData.ZDRParamDispatchOffline && inputData.ZDRParamDispatchOffline();
-			});
-
-			library.on('sync-done', function () {
-				inputData.ZDRParamDispatchSyncDidStop && inputData.ZDRParamDispatchSyncDidStop();
-			});
-
-			library.on('ready', function () {
-				inputData.ZDRParamDispatchReady();
-			});
-		}
-
-		if (ZDRStorageProtocol === mod.ZDRProtocolCustom()) {
-			Promise.resolve((library.ZDRClientPrepare || function () {})()).then(inputData.ZDRParamDispatchReady);
-		}
 
 		return scopes.reduce(function (coll, item) {
 			if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage()) {
