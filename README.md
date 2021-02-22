@@ -383,6 +383,36 @@ const api = await zerodatawrap.ZDRWrap({
 });
 ```
 
+Move from one protocol to the other by generating APIs from preferences:
+
+```javascript
+if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
+
+  // generate apis from protocol
+  const api = function (protocol) {
+    return zerodatawrap.ZDRWrap({
+
+      // …
+      
+    });
+  };
+  const source = await api(zerodatawrap.ZDRPreferenceProtocolMigrate());
+  const destination = await api(zerodatawrap.ZDRPreferenceProtocol());
+  
+  // get all objects (this is simplified, should be recursive)
+  await Promise.all(Object.entries(await source.App.ZDRStorageListObjects('')).map(async function ([key, value]) {
+    // write to destination
+    await destination.App.ZDRStorageWriteObject(key, value);
+    
+    // delete from source
+    await source.App.ZDRStorageDelete(key);
+  }));
+
+  // clear migrate preference to avoid repeating
+  zerodatawrap.ZDRPreferenceProtocolMigrateClear();
+};
+```
+
 ### ZDRProtocolRemoteStorage()
 
 Returns string.
