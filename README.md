@@ -370,6 +370,38 @@ Returns string.
 
 Returns string.
 
+## Preference
+
+### ZDRPreferenceProtocol(protocol)
+
+Stores input as the protocol preference if none is set.
+
+Returns the protocol preference.
+
+### ZDRPreferenceProtocolClear()
+
+Clears the protocol preference.
+
+Returns null.
+
+### ZDRPreferenceProtocolConnect(protocol)
+
+Sets the protocol preference as 'to be migrated' if connecting to a different protocol.
+
+Returns input data.
+
+### ZDRPreferenceProtocolMigrate()
+
+Returns the 'to be migrated' protocol if set.
+
+### ZDRPreferenceProtocolMigrateClear()
+
+Clears the 'to be migrated' protocol.
+
+Call `JSON.stringify`; write to storage.
+
+Returns input object.
+
 # License
 
 The code is released under a [Hippocratic License](https://firstdonoharm.dev), modified to exclude its use for surveillance capitalism and also to require large for-profit entities to purchase a paid license.
