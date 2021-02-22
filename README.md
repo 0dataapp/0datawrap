@@ -354,12 +354,12 @@ const api = await zerodatawrap.ZDRWrap({
     // get the selected protocol, default to `ZDRProtocolCustom`
     const selected = zerodatawrap.ZDRPreferenceProtocol(zerodatawrap.ZDRProtocolCustom());
 
-    if (selected === zerodatawrap.ZDRProtocolFission()) {
-      return webnative;
-    }
-
     if (selected === zerodatawrap.ZDRProtocolRemoteStorage()) {
       return RemoteStorage;
+    }
+
+    if (selected === zerodatawrap.ZDRProtocolFission()) {
+      return webnative;
     }
 
     return {
