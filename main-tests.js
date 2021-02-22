@@ -552,6 +552,22 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('throws if ZDRParamDispatchSyncDidStart not function', function () {
+		throws(function () {
+			__ZDRWrap({
+				ZDRParamDispatchSyncDidStart: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('throws if ZDRParamDispatchSyncDidStop not function', function () {
+		throws(function () {
+			__ZDRWrap({
+				ZDRParamDispatchSyncDidStop: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
 	const __ZDRStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 

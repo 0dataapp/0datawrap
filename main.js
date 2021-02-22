@@ -458,6 +458,18 @@ const mod = {
 			}
 		}
 
+		if (typeof inputData.ZDRParamDispatchSyncDidStart !== 'undefined') {
+			if (typeof inputData.ZDRParamDispatchSyncDidStart !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		}
+
+		if (typeof inputData.ZDRParamDispatchSyncDidStop !== 'undefined') {
+			if (typeof inputData.ZDRParamDispatchSyncDidStop !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		}
+
 		const library = (function () {
 			if (ZDRStorageProtocol !== mod.ZDRProtocolRemoteStorage()) {
 				return inputData.ZDRParamLibrary;
@@ -613,6 +625,10 @@ const mod = {
 
 			library.on('network-offline', function () {
 				inputData.ZDRParamDispatchOffline && inputData.ZDRParamDispatchOffline();
+			});
+
+			library.on('sync-done', function () {
+				inputData.ZDRParamDispatchSyncDidStop && inputData.ZDRParamDispatchSyncDidStop();
 			});
 
 			library.on('ready', function () {

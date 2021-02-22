@@ -259,6 +259,32 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
+	context('sync-done', function () {
+
+		it('calls ZDRParamDispatchSyncDidStop', function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (capture) {
+				mod._ZDRWrap({
+					ZDRParamLibrary: uStubRemoteStorage({
+						on: (function (param1, param2) {
+							if (param1 !== 'sync-done') {
+								return;
+							}
+
+							return param2();
+						}),
+					}),
+					ZDRParamScopes: [uStubScope()],
+					ZDRParamDispatchSyncDidStop: (function () {
+						capture(item);
+					}),
+					ZDRParamDispatchReady: (function () {}),
+				});
+			}), [item]);
+		});
+
+	});
+
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject() {
 
 		it('calls scope.storeFile', async function () {
