@@ -887,105 +887,105 @@ const mod = {
 		return protocol;
 	},
 
-	ZDRLauncherFakeItemProxy () {
+	ZDRLauncherFakeItemProxy() {
 		return {
 			LCHRecipeName: 'ZDRLauncherFakeItemProxy',
-			LCHRecipeCallback () {},
+			LCHRecipeCallback() {},
 		};
 	},
 
-	ZDRLauncherItemFakeDispatchError (inputData) {
+	ZDRLauncherItemFakeDispatchError(inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchError',
-			LCHRecipeCallback () {
+			LCHRecipeCallback() {
 				return inputData.ZDRParamDispatchError(new Error('ZDR_FAKE_CLOUD_ERROR'));
 			},
 		};
 	},
 
-	ZDRLauncherItemFakeDispatchConnected (inputData) {
+	ZDRLauncherItemFakeDispatchConnected(inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchConnected',
-			LCHRecipeCallback () {
+			LCHRecipeCallback() {
 				return inputData.ZDRParamDispatchConnected('ZDR_FAKE_CLOUD_IDENTITY');
 			},
 		};
 	},
 
-	ZDRLauncherItemFakeDispatchOnline (inputData) {
+	ZDRLauncherItemFakeDispatchOnline(inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchOnline',
-			LCHRecipeCallback () {
+			LCHRecipeCallback() {
 				return inputData.ZDRParamDispatchOnline();
 			},
 		};
 	},
 
-	ZDRLauncherItemFakeDispatchOffline (inputData) {
+	ZDRLauncherItemFakeDispatchOffline(inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchOffline',
-			LCHRecipeCallback () {
+			LCHRecipeCallback() {
 				return inputData.ZDRParamDispatchOffline();
 			},
 		};
 	},
 
-	ZDRLauncherItemFakeDispatchSyncDidStart (inputData) {
+	ZDRLauncherItemFakeDispatchSyncDidStart(inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchSyncDidStart',
-			LCHRecipeCallback () {
+			LCHRecipeCallback() {
 				return inputData.ZDRParamDispatchSyncDidStart();
 			},
 		};
 	},
 
-	ZDRLauncherItemFakeDispatchSyncDidStop (inputData) {
+	ZDRLauncherItemFakeDispatchSyncDidStop(inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchSyncDidStop',
-			LCHRecipeCallback () {
+			LCHRecipeCallback() {
 				return inputData.ZDRParamDispatchSyncDidStop();
 			},
 		};
 	},
 
-	ZDRLauncherItemFakeDispatchDisconnected (inputData) {
+	ZDRLauncherItemFakeDispatchDisconnected(inputData) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchDisconnected',
-			LCHRecipeCallback () {
+			LCHRecipeCallback() {
 				return inputData.ZDRParamDispatchConnected(null);
 			},
 		};
 	},
 
-	ZDRRecipes (params) {
+	ZDRRecipes(params) {
 		if (typeof params !== 'object' || params === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}

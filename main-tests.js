@@ -1471,7 +1471,7 @@ describe('ZDRRecipes', function test_ZDRRecipes() {
 		return mod.ZDRRecipes(Object.assign({
 			ParamMod: {},
 			ParamSpecUI: false,
-		}, inputData))
+		}, inputData));
 	};
 
 	it('throws if not object', function () {
