@@ -363,16 +363,16 @@ const api = await zerodatawrap.ZDRWrap({
     }
 
     return {
-      ZDRClientWriteFile (param1, param2) {
+      ZDRClientWriteFile (path, data) {
         console.log('custom protocol write', [...arguments]);
       },
-      ZDRClientReadFile (inputData) {
+      ZDRClientReadFile (path) {
         console.log('custom protocol read', [...arguments]);
       },
-      ZDRClientListObjects (inputData) {
+      ZDRClientListObjects (path) {
         console.log('custom protocol list objects', [...arguments]);
       },
-      ZDRClientDelete (inputData) {
+      ZDRClientDelete (path) {
         console.log('custom protocol delete', [...arguments]);
       },
     };
