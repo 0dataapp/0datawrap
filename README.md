@@ -383,7 +383,7 @@ const api = await zerodatawrap.ZDRWrap({
 });
 ```
 
-Move from one protocol to the other by generating APIs from preferences:
+Move from one protocol to another by generating APIs from preferences:
 
 ```javascript
 if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
