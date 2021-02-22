@@ -343,7 +343,7 @@ Delete object from storage.
 
 Returns input.
 
-## Protocol
+## Multiple protocols
 
 When supporting multiple protocols, the library can help track which one was selected.
 
@@ -413,6 +413,19 @@ if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
 };
 ```
 
+### ZDRClient (for custom protocol only)
+
+| function | notes |
+|-------|---------|
+| ZDRClientWriteFile <br> **Required** | called by `ZDRStorageWriteFile` |
+| ZDRClientReadFile <br> **Required** | called by `ZDRStorageReadFile` |
+| ZDRClientListObjects <br> **Required** | called by `ZDRStorageListObjects` |
+| ZDRClientDelete <br> **Required** | called by `ZDRStorageDelete` |
+| ZDRClientPrepare | called before returning wrapper |
+| ZDRClientConnect | called by `ZDRCloudConnect` |
+| ZDRClientReconnect | called by `ZDRCloudReconnect` |
+| ZDRClientDisconnect | called by `ZDRCloudDisconnect` |
+
 ### ZDRProtocolRemoteStorage()
 
 Returns string.
@@ -424,8 +437,6 @@ Returns string.
 ### ZDRProtocolCustom()
 
 Returns string.
-
-## Preference
 
 ### ZDRPreferenceProtocol(protocol)
 
@@ -454,19 +465,6 @@ Returns the 'to be migrated' protocol if set.
 Clears the 'to be migrated' protocol.
 
 Returns input object.
-
-### ZDRClient (for custom protocol only)
-
-| function | notes |
-|-------|---------|
-| ZDRClientWriteFile <br> **Required** | called by `ZDRStorageWriteFile` |
-| ZDRClientReadFile <br> **Required** | called by `ZDRStorageReadFile` |
-| ZDRClientListObjects <br> **Required** | called by `ZDRStorageListObjects` |
-| ZDRClientDelete <br> **Required** | called by `ZDRStorageDelete` |
-| ZDRClientPrepare | called before returning wrapper |
-| ZDRClientConnect | called by `ZDRCloudConnect` |
-| ZDRClientReconnect | called by `ZDRCloudReconnect` |
-| ZDRClientDisconnect | called by `ZDRCloudDisconnect` |
 
 # License
 
