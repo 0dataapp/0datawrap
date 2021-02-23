@@ -418,7 +418,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStoragePaths(item), [uScopePath(item), false]);
+			}).ZDRStoragePaths(item), [uScopePath(mod._ZDRPathFormatDirectory(item)), false]);
 		});
 
 		it('converts folder', async function () {

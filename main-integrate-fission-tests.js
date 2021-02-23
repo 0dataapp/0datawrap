@@ -291,7 +291,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStoragePaths(item), [uScopePath(item)]);
+			}).ZDRStoragePaths(item), [uScopePath(mod._ZDRPathFormatDirectory(item))]);
 		});
 
 		it('converts folder', async function () {

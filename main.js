@@ -176,6 +176,14 @@ const mod = {
 		return inputData.slice(-1) === '/';
 	},
 
+	_ZDRPathFormatDirectory(inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		return mod._ZDRPathIsDirectory(inputData) ? inputData : inputData.concat('/')
+	},
+
 	_ZDRModelSyncCallbackSignatures() {
 		return [
 			'ZDRSchemaDispatchSyncCreate',
@@ -745,18 +753,22 @@ const mod = {
 						return client.ClientListObjects(scopePath(inputData));
 					},
 
+					_ZDRStoragePaths(inputData) {
+						return client.ClientPaths(scopePath(inputData));
+					},
+
 					ZDRStoragePaths(inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientPaths(scopePath(inputData));
+						return this._ZDRStoragePaths(mod._ZDRPathFormatDirectory(inputData));
 					},
 
 					async _ZDRStoragePathsRecursive(inputData) {
 						const _this = this;
 						return uFlatten(await Promise.all((await _this.ZDRStoragePaths(inputData)).map(function (e) {
-							return mod._ZDRPathIsDirectory(e) ? _this.ZDRStoragePathsRecursive(e) : inputData + e;
+							return mod._ZDRPathIsDirectory(e) ? _this._ZDRStoragePathsRecursive(inputData + e) : inputData + e;
 						})));
 					},
 
@@ -765,7 +777,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return this._ZDRStoragePathsRecursive(inputData);
+						return this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData));
 					},
 
 					ZDRStorageDelete(inputData) {
@@ -803,7 +815,7 @@ const mod = {
 							async _ZDRModelListObjects() {
 								const _this = this;
 
-								return (await coll[item.ZDRScopeKey].ZDRStoragePathsRecursive('')).filter(function (e) {
+								return (await coll[item.ZDRScopeKey].ZDRStoragePathsRecursive('/')).filter(function (e) {
 									return e === _this.ZDRModelPath(model.ZDRSchemaStub(e));
 								});
 							},

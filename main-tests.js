@@ -298,6 +298,21 @@ describe('_ZDRPathIsDirectory', function test__ZDRPathIsDirectory() {
 
 });
 
+describe('_ZDRPathFormatDirectory', function test__ZDRPathFormatDirectory() {
+
+	it('throws if not string', function () {
+		throws(function () {
+			mod._ZDRPathFormatDirectory(null);
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('returns inputData', function () {
+		const item = Math.random().toString();
+		deepEqual(mod._ZDRPathFormatDirectory(item + uRandomElement('/', '')), item + '/');
+	});
+
+});
+
 describe('_ZDRModelSyncCallbackSignatures', function test__ZDRModelSyncCallbackSignatures() {
 
 	it('returns array', function () {
@@ -672,8 +687,42 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			}, /ZDRErrorInputNotValid/);
 		});
 
+		it('calls _ZDRStoragePaths', function () {
+			const item = Math.random().toString();
+			deepEqual(Object.assign(__ZDRStorage(), {
+				_ZDRStoragePaths: (function () {
+					return [...arguments];
+				}),
+			}).ZDRStoragePaths(item + uRandomElement('/', '')), [mod._ZDRPathFormatDirectory(item)])
+		});
+
 		it('returns array', async function () {
 			deepEqual(await __ZDRStorage().ZDRStoragePaths(Math.random().toString()), []);
+		});
+
+	});
+
+	context('_ZDRStoragePathsRecursive', function test__ZDRStoragePathsRecursive() {
+
+		it('calls ZDRStoragePaths', async function () {
+			const item = mod._ZDRPathFormatDirectory(Math.random().toString());
+			const file = Math.random().toString();
+			deepEqual(await Object.assign(__ZDRStorage(), {
+				ZDRStoragePaths: (function () {
+					return [file];
+				}),
+			})._ZDRStoragePathsRecursive(item), [mod._ZDRPathFormatDirectory(item) + file]);
+		});
+
+		it('calls ZDRStoragePaths recursively', async function () {
+			const item = mod._ZDRPathFormatDirectory(Math.random().toString());
+			const folder = mod._ZDRPathFormatDirectory(Math.random().toString());
+			const file = Math.random().toString();
+			deepEqual(await Object.assign(__ZDRStorage(), {
+				ZDRStoragePaths: (function (inputData) {
+					return [inputData === item ? folder : file];
+				}),
+			})._ZDRStoragePathsRecursive(item), [mod._ZDRPathFormatDirectory(item) + folder + file]);
 		});
 
 	});
@@ -686,26 +735,13 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			}, /ZDRErrorInputNotValid/);
 		});
 
-		it('calls ZDRStoragePaths', async function () {
-			const inputData = Math.random().toString();
-			const file = Math.random().toString();
-			const item = Object.assign(__ZDRStorage(), {
-				ZDRStoragePaths: (function () {
-					return [file];
+		it('calls _ZDRStoragePathsRecursive', function () {
+			const item = Math.random().toString();
+			deepEqual(Object.assign(__ZDRStorage(), {
+				_ZDRStoragePathsRecursive: (function () {
+					return [...arguments];
 				}),
-			});
-			deepEqual(await item.ZDRStoragePathsRecursive(inputData), [inputData + file]);
-		});
-
-		it('calls ZDRStoragePaths recursively', async function () {
-			const folder = Math.random().toString() + '/';
-			const file = Math.random().toString();
-			const item = Object.assign(__ZDRStorage(), {
-				ZDRStoragePaths: (function (inputData) {
-					return [inputData === folder ? file : folder];
-				}),
-			});
-			deepEqual(await item.ZDRStoragePathsRecursive(Math.random().toString() + '/'), [folder + file]);
+			}).ZDRStoragePathsRecursive(item), [mod._ZDRPathFormatDirectory(item)])
 		});
 
 		it('returns array', async function () {
@@ -857,7 +893,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 					}),
 				})._ZDRModelListObjects();
 
-				deepEqual(item, ['']);
+				deepEqual(item, ['/']);
 			});
 
 			it('excludes if no match', async function () {
