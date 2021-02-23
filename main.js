@@ -184,6 +184,14 @@ const mod = {
 		return mod._ZDRPathIsDirectory(inputData) ? inputData : inputData.concat('/')
 	},
 
+	_ZDRPathFormatPath(inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		return inputData[0] === '/' ? inputData : '/'.concat(inputData);
+	},
+
 	_ZDRModelSyncCallbackSignatures() {
 		return [
 			'ZDRSchemaDispatchSyncCreate',
@@ -816,7 +824,7 @@ const mod = {
 								const _this = this;
 
 								return (await coll[item.ZDRScopeKey].ZDRStoragePathsRecursive('/')).filter(function (e) {
-									return e === _this.ZDRModelPath(model.ZDRSchemaStub(e));
+									return mod._ZDRPathFormatPath(e) === mod._ZDRPathFormatPath(_this.ZDRModelPath(model.ZDRSchemaStub(e)));
 								});
 							},
 

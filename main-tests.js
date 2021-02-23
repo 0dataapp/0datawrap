@@ -313,6 +313,21 @@ describe('_ZDRPathFormatDirectory', function test__ZDRPathFormatDirectory() {
 
 });
 
+describe('_ZDRPathFormatPath', function test__ZDRPathFormatPath() {
+
+	it('throws if not string', function () {
+		throws(function () {
+			mod._ZDRPathFormatPath(null);
+		}, /ZDRErrorInputNotValid/);
+	});
+
+	it('returns inputData', function () {
+		const item = Math.random().toString();
+		deepEqual(mod._ZDRPathFormatPath(uRandomElement('/', '') + item), '/' + item);
+	});
+
+});
+
 describe('_ZDRModelSyncCallbackSignatures', function test__ZDRModelSyncCallbackSignatures() {
 
 	it('returns array', function () {
@@ -924,6 +939,23 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 						return Object.entries(inputData).shift().join('.');
 					}),
 				})._ZDRModelListObjects(), [item]);
+			});
+
+			it('include if match leading slash insensitive', async function () {
+				const slash = uRandomElement(true, false);
+				const item = Math.random().toString();
+				deepEqual(await _ZDRModel({
+					ZDRStoragePathsRecursive: (function () {
+						return [slash ? mod._ZDRPathFormatPath(item) : item];
+					}),
+					ZDRSchemaStub: (function () {
+						return Object.fromEntries([item.split('.')]);
+					}),
+					ZDRSchemaPath: (function (inputData) {
+						const item = Object.entries(inputData).shift().join('.');
+						return !slash ? mod._ZDRPathFormatPath(item) : item;
+					}),
+				})._ZDRModelListObjects(), [slash ? mod._ZDRPathFormatPath(item) : item]);
 			});
 
 		});
