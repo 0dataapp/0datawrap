@@ -302,7 +302,9 @@ const mod = {
 						return _client.storeFile('application/json', param1, JSON.stringify(param2));
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(param1, JSON.stringify(param2)).then(_client.publish);
+						return _client().write(param1, JSON.stringify(param2)).then(function () {
+							return _client().publish();
+						});
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return _client.ZDRClientWriteFile(param1, JSON.stringify(param2));
@@ -318,7 +320,9 @@ const mod = {
 						return _client.storeFile(param3, param1, param2);
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(param1, param2).then(_client.publish);
+						return _client().write(param1, param2).then(function () {
+							return _client().publish();
+						});
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return _client.ZDRClientWriteFile(param1, param2, param3);
@@ -418,7 +422,9 @@ const mod = {
 						return _client.remove(inputData);
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().rm(inputData);
+						return _client().rm(inputData).then(function () {
+							return _client().publish();
+						});
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return _client.ZDRClientDelete(inputData);
@@ -546,13 +552,16 @@ const mod = {
 				return;
 			}
 
+			if (!Object.keys(fissionClient).length) {
+				fissionClient = state.fs;
+			}
+
 			await Promise.all(scopes.map(async function (e) {
 				if (!(await fissionClient.exists(`/private/${ e.ZDRScopeDirectory }`))) {
 					await fissionClient.mkdir(`/private/${ e.ZDRScopeDirectory }`);
+					await fissionClient.publish();
 				}
 			}));
-
-			fissionClient = state.fs;
 
 			inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username);
 

@@ -48,7 +48,6 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	it('calls ZDRParamDispatchConnected', async function () {
 		const username = Math.random().toString();
-
 		deepEqual(await (new Promise(function (res, rej) {
 			const item = mod._ZDRWrap({
 				ZDRParamLibrary: uStubFission({
@@ -333,13 +332,15 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 		it('calls fs.rm', async function () {
 			const item = Math.random().toString();
 
-			deepEqual(await _ZDRStorageFission({
-				ZDRParamLibrary: uStubFission({
-					rm: (function () {
-						return [...arguments];
+			deepEqual(uCapture(function (capture) {
+				_ZDRStorageFission({
+					ZDRParamLibrary: uStubFission({
+						rm: (async function () {
+							capture(...arguments)
+						}),
 					}),
-				}),
-			}).ZDRStorageDelete(item), [uScopePath(item)]);
+				}).ZDRStorageDelete(item)
+			}), [uScopePath(item)]);
 		});
 
 	});

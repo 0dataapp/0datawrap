@@ -95,7 +95,8 @@
 					ls: (function () {
 						return {};
 					}),
-					rm: (function () {}),
+					rm: (async function () {}),
+					publish: (async function () {}),
 					exists: (function () {
 						return true;
 					}),
