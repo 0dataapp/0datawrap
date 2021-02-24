@@ -655,7 +655,9 @@ const mod = {
 						return library.disconnect(inputData);
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return library.leave();
+						return library.leave({
+							withoutRedirect: true,
+						});
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return library.ZDRClientDisconnect(inputData);
