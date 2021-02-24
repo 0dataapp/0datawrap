@@ -878,6 +878,24 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				}).ZDRModelWriteObject({}), [item]);
 			});
 
+			it('passes all arguments to ZDRSchemaPath', function () {
+				const item1 = {
+					[Math.random().toString()]: Math.random().toString(),
+				};
+				const item2 = {
+					[Math.random().toString()]: Math.random().toString(),
+				};
+				deepEqual(uCapture(function (capture) {
+					_ZDRModel({
+						ZDRSchemaPath: (function () {
+							capture(...arguments);
+							
+							return Math.random().toString();
+						}),
+					}).ZDRModelWriteObject(item1, item2)
+				}), [item1, item2]);
+			});
+
 			it('calls ZDRStorageWriteObject', async function () {
 				const inputData = {
 					[Math.random().toString()]: Math.random().toString(),

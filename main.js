@@ -805,7 +805,7 @@ const mod = {
 									throw new Error('ZDRErrorInputNotValid');
 								}
 
-								return model.ZDRSchemaPath(inputData);
+								return model.ZDRSchemaPath(...arguments);
 							},
 
 							ZDRModelWriteObject(inputData) {
@@ -817,7 +817,7 @@ const mod = {
 									}
 								}
 
-								return coll[item.ZDRScopeKey].ZDRStorageWriteObject(map[model.ZDRSchemaKey].ZDRModelPath(inputData), inputData);
+								return coll[item.ZDRScopeKey].ZDRStorageWriteObject(map[model.ZDRSchemaKey].ZDRModelPath(...arguments), inputData);
 							},
 
 							async _ZDRModelListObjects() {
