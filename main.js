@@ -810,7 +810,7 @@ const mod = {
 
 							ZDRModelWriteObject(inputData) {
 								if (model.ZDRSchemaDispatchValidate) {
-									const outputData = model.ZDRSchemaDispatchValidate(inputData);
+									const outputData = model.ZDRSchemaDispatchValidate(...arguments);
 
 									if (outputData) {
 										return Promise.reject(outputData);

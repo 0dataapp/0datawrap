@@ -859,6 +859,16 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				}, /ZDRErrorInputNotValid/);
 			});
 
+			it('passes all arguments to ZDRSchemaDispatchValidate', async function () {
+				const item1 = Math.random().toString();
+				const item2 = Math.random().toString();
+				await rejects(_ZDRModel({
+					ZDRSchemaDispatchValidate: (function () {
+						return [...arguments];
+					}),
+				}).ZDRModelWriteObject(item1, item2), [item1, item2]);
+			});
+
 			it('rejects if ZDRSchemaDispatchValidate truthy', async function () {
 				const item = Math.random().toString();
 				await rejects(_ZDRModel({
