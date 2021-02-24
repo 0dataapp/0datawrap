@@ -538,9 +538,8 @@ const mod = {
 			const state = await library.initialize(fissionPermissions);
 
 			if (state.scenario === library.Scenario.AuthCancelled) {
-				// User was redirected to lobby,
-				// but cancelled the authorisation
-				return;
+				return library.redirectToLobby(state.permissions);
+				return inputData.ZDRParamDispatchError && inputData.ZDRParamDispatchError(new Error('AuthorizationCancelled'));
 			}
 
 			if (state.scenario === library.Scenario.NotAuthorised) {

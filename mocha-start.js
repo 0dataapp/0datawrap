@@ -102,6 +102,7 @@
 					}),
 				}, inputData),
 				Scenario: {
+					AuthCancelled: 'AuthCancelled',
 					NotAuthorised: 'NotAuthorised',
 					AuthSucceeded: 'AuthSucceeded',
 					Continuation: 'Continuation',

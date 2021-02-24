@@ -67,6 +67,25 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 		})), username);
 	});
 
+	it.skip('calls ZDRParamDispatchError if AuthCancelled', async function () {
+		deepEqual(await (new Promise(function (res, rej) {
+			const item = mod._ZDRWrap({
+				ZDRParamLibrary: uStubFission({
+					initialize: (function () {
+						return {
+							scenario: uStubFission().Scenario.AuthCancelled,
+						};
+					}),
+				}),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchError: (function () {
+					return res(...arguments);
+				}),
+				ZDRParamDispatchReady: (function () {}),
+			});
+		})), new Error('AuthorizationCancelled'));
+	});
+
 	context('scenario', function () {
 
 		it('calls redirectToLobby if NotAuthorised', async function () {
