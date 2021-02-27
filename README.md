@@ -410,6 +410,9 @@ if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
 
   // clear migrate preference to avoid repeating
   zerodatawrap.ZDRPreferenceProtocolMigrateClear();
+
+  // call disconnect to do any other cleanup
+  source.ZDRCloudDisconnect();
 };
 ```
 
