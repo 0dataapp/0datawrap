@@ -598,6 +598,14 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('throws if _ZDRParamDispatchPreObjectWrite not function', function () {
+		throws(function () {
+			__ZDRWrap({
+				_ZDRParamDispatchPreObjectWrite: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
 	const __ZDRStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 
@@ -625,6 +633,19 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 			deepEqual(await __ZDRStorage().ZDRStorageWriteObject(Math.random().toString(), item), item);
+		});
+
+		it('calls _ZDRParamDispatchPreObjectWrite', async function () {
+			const item = Math.random().toString();
+			deepEqual(await __ZDRStorage({
+				_ZDRParamDispatchPreObjectWrite: (function (inputData) {
+					return Object.assign(inputData, {
+						[item]: item,
+					});
+				})
+			}).ZDRStorageWriteObject(Math.random().toString(), {}), {
+				[item]: item,
+			})
 		});
 
 	});

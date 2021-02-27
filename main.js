@@ -293,21 +293,23 @@ const mod = {
 		throw new Error('ZDRErrorInputNotValid');
 	},
 
-	_ZDRClientInterface(_client, protocol) {
+	_ZDRClientInterface(_client, protocol, options) {
 		return {
 
 			async ClientWriteObject(param1, param2) {
+				const writeData = JSON.stringify(options._ZDRParamDispatchPreObjectWrite ? options._ZDRParamDispatchPreObjectWrite(param2) : param2);
+
 				await ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
-						return _client.storeFile('application/json', param1, JSON.stringify(param2));
+						return _client.storeFile('application/json', param1, writeData);
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(param1, JSON.stringify(param2)).then(function () {
+						return _client().write(param1, writeData).then(function () {
 							return _client().publish();
 						});
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
-						return _client.ZDRClientWriteFile(param1, JSON.stringify(param2));
+						return _client.ZDRClientWriteFile(param1, writeData);
 					}),
 				})[protocol]();
 
@@ -488,6 +490,12 @@ const mod = {
 
 		if (typeof inputData.ZDRParamDispatchSyncDidStop !== 'undefined') {
 			if (typeof inputData.ZDRParamDispatchSyncDidStop !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		}
+
+		if (typeof inputData._ZDRParamDispatchPreObjectWrite !== 'undefined') {
+			if (typeof inputData._ZDRParamDispatchPreObjectWrite !== 'function') {
 				throw new Error('ZDRErrorInputNotValid');
 			}
 		}
@@ -688,7 +696,7 @@ const mod = {
 					return library;
 				}),
 			}[ZDRStorageProtocol]();
-			const client = mod._ZDRClientInterface(_client, ZDRStorageProtocol);
+			const client = mod._ZDRClientInterface(_client, ZDRStorageProtocol, inputData);
 
 			if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && schemas.filter(function (e) {
 					return Object.keys(e).filter(function (e) {
