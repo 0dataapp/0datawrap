@@ -181,6 +181,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 		it('calls ZDRParamDispatchConnected', function () {
 			const userAddress = Math.random().toString();
+			const token = Math.random().toString();
 
 			deepEqual(uCapture(function (capture) {
 				mod._ZDRWrap({
@@ -194,6 +195,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						}),
 						remote: {
 							userAddress,
+							token,
 						},
 					}),
 					ZDRParamScopes: [uStubScope()],
@@ -202,7 +204,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						capture(...arguments);
 					}),
 				});
-			}), [userAddress]);
+			}), [userAddress, token]);
 		});
 
 	});

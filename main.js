@@ -570,7 +570,7 @@ const mod = {
 				}
 			}));
 
-			inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username);
+			inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username, Math.random().toString());
 
 			inputData.ZDRParamDispatchReady();
 		})();
@@ -585,7 +585,7 @@ const mod = {
 			});
 
 			library.on('connected', function () {
-				inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(library.remote.userAddress);
+				inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(library.remote.userAddress, library.remote.token);
 			});
 
 			library.on('network-online', function () {
