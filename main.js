@@ -704,14 +704,14 @@ const mod = {
 					}).length;
 				}).length) {
 				_client.on('change', function (event) {
+					const signature = mod._ZDRModelSyncCallbackSignature(event);
+
+					if (!signature) {
+						return;
+					}
+
 					schemas.forEach(function (e) {
 						if (e.ZDRSchemaPath(e.ZDRSchemaStub(event.relativePath)) !== event.relativePath) {
-							return;
-						}
-
-						const signature = mod._ZDRModelSyncCallbackSignature(event);
-
-						if (!signature) {
 							return;
 						}
 
