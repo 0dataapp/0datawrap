@@ -681,8 +681,8 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			}, /ZDRErrorInputNotValid/);
 		});
 
-		it('returns null', function () {
-			deepEqual(__ZDRStorage().ZDRStorageReadFile(Math.random().toString()), null);
+		it('returns null', async function () {
+			deepEqual(await __ZDRStorage().ZDRStorageReadFile(Math.random().toString()), null);
 		});
 
 	});

@@ -326,7 +326,7 @@ const mod = {
 			ClientReadFile(inputData) {
 				return ({
 					[mod.ZDRProtocolRemoteStorage()]: (async function () {
-						return (await _client.getFile(inputData, false)).data;
+						return ((await _client.getFile(inputData, false)) || {}).data;
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
 						return _client().cat(inputData);
@@ -338,7 +338,8 @@ const mod = {
 			},
 
 			async ClientReadObject(inputData) {
-				return JSON.parse(await this.ClientReadFile(inputData));
+				const result = await this.ClientReadFile(inputData);
+				return result ? JSON.parse(result) : null;
 			},
 
 			async ClientListObjects(inputData) {
