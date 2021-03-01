@@ -614,6 +614,29 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, inputData))[ZDRScopeKey];
 	};
 
+	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
+
+		const param3 = Date.now().toString() + '/' + Date.now().toString();
+
+		it('throws if param1 not string', function () {
+			throws(function () {
+				__ZDRStorage().ZDRStorageWriteFile(null, {}, param3);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('throws if param3 not string', function () {
+			throws(function () {
+				__ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), {}, null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns param2', async function () {
+			const item = Math.random().toString();
+			deepEqual(await __ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), item, param3), item);
+		});
+
+	});
+
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject() {
 
 		it('throws if param1 not string', function () {
@@ -646,29 +669,6 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			}).ZDRStorageWriteObject(Math.random().toString(), {}), {
 				[item]: item,
 			})
-		});
-
-	});
-
-	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
-
-		const param3 = Date.now().toString() + '/' + Date.now().toString();
-
-		it('throws if param1 not string', function () {
-			throws(function () {
-				__ZDRStorage().ZDRStorageWriteFile(null, {}, param3);
-			}, /ZDRErrorInputNotValid/);
-		});
-
-		it('throws if param3 not string', function () {
-			throws(function () {
-				__ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), {}, null);
-			}, /ZDRErrorInputNotValid/);
-		});
-
-		it('returns param2', async function () {
-			const item = Math.random().toString();
-			deepEqual(await __ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), item, param3), item);
 		});
 
 	});

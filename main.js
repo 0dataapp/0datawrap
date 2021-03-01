@@ -724,18 +724,6 @@ const mod = {
 			return Object.assign(coll, {
 				[item.ZDRScopeKey]: Object.assign({
 
-					ZDRStorageWriteObject(param1, param2) {
-						if (typeof param1 !== 'string') {
-							throw new Error('ZDRErrorInputNotValid');
-						}
-
-						if (typeof param2 !== 'object' || param2 === null) {
-							throw new Error('ZDRErrorInputNotValid');
-						}
-
-						return client.ClientWriteObject(scopePath(param1), param2);
-					},
-
 					ZDRStorageWriteFile(param1, param2, param3) {
 						if (typeof param1 !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
@@ -746,6 +734,18 @@ const mod = {
 						}
 
 						return client.ClientWriteFile(scopePath(param1), param2, param3);
+					},
+
+					ZDRStorageWriteObject(param1, param2) {
+						if (typeof param1 !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						if (typeof param2 !== 'object' || param2 === null) {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return client.ClientWriteObject(scopePath(param1), param2);
 					},
 
 					ZDRStorageReadObject(inputData) {

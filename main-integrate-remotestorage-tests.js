@@ -287,6 +287,24 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
+	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
+
+		it('calls scope.storeFile', async function () {
+			const param1 = Math.random().toString();
+			const param2 = Math.random().toString();
+			const param3 = Date.now().toString() + '/' + Date.now().toString();
+
+			await rejects(_ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
+					storeFile: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+			}).ZDRStorageWriteFile(param1, param2, param3), [param3, uScopePath(param1), param2]);
+		});
+
+	});
+
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject() {
 
 		it('calls scope.storeFile', async function () {
@@ -302,24 +320,6 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 					}),
 				}),
 			}).ZDRStorageWriteObject(param1, param2), ['application/json', uScopePath(param1), JSON.stringify(param2)]);
-		});
-
-	});
-
-	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
-
-		it('calls scope.storeFile', async function () {
-			const param1 = Math.random().toString();
-			const param2 = Math.random().toString();
-			const param3 = Date.now().toString() + '/' + Date.now().toString();
-
-			await rejects(_ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uStubRemoteStorage({
-					storeFile: (function () {
-						return Promise.reject([...arguments]);
-					}),
-				}),
-			}).ZDRStorageWriteFile(param1, param2, param3), [param3, uScopePath(param1), param2]);
 		});
 
 	});

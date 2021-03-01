@@ -129,6 +129,23 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
+	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
+
+		it('calls fs.write', async function () {
+			const param1 = Math.random().toString();
+			const param2 = Math.random().toString();
+
+			await rejects(_ZDRStorageFission({
+				ZDRParamLibrary: uStubFission({
+					write: (function () {
+						return Promise.reject([...arguments]);
+					}),
+				}),
+			}).ZDRStorageWriteFile(param1, param2, Math.random().toString()), [uScopePath(param1), param2]);
+		});
+
+	});
+
 	context('ZDRStorageWriteObject', function test_ZDRStorageWriteObject() {
 
 		it('calls fs.write', async function () {
@@ -145,23 +162,6 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 					}),
 				}),
 			}).ZDRStorageWriteObject(param1, param2), [uScopePath(param1), JSON.stringify(param2)]);
-		});
-
-	});
-
-	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
-
-		it('calls fs.write', async function () {
-			const param1 = Math.random().toString();
-			const param2 = Math.random().toString();
-
-			await rejects(_ZDRStorageFission({
-				ZDRParamLibrary: uStubFission({
-					write: (function () {
-						return Promise.reject([...arguments]);
-					}),
-				}),
-			}).ZDRStorageWriteFile(param1, param2, Math.random().toString()), [uScopePath(param1), param2]);
 		});
 
 	});
