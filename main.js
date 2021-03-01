@@ -296,26 +296,6 @@ const mod = {
 	_ZDRClientInterface(_client, protocol, options) {
 		return {
 
-			async ClientWriteObject(param1, param2) {
-				const writeData = JSON.stringify(options._ZDRParamDispatchPreObjectWrite ? options._ZDRParamDispatchPreObjectWrite(param2) : param2);
-
-				await ({
-					[mod.ZDRProtocolRemoteStorage()]: (function () {
-						return _client.storeFile('application/json', param1, writeData);
-					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(param1, writeData).then(function () {
-							return _client().publish();
-						});
-					}),
-					[mod.ZDRProtocolCustom()]: (function () {
-						return _client.ZDRClientWriteFile(param1, writeData);
-					}),
-				})[protocol]();
-
-				return param2;
-			},
-
 			async ClientWriteFile(param1, param2, param3) {
 				await ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
@@ -330,6 +310,15 @@ const mod = {
 						return _client.ZDRClientWriteFile(param1, param2, param3);
 					}),
 				})[protocol]();
+
+				return param2;
+			},
+
+			async ClientWriteObject(param1, param2) {
+				const _this = this;
+				const writeData = JSON.stringify(options._ZDRParamDispatchPreObjectWrite ? options._ZDRParamDispatchPreObjectWrite(param2) : param2);
+
+				await _this.ClientWriteFile(param1, writeData, 'application/json');
 
 				return param2;
 			},
