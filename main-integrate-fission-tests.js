@@ -166,25 +166,6 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
-	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
-
-		it('calls fs.cat', async function () {
-			const path = Math.random().toString();
-			const item = {
-				[Math.random().toString()]: Math.random().toString(),
-			};
-
-			deepEqual(await _ZDRStorageFission({
-				ZDRParamLibrary: uStubFission({
-					cat: (function () {
-						return JSON.stringify([item, ...arguments]);
-					}),
-				}),
-			}).ZDRStorageReadObject(path), [item, uScopePath(path)]);
-		});
-
-	});
-
 	context('ZDRStorageReadFile', function test_ZDRStorageReadFile() {
 
 		it('calls fs.cat', async function () {
@@ -200,6 +181,25 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 					}),
 				}),
 			}).ZDRStorageReadFile(path), [item, uScopePath(path)]);
+		});
+
+	});
+
+	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
+
+		it('calls fs.cat', async function () {
+			const path = Math.random().toString();
+			const item = {
+				[Math.random().toString()]: Math.random().toString(),
+			};
+
+			deepEqual(await _ZDRStorageFission({
+				ZDRParamLibrary: uStubFission({
+					cat: (function () {
+						return JSON.stringify([item, ...arguments]);
+					}),
+				}),
+			}).ZDRStorageReadObject(path), [item, uScopePath(path)]);
 		});
 
 	});

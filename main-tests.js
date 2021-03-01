@@ -673,20 +673,6 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	});
 
-	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
-
-		it('throws if not string', function () {
-			throws(function () {
-				__ZDRStorage().ZDRStorageReadObject(null);
-			}, /ZDRErrorInputNotValid/);
-		});
-
-		it('returns null', async function () {
-			deepEqual(await __ZDRStorage().ZDRStorageReadObject(Math.random().toString()), null);
-		});
-
-	});
-
 	context('ZDRStorageReadFile', function test_ZDRStorageReadFile() {
 
 		it('throws if not string', function () {
@@ -697,6 +683,20 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 		it('returns null', function () {
 			deepEqual(__ZDRStorage().ZDRStorageReadFile(Math.random().toString()), null);
+		});
+
+	});
+
+	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
+
+		it('throws if not string', function () {
+			throws(function () {
+				__ZDRStorage().ZDRStorageReadObject(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns null', async function () {
+			deepEqual(await __ZDRStorage().ZDRStorageReadObject(Math.random().toString()), null);
 		});
 
 	});

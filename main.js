@@ -738,20 +738,20 @@ const mod = {
 						return client.ClientWriteObject(scopePath(param1), param2);
 					},
 
-					ZDRStorageReadObject(inputData) {
-						if (typeof inputData !== 'string') {
-							throw new Error('ZDRErrorInputNotValid');
-						}
-
-						return client.ClientReadObject(scopePath(inputData));
-					},
-
 					ZDRStorageReadFile(inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
 						return client.ClientReadFile(scopePath(inputData));
+					},
+
+					ZDRStorageReadObject(inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return client.ClientReadObject(scopePath(inputData));
 					},
 
 					ZDRStorageListObjects(inputData) {

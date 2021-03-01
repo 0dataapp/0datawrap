@@ -324,22 +324,6 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
-	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
-
-		it('calls scope.getFile', async function () {
-			const item = Math.random().toString();
-
-			deepEqual(uCapture(function (capture) {
-				_ZDRStorageRemoteStorage({
-					ZDRParamLibrary: uStubRemoteStorage({
-						getFile: capture,
-					}),
-				}).ZDRStorageReadObject(item)
-			}), [uScopePath(item), false]);
-		});
-
-	});
-
 	context('ZDRStorageReadFile', function test_ZDRStorageReadFile() {
 
 		it('calls scope.getFile', async function () {
@@ -352,6 +336,22 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 					}),
 				}),
 			}).ZDRStorageReadFile(item), [uScopePath(item), false]);
+		});
+
+	});
+
+	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
+
+		it('calls scope.getFile', async function () {
+			const item = Math.random().toString();
+
+			deepEqual(uCapture(function (capture) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
+						getFile: capture,
+					}),
+				}).ZDRStorageReadObject(item)
+			}), [uScopePath(item), false]);
 		});
 
 	});
