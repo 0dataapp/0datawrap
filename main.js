@@ -377,7 +377,7 @@ const mod = {
 						return (await Promise.all(Object.entries(await _client().ls(inputData)).filter(function ([key, value]) {
 							return value.isFile;
 						}).map(async function ([key, value]) {
-							return [key, await _client().cat(key)];
+							return [key, await _client().cat(inputData + key)];
 						}))).reduce(function (coll, [key, value]) {
 							if (!mod._ZDRFissionObjectFilter(value)) {
 								return coll;

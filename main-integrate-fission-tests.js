@@ -221,6 +221,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 		});
 
 		it('calls fs.cat', async function () {
+			const path = Math.random().toString();
 			const item = Math.random().toString();
 
 			await rejects(_ZDRStorageFission({
@@ -236,7 +237,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListObjects(Date.now().toString()), [item]);
+			}).ZDRStorageListObjects(path), [uScopePath(path + item)]);
 		});
 
 		it('excludes folder', async function () {
