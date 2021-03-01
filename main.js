@@ -708,11 +708,13 @@ const mod = {
 			}
 
 			const scopePath = function (inputData) {
-				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/private/${ item.ZDRScopeDirectory }/` : '') + inputData).split('//').join('/').slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
+				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/private/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).split('//').join('/').slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
 			};
 
 			return Object.assign(coll, {
 				[item.ZDRScopeKey]: Object.assign({
+
+					_ZDRStorageBasePath: scopePath,
 
 					ZDRStorageWriteFile(param1, param2, param3) {
 						if (typeof param1 !== 'string') {

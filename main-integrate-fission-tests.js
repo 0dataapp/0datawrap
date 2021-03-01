@@ -129,6 +129,22 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
+	context('_ZDRStorageBasePath', function test__ZDRStorageBasePath() {
+
+		it('returns string', function () {
+			deepEqual(_ZDRStorageFission()._ZDRStorageBasePath(), uScopePath());
+		});
+
+		it('writes to Apps if ZDRScopeCreatorDirectory', function () {
+			const item = Math.random().toString();
+			const ZDRScopeCreatorDirectory = Math.random().toString();
+			deepEqual(_ZDRStorageFission({
+				ZDRScopeCreatorDirectory,
+			})._ZDRStorageBasePath(item), `/private/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+		});
+
+	});
+
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		it('calls fs.write', async function () {
