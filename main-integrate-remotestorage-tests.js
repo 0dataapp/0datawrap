@@ -326,16 +326,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	context('ZDRStorageReadObject', function test_ZDRStorageReadObject() {
 
-		it('calls scope.getObject', async function () {
+		it('calls scope.getFile', async function () {
 			const item = Math.random().toString();
 
-			deepEqual(await _ZDRStorageRemoteStorage({
-				ZDRParamLibrary: uStubRemoteStorage({
-					getObject: (function () {
-						return [...arguments];
+			deepEqual(uCapture(function (capture) {
+				_ZDRStorageRemoteStorage({
+					ZDRParamLibrary: uStubRemoteStorage({
+						getFile: capture,
 					}),
-				}),
-			}).ZDRStorageReadObject(item), [uScopePath(item), false]);
+				}).ZDRStorageReadObject(item)
+			}), [uScopePath(item), false]);
 		});
 
 	});

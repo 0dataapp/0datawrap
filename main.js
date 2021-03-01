@@ -323,20 +323,6 @@ const mod = {
 				return param2;
 			},
 
-			ClientReadObject(inputData) {
-				return ({
-					[mod.ZDRProtocolRemoteStorage()]: (function () {
-						return _client.getObject(inputData, false);
-					}),
-					[mod.ZDRProtocolFission()]: (async function () {
-						return JSON.parse(await _client().cat(inputData));
-					}),
-					[mod.ZDRProtocolCustom()]: (async function () {
-						return JSON.parse(await _client.ZDRClientReadFile(inputData));
-					}),
-				})[protocol]();
-			},
-
 			ClientReadFile(inputData) {
 				return ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
@@ -349,6 +335,10 @@ const mod = {
 						return _client.ZDRClientReadFile(inputData);
 					}),
 				})[protocol]();
+			},
+
+			async ClientReadObject(inputData) {
+				return JSON.parse(await this.ClientReadFile(inputData));
 			},
 
 			async ClientListObjects(inputData) {
