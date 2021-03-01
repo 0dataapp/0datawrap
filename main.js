@@ -408,6 +408,10 @@ const mod = {
 						return Object.keys(await _client.getListing(inputData, false));
 					}),
 					[mod.ZDRProtocolFission()]: (async function () {
+						if (!(await _client().exists(inputData))) {
+							return [];
+						}
+
 						return Object.entries(await _client().ls(inputData)).map(function ([key, value]) {
 							return key + (!value.isFile ? '/' : '');
 						});
