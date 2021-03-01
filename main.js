@@ -322,7 +322,7 @@ const mod = {
 						return _client.storeFile(param3, param1, param2);
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(param1, param2).then(function () {
+						return _client().write(param1, param2.constructor === ArrayBuffer ? new Blob([param2]) : param2).then(function () {
 							return _client().publish();
 						});
 					}),
