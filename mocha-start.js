@@ -38,7 +38,9 @@
 				const scope = (function () {
 					return Object.assign({
 						storeFile: (function () {}),
-						getFile: (function () {}),
+						getFile: (function () {
+							return null;
+						}),
 						getAll: (function () {
 							return {};
 						}),
