@@ -800,6 +800,46 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	});
 
+	context('ZDRStorageDeleteFolderRecursive', function test_ZDRStorageDeleteFolderRecursive() {
+
+		it('rejects if not string', async function () {
+			await rejects(__ZDRStorage().ZDRStorageDeleteFolderRecursive(null), /ZDRErrorInputNotValid/);
+		});
+
+		it('calls _ZDRStoragePathsRecursive', async function () {
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (_ZDRStoragePathsRecursive) {
+				Object.assign(__ZDRStorage(), {
+					_ZDRStoragePathsRecursive,
+				}).ZDRStorageDeleteFolderRecursive(item)
+			}), [mod._ZDRPathFormatDirectory(item)])
+		});
+
+		it('calls _ZDRStorageDeleteFile', async function () {
+			const item = Math.random().toString();
+			deepEqual(await new Promise(function (res, rej) {
+				Object.assign(__ZDRStorage(), {
+					_ZDRStoragePathsRecursive: (function () {
+						return [
+							item,
+						];
+					}),
+					_ZDRStorageDeleteFile: res,
+				}).ZDRStorageDeleteFolderRecursive(Math.random().toString())
+			}), item)
+		});
+
+		it('returns inputData', async function () {
+			const item = Math.random().toString();
+			deepEqual(await Object.assign(__ZDRStorage(), {
+				_ZDRStoragePathsRecursive: (function () {
+					return [];
+				}),
+			}).ZDRStorageDeleteFolderRecursive(item), item);
+		});
+
+	});
+
 	context('ZDRStorageProtocol', function test_ZDRStorageProtocol() {
 
 		it('returns ZDRProtocol', function () {

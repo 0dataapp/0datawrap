@@ -413,7 +413,11 @@ const mod = {
 			ClientDelete(inputData) {
 				return ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
-						return _client.remove(inputData);
+						if (mod._ZDRPathIsDirectory(inputData)) {
+							return null;
+						}
+						
+						return _client.remove(inputData.replace(/^\/+/, ''));
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
 						return _client().rm(inputData).then(function () {
@@ -800,12 +804,28 @@ const mod = {
 						return this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData));
 					},
 
+					_ZDRStorageDeleteFile(inputData) {
+						return client.ClientDelete(inputData);
+					},
+
 					ZDRStorageDeleteFile(inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
 						return client.ClientDelete(scopePath(inputData));
+					},
+
+					async ZDRStorageDeleteFolderRecursive(inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						const _this = this._ZDRStoragePathsRecursive ? this : coll[item.ZDRScopeKey];
+
+						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData))).map(_this._ZDRStorageDeleteFile));
+
+						return inputData;
 					},
 
 				}, schemas.reduce(function (map, model) {
