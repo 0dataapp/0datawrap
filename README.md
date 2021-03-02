@@ -105,7 +105,11 @@ Delete from storage.
 
 Returns null.
 
-**Note: Deleting folders directly is valid in Fission and invalid in remoteStorage**
+### ZDRStorageDeleteFolderRecursive(path)
+
+Delete folder and subcontents recursively from storage.
+
+Returns input.
 
 ## Cloud
 
