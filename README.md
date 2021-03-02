@@ -67,7 +67,7 @@ Returns input object.
 
 Write to storage.
 
-Returns input data.
+Returns input.
 
 ### ZDRStorageReadObject(path)
 
@@ -333,7 +333,7 @@ Returns object path via `ZDRSchemaPath`.
 
 Validate with `ZDRSchemaDispatchValidate`, reject if truthy; write object to path from `ZDRModelPath`.
 
-Returns input data.
+Returns input.
 
 ### ZDRModelListObjects()
 
@@ -461,7 +461,7 @@ Returns null.
 
 Sets the protocol preference as 'to be migrated' if connecting to a different protocol.
 
-Returns input data.
+Returns input.
 
 ### ZDRPreferenceProtocolMigrate()
 

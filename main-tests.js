@@ -817,8 +817,9 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 		it('calls _ZDRStorageDeleteFile', async function () {
 			const item = Math.random().toString();
+			const api = __ZDRStorage();
 			deepEqual(await new Promise(function (res, rej) {
-				Object.assign(__ZDRStorage(), {
+				Object.assign(api, {
 					_ZDRStoragePathsRecursive: (function () {
 						return [
 							item,
@@ -826,7 +827,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 					}),
 					_ZDRStorageDeleteFile: res,
 				}).ZDRStorageDeleteFolderRecursive(Math.random().toString())
-			}), item)
+			}), api._ZDRStorageBasePath(item));
 		});
 
 		it('returns inputData', async function () {
