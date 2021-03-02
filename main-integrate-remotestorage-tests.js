@@ -460,7 +460,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
-	context('ZDRStorageDelete', function test_ZDRStorageDelete() {
+	context('ZDRStorageDeleteFile', function test_ZDRStorageDeleteFile() {
 
 		it('calls scope.remove', async function () {
 			const item = Math.random().toString();
@@ -471,7 +471,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageDelete(item), [uScopePath(item)]);
+			}).ZDRStorageDeleteFile(item), [uScopePath(item)]);
 		});
 
 	});

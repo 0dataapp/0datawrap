@@ -800,7 +800,7 @@ const mod = {
 						return this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData));
 					},
 
-					ZDRStorageDelete(inputData) {
+					ZDRStorageDeleteFile(inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
@@ -845,7 +845,7 @@ const mod = {
 							},
 
 							ZDRModelDeleteObject(inputData) {
-								return coll[item.ZDRScopeKey].ZDRStorageDelete(map[model.ZDRSchemaKey].ZDRModelPath(inputData));
+								return coll[item.ZDRScopeKey].ZDRStorageDeleteFile(map[model.ZDRSchemaKey].ZDRModelPath(inputData));
 							},
 
 						}, Object.entries(model.ZDRSchemaMethods || {}).reduce(function (coll, [key, value]) {

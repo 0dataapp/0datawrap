@@ -99,7 +99,7 @@ Fetch paths recursively.
 
 Returns flat array of paths.
 
-### ZDRStorageDelete(path)
+### ZDRStorageDeleteFile(path)
 
 Delete from storage.
 
@@ -405,7 +405,7 @@ if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
     await destination.App.ZDRStorageWriteObject(key, value);
     
     // delete from source
-    await source.App.ZDRStorageDelete(key);
+    await source.App.ZDRStorageDeleteFile(key);
   }));
 
   // clear migrate preference to avoid repeating
@@ -423,7 +423,7 @@ if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
 | ZDRClientWriteFile <br> **Required** | called by `ZDRStorageWriteFile` |
 | ZDRClientReadFile <br> **Required** | called by `ZDRStorageReadFile` |
 | ZDRClientListObjects <br> **Required** | called by `ZDRStorageListObjects` |
-| ZDRClientDelete <br> **Required** | called by `ZDRStorageDelete` |
+| ZDRClientDelete <br> **Required** | called by `ZDRStorageDeleteFile` |
 | ZDRClientPrepare | called before returning wrapper |
 | ZDRClientConnect | called by `ZDRCloudConnect` |
 | ZDRClientReconnect | called by `ZDRCloudReconnect` |

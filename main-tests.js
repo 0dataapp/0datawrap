@@ -786,16 +786,16 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	});
 
-	context('ZDRStorageDelete', function test_ZDRStorageDelete() {
+	context('ZDRStorageDeleteFile', function test_ZDRStorageDeleteFile() {
 
 		it('throws if not string', function () {
 			throws(function () {
-				__ZDRStorage().ZDRStorageDelete(null);
+				__ZDRStorage().ZDRStorageDeleteFile(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
 		it('returns null', async function () {
-			deepEqual(await __ZDRStorage().ZDRStorageDelete(Math.random().toString()), null);
+			deepEqual(await __ZDRStorage().ZDRStorageDeleteFile(Math.random().toString()), null);
 		});
 
 	});
@@ -1049,14 +1049,14 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				}, /ZDRErrorInputNotValid/);
 			});
 
-			it('calls ZDRStorageDelete', async function () {
+			it('calls ZDRStorageDeleteFile', async function () {
 				const inputData = {
 					[Math.random().toString()]: Math.random().toString(),
 				};
 				const path = Math.random().toString();
 
 				const model = _ZDRModel({
-					ZDRStorageDelete: (function () {
+					ZDRStorageDeleteFile: (function () {
 						return [...arguments];
 					}),
 					ZDRSchemaPath: (function () {

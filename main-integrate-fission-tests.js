@@ -363,7 +363,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
-	context('ZDRStorageDelete', function test_ZDRStorageDelete() {
+	context('ZDRStorageDeleteFile', function test_ZDRStorageDeleteFile() {
 
 		it('calls fs.rm', async function () {
 			const item = Math.random().toString();
@@ -375,7 +375,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 							capture(...arguments)
 						}),
 					}),
-				}).ZDRStorageDelete(item)
+				}).ZDRStorageDeleteFile(item)
 			}), [uScopePath(item)]);
 		});
 
