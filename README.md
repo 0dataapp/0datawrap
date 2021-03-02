@@ -166,7 +166,7 @@ const api = zerodatawrap.ZDRWrap({
 
 });
 
-// write `{"id":"batmobile"}` to "/bravo/cars/batmobile.json
+// write `{"id":"batmobile"}` to /bravo/cars/batmobile.json
 await api.alfa.cars.ZDRModelWriteObject({
   id: 'batmobile',
 });
@@ -271,7 +271,7 @@ const api = zerodatawrap.ZDRWrap({
 
 });
 
-// write `{"id":"batmobile","clean":true,"washed":"…"}` to "/bravo/cars/batmobile.json
+// write `{"id":"batmobile","clean":true,"washed":"…"}` to /bravo/cars/batmobile.json
 await api.alfa.cars.clean({
   id: 'batmobile',
 });
