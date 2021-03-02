@@ -829,7 +829,7 @@ const mod = {
 
 						const _this = this._ZDRStoragePathsRecursive ? this : coll[item.ZDRScopeKey];
 
-						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData), true)).map(scopePath).map(_this._ZDRStorageDeleteFile));
+						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData))).map(scopePath).map(_this._ZDRStorageDeleteFile));
 
 						return inputData;
 					},

@@ -833,7 +833,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				Object.assign(__ZDRStorage(), {
 					_ZDRStoragePathsRecursive,
 				}).ZDRStorageDeleteFolderRecursive(item)
-			}), [mod._ZDRPathFormatDirectory(item), true])
+			}), [mod._ZDRPathFormatDirectory(item)]);
 		});
 
 		it('calls _ZDRStorageDeleteFile', async function () {
