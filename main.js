@@ -298,11 +298,19 @@ const mod = {
 
 			async ClientWriteFile(param1, param2, param3) {
 				await ({
-					[mod.ZDRProtocolRemoteStorage()]: (function () {
-						return _client.storeFile(param3, param1, param2);
+					[mod.ZDRProtocolRemoteStorage()]: (async function () {
+						return _client.storeFile(param3, param1, typeof Blob !== 'undefined' && param2.constructor === Blob ? await new Promise(function (res, rej) {
+							const reader = new FileReader();
+
+							reader.onload = function () {
+								res(reader.result);
+							};
+
+							reader.readAsArrayBuffer(param2);
+						}) : param2);
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(param1, param2.constructor === ArrayBuffer ? new Blob([param2]) : param2).then(function () {
+						return _client().write(param1, param2).then(function () {
 							return _client().publish();
 						});
 					}),
