@@ -789,19 +789,25 @@ const mod = {
 						return this._ZDRStoragePaths(mod._ZDRPathFormatDirectory(inputData));
 					},
 
-					async _ZDRStoragePathsRecursive(inputData) {
+					async _ZDRStoragePathsRecursive(inputData, includeFolders = false) {
 						const _this = this;
 						return uFlatten(await Promise.all((await _this.ZDRStoragePaths(inputData)).map(function (e) {
-							return mod._ZDRPathIsDirectory(e) ? _this._ZDRStoragePathsRecursive(inputData + e) : inputData + e;
-						})));
+							return mod._ZDRPathIsDirectory(e) ? _this._ZDRStoragePathsRecursive(inputData + e, includeFolders) : inputData + e;
+						}))).concat(includeFolders ? inputData : []);
 					},
 
-					ZDRStoragePathsRecursive(inputData) {
+					ZDRStoragePathsRecursive(inputData, includeFolders = false) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData));
+						if (typeof includeFolders !== 'undefined') {
+							if (typeof includeFolders !== 'boolean') {
+								throw new Error('ZDRErrorInputNotValid');
+							}
+						}
+
+						return this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData), includeFolders);
 					},
 
 					_ZDRStorageDeleteFile(inputData) {
@@ -823,7 +829,7 @@ const mod = {
 
 						const _this = this._ZDRStoragePathsRecursive ? this : coll[item.ZDRScopeKey];
 
-						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData))).map(scopePath).map(_this._ZDRStorageDeleteFile));
+						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData), true)).map(scopePath).map(_this._ZDRStorageDeleteFile));
 
 						return inputData;
 					},

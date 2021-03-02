@@ -761,6 +761,21 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			})._ZDRStoragePathsRecursive(item), [mod._ZDRPathFormatDirectory(item) + folder + file]);
 		});
 
+		it('includes folders if param2 true', async function () {
+			const item = mod._ZDRPathFormatDirectory(Math.random().toString());
+			const folder = mod._ZDRPathFormatDirectory(Math.random().toString());
+			const file = Math.random().toString();
+			deepEqual(await Object.assign(__ZDRStorage(), {
+				ZDRStoragePaths: (function (inputData) {
+					return [inputData === item ? folder : file];
+				}),
+			})._ZDRStoragePathsRecursive(item, true), [
+				mod._ZDRPathFormatDirectory(item) + folder + file,
+				mod._ZDRPathFormatDirectory(item) + folder,
+				mod._ZDRPathFormatDirectory(item)
+				]);
+		});
+
 	});
 
 	context('ZDRStoragePathsRecursive', function test_ZDRStoragePathsRecursive() {
@@ -777,11 +792,17 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				_ZDRStoragePathsRecursive: (function () {
 					return [...arguments];
 				}),
-			}).ZDRStoragePathsRecursive(item), [mod._ZDRPathFormatDirectory(item)])
+			}).ZDRStoragePathsRecursive(item), [mod._ZDRPathFormatDirectory(item), false])
 		});
 
 		it('returns array', async function () {
 			deepEqual(await __ZDRStorage().ZDRStoragePathsRecursive(Math.random().toString()), []);
+		});
+
+		it('throws if param2 not boolean', function () {
+			throws(function () {
+				__ZDRStorage().ZDRStoragePathsRecursive(Math.random().toString(), null);
+			}, /ZDRErrorInputNotValid/);
 		});
 
 	});
@@ -812,7 +833,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				Object.assign(__ZDRStorage(), {
 					_ZDRStoragePathsRecursive,
 				}).ZDRStorageDeleteFolderRecursive(item)
-			}), [mod._ZDRPathFormatDirectory(item)])
+			}), [mod._ZDRPathFormatDirectory(item), true])
 		});
 
 		it('calls _ZDRStorageDeleteFile', async function () {
