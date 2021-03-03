@@ -445,6 +445,10 @@ describe('ZDRProtocolForIdentity', function test_ZDRProtocolForIdentity() {
 		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString() + 'fission.codes' + Math.random().toString()), mod.ZDRProtocolFission());
 	});
 
+	it('returns ZDRProtocolFission if match fission.name', function () {
+		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString() + 'fission.name' + Math.random().toString()), mod.ZDRProtocolFission());
+	});
+
 });
 
 describe('_ZDRProtocol', function test__ZDRProtocol() {

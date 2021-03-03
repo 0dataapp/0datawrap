@@ -274,7 +274,7 @@ const mod = {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
-		return inputData.match('fission.codes') ? mod.ZDRProtocolFission() : mod.ZDRProtocolRemoteStorage();
+		return inputData.match(/fission\.(codes|name)/) ? mod.ZDRProtocolFission() : mod.ZDRProtocolRemoteStorage();
 	},
 
 	_ZDRProtocol(inputData) {
