@@ -52,6 +52,7 @@ await api.alfa.ZDRStorageWriteObject('charlie.json', {
 | ZDRScopeDirectory <br> **Required** | string, non-empty, trimmed | top-level directory for claiming read/write access |
 | ZDRScopeCreatorDirectory | string, non-empty, trimmed | if Fission, sets `permissions.app` instead of `permissions.fs` |
 | ZDRScopeSchemas | array of `ZDRSchema` objects | defines model helpers |
+| ZDRScopeIsPublic | boolean | use public directory on read/write |
 
 ## Storage
 
