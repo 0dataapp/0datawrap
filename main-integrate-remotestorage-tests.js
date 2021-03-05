@@ -58,10 +58,6 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	const ZDRScopeDirectory = Date.now().toString();
 
-	const uScopePath = function (inputData) {
-		return `${ inputData }`;
-	};
-
 	const _ZDRStorageRemoteStorage = function (inputData = {}) {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 		const _ZDRScopeDirectory = inputData.ZDRScopeDirectory || ZDRScopeDirectory;
@@ -314,7 +310,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteFile(param1, param2, param3), [param3, uScopePath(param1), param2]);
+			}).ZDRStorageWriteFile(param1, param2, param3), [param3, param1, param2]);
 		});
 
 	});
@@ -333,7 +329,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteObject(param1, param2), ['application/json', uScopePath(param1), JSON.stringify(param2)]);
+			}).ZDRStorageWriteObject(param1, param2), ['application/json', param1, JSON.stringify(param2)]);
 		});
 
 	});
@@ -349,7 +345,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						getFile: capture,
 					}),
 				}).ZDRStorageReadFile(item)
-			}), [uScopePath(item), false]);
+			}), [item, false]);
 		});
 
 	});
@@ -365,7 +361,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						getFile: capture,
 					}),
 				}).ZDRStorageReadObject(item)
-			}), [uScopePath(item), false]);
+			}), [item, false]);
 		});
 
 	});
@@ -383,7 +379,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListObjects(item), [uScopePath(item), false]);
+			}).ZDRStorageListObjects(item), [item, false]);
 		});
 
 		it('excludes folder', async function () {
@@ -434,7 +430,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStoragePaths(item), [uScopePath(mod._ZDRPathFormatDirectory(item)), false]);
+			}).ZDRStoragePaths(item), [mod._ZDRPathFormatDirectory(item), false]);
 		});
 
 		it('converts folder', async function () {
@@ -485,7 +481,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageDeleteFile(item), [uScopePath(item)]);
+			}).ZDRStorageDeleteFile(item), [item]);
 		});
 
 	});

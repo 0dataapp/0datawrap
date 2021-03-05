@@ -28,10 +28,6 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	const ZDRScopeDirectory = Math.random().toString();
 
-	const uScopePath = function (inputData) {
-		return `/private/${ ZDRScopeDirectory }/${ inputData }`;
-	};
-
 	const _ZDRStorageFission = function (inputData = {}) {
 		const ZDRScopeKey = inputData.ZDRScopeKey || Math.random().toString();
 		const _ZDRScopeDirectory = inputData.ZDRScopeDirectory || ZDRScopeDirectory;
@@ -177,13 +173,15 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			const param1 = Math.random().toString();
 			const param2 = Math.random().toString();
 
-			await rejects(_ZDRStorageFission({
+			const api = _ZDRStorageFission({
 				ZDRParamLibrary: uStubFission({
 					write: (function () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteFile(param1, param2, Math.random().toString()), [uScopePath(param1), param2]);
+			});
+
+			await rejects(api.ZDRStorageWriteFile(param1, param2, Math.random().toString()), [api.ZDRStoragePath(param1), param2]);
 		});
 
 	});
@@ -196,14 +194,16 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 
-			await rejects(_ZDRStorageFission({
+			const api = _ZDRStorageFission({
 				ZDRScopeDirectory,
 				ZDRParamLibrary: uStubFission({
 					write: (function () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageWriteObject(param1, param2), [uScopePath(param1), JSON.stringify(param2)]);
+			});
+
+			await rejects(api.ZDRStorageWriteObject(param1, param2), [api.ZDRStoragePath(param1), JSON.stringify(param2)]);
 		});
 
 	});
@@ -216,13 +216,15 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				[Math.random().toString()]: Math.random().toString(),
 			});
 
-			deepEqual(await _ZDRStorageFission({
+			const api = _ZDRStorageFission({
 				ZDRParamLibrary: uStubFission({
 					cat: (function () {
 						return [item, ...arguments];
 					}),
 				}),
-			}).ZDRStorageReadFile(path), [item, uScopePath(path)]);
+			});
+
+			deepEqual(await api.ZDRStorageReadFile(path), [item, api.ZDRStoragePath(path)]);
 		});
 
 	});
@@ -235,13 +237,15 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 
-			deepEqual(await _ZDRStorageFission({
+			const api = _ZDRStorageFission({
 				ZDRParamLibrary: uStubFission({
 					cat: (function () {
 						return JSON.stringify([item, ...arguments]);
 					}),
 				}),
-			}).ZDRStorageReadObject(path), [item, uScopePath(path)]);
+			});
+
+			deepEqual(await api.ZDRStorageReadObject(path), [item, api.ZDRStoragePath(path)]);
 		});
 
 	});
@@ -253,20 +257,22 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 		it('calls fs.ls', async function () {
 			const item = Math.random().toString();
 
-			await rejects(_ZDRStorageFission({
+			const api = _ZDRStorageFission({
 				ZDRParamLibrary: uStubFission({
 					ls: (function () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListObjects(item), [uScopePath(item)]);
+			});
+
+			await rejects(api.ZDRStorageListObjects(item), [api.ZDRStoragePath(item)]);
 		});
 
 		it('calls fs.cat', async function () {
 			const path = Math.random().toString();
 			const item = Math.random().toString();
 
-			await rejects(_ZDRStorageFission({
+			const api = _ZDRStorageFission({
 				ZDRParamLibrary: uStubFission({
 					ls: (function (inputData) {
 						return {
@@ -279,7 +285,9 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStorageListObjects(path), [uScopePath(path + item)]);
+			});
+
+			await rejects(api.ZDRStorageListObjects(path), [api.ZDRStoragePath(path + item)]);
 		});
 
 		it('excludes folder', async function () {
@@ -346,13 +354,15 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 		it('calls fs.ls', async function () {
 			const item = Math.random().toString();
 
-			await rejects(_ZDRStorageFission({
+			const api = _ZDRStorageFission({
 				ZDRParamLibrary: uStubFission({
 					ls: (function () {
 						return Promise.reject([...arguments]);
 					}),
 				}),
-			}).ZDRStoragePaths(item), [uScopePath(mod._ZDRPathFormatDirectory(item))]);
+			});
+
+			await rejects(api.ZDRStoragePaths(item), [api.ZDRStoragePath(mod._ZDRPathFormatDirectory(item))]);
 		});
 
 		it('converts folder', async function () {
@@ -394,6 +404,8 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 		it('calls fs.rm', async function () {
 			const item = Math.random().toString();
 
+			const ZDRScopeDirectory = Math.random().toString();
+
 			deepEqual(uCapture(function (capture) {
 				_ZDRStorageFission({
 					ZDRParamLibrary: uStubFission({
@@ -401,8 +413,11 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 							capture(...arguments)
 						}),
 					}),
+					ZDRScopeDirectory,
 				}).ZDRStorageDeleteFile(item)
-			}), [uScopePath(item)]);
+			}), [_ZDRStorageFission({
+				ZDRScopeDirectory,
+			}).ZDRStoragePath(item)]);
 		});
 
 	});
