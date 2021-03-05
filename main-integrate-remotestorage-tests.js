@@ -297,6 +297,21 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
+	context('ZDRStorageClient', function test_ZDRStorageClient() {
+
+		it('returns RemoteStorage', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			deepEqual(Object.keys(mod._ZDRWrap({
+				ZDRParamLibrary: uStubRemoteStorage(),
+				ZDRParamScopes: [uStubScope({
+					ZDRScopeDirectory,
+				})],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRStorageClient()[ZDRScopeDirectory]), ['privateClient', 'publicClient']);
+		});
+
+	});
+
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		it('calls scope.storeFile', async function () {

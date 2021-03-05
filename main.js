@@ -645,6 +645,9 @@ const mod = {
 					[mod.ZDRProtocolFission()]: (function () {
 						return fissionClient;
 					}),
+					[mod.ZDRProtocolCustom()]: (function () {
+						return inputData.ZDRParamLibrary;
+					}),
 				})[ZDRStorageProtocol]();
 			},
 

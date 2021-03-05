@@ -38,6 +38,19 @@ describe('_ZDRWrap_Custom', function test__ZDRWrap_Custom() {
 
 	});
 
+	context('ZDRStorageClient', function test_ZDRStorageClient() {
+
+		it('returns fs', function () {
+			const ZDRParamLibrary = uStubCustomClient();
+			deepEqual(mod._ZDRWrap({
+				ZDRParamLibrary,
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRStorageClient(), ZDRParamLibrary);
+		});
+
+	});
+
 	context('ZDRCloudReconnect', function test_ZDRCloudReconnect() {
 
 		it('calls ZDRClientConnect', async function () {

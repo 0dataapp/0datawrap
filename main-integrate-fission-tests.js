@@ -178,6 +178,18 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
+	context('ZDRStorageClient', function test_ZDRStorageClient() {
+
+		it('returns fs', function () {
+			deepEqual(Object.keys(mod._ZDRWrap({
+				ZDRParamLibrary: uStubFission(),
+				ZDRParamScopes: [uStubScope()],
+				ZDRParamDispatchReady: (function () {}),
+			}).ZDRStorageClient().root), ['put']);
+		});
+
+	});
+
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		it('calls fs.write', async function () {
