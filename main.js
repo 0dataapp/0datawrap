@@ -737,8 +737,6 @@ const mod = {
 			return Object.assign(coll, {
 				[item.ZDRScopeKey]: Object.assign({
 
-					_ZDRStorageBasePath: scopePath,
-
 					ZDRStoragePath(inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');

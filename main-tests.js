@@ -874,7 +874,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 					}),
 					_ZDRStorageDeleteFile: res,
 				}).ZDRStorageDeleteFolderRecursive(Math.random().toString())
-			}), api._ZDRStorageBasePath(item));
+			}), api.ZDRStoragePath(item));
 		});
 
 		it('returns inputData', async function () {
