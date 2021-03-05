@@ -730,7 +730,7 @@ const mod = {
 				});
 			}
 
-			const ZDRStorageBasePath = function (inputData) {
+			const _ZDRStorageBasePath = function (inputData) {
 				if (typeof inputData !== 'string') {
 					throw new Error('ZDRErrorInputNotValid');
 				}
@@ -741,7 +741,7 @@ const mod = {
 			return Object.assign(coll, {
 				[item.ZDRScopeKey]: Object.assign({
 
-					ZDRStorageBasePath,
+					_ZDRStorageBasePath,
 
 					ZDRStorageWriteFile(param1, param2, param3) {
 						if (typeof param1 !== 'string') {
@@ -752,7 +752,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientWriteFile(ZDRStorageBasePath(param1), param2, param3);
+						return client.ClientWriteFile(_ZDRStorageBasePath(param1), param2, param3);
 					},
 
 					ZDRStorageWriteObject(param1, param2) {
@@ -764,7 +764,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientWriteObject(ZDRStorageBasePath(param1), param2);
+						return client.ClientWriteObject(_ZDRStorageBasePath(param1), param2);
 					},
 
 					ZDRStorageReadFile(inputData) {
@@ -772,7 +772,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientReadFile(ZDRStorageBasePath(inputData));
+						return client.ClientReadFile(_ZDRStorageBasePath(inputData));
 					},
 
 					ZDRStorageReadObject(inputData) {
@@ -780,7 +780,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientReadObject(ZDRStorageBasePath(inputData));
+						return client.ClientReadObject(_ZDRStorageBasePath(inputData));
 					},
 
 					ZDRStorageListingObjects(inputData) {
@@ -788,11 +788,11 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientListObjects(ZDRStorageBasePath(inputData));
+						return client.ClientListObjects(_ZDRStorageBasePath(inputData));
 					},
 
 					_ZDRStoragePaths(inputData) {
-						return client.ClientPaths(ZDRStorageBasePath(inputData));
+						return client.ClientPaths(_ZDRStorageBasePath(inputData));
 					},
 
 					ZDRStoragePaths(inputData) {
@@ -833,7 +833,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientDelete(ZDRStorageBasePath(inputData));
+						return client.ClientDelete(_ZDRStorageBasePath(inputData));
 					},
 
 					async ZDRStorageDeleteFolderRecursive(inputData) {
@@ -843,7 +843,7 @@ const mod = {
 
 						const _this = this._ZDRStoragePathsRecursive ? this : coll[item.ZDRScopeKey];
 
-						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData))).map(ZDRStorageBasePath).map(_this._ZDRStorageDeleteFile));
+						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData))).map(_ZDRStorageBasePath).map(_this._ZDRStorageDeleteFile));
 
 						return inputData;
 					},
