@@ -626,16 +626,16 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	context('ZDRStoragePath', function test_ZDRStoragePath() {
+	context('ZDRStorageBasePath', function test_ZDRStoragePath() {
 
 		it('throws if not string', function () {
 			throws(function () {
-				__ZDRStorage().ZDRStoragePath(null);
+				__ZDRStorage().ZDRStorageBasePath(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
 		it('returns string', function () {
-			deepEqual(typeof __ZDRStorage().ZDRStoragePath(Math.random().toString()), 'string');
+			deepEqual(typeof __ZDRStorage().ZDRStorageBasePath(Math.random().toString()), 'string');
 		});
 
 	});
@@ -874,7 +874,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 					}),
 					_ZDRStorageDeleteFile: res,
 				}).ZDRStorageDeleteFolderRecursive(Math.random().toString())
-			}), api.ZDRStoragePath(item));
+			}), api.ZDRStorageBasePath(item));
 		});
 
 		it('returns inputData', async function () {

@@ -283,16 +283,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
-	context('ZDRStoragePath', function test_ZDRStoragePath() {
+	context('ZDRStorageBasePath', function test_ZDRStoragePath() {
 
 		it('returns inputData', function () {
 			const item = Math.random().toString();
-			deepEqual(_ZDRStorageRemoteStorage().ZDRStoragePath(item), item);
+			deepEqual(_ZDRStorageRemoteStorage().ZDRStorageBasePath(item), item);
 		});
 
 		it('removes leading slash', function () {
 			const item = Math.random().toString();
-			deepEqual(_ZDRStorageRemoteStorage().ZDRStoragePath('/' + item), item);
+			deepEqual(_ZDRStorageRemoteStorage().ZDRStorageBasePath('/' + item), item);
 		});
 
 	});

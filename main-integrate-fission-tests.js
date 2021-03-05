@@ -125,14 +125,14 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
-	context('ZDRStoragePath', function test_ZDRStoragePath() {
+	context('ZDRStorageBasePath', function test_ZDRStoragePath() {
 
 		it('appends private', function () {
 			const ZDRScopeDirectory = Math.random().toString();
 			const item = Math.random().toString();
 			deepEqual(_ZDRStorageFission({
 				ZDRScopeDirectory,
-			}).ZDRStoragePath(item), `/private/${ ZDRScopeDirectory }/` + item);
+			}).ZDRStorageBasePath(item), `/private/${ ZDRScopeDirectory }/` + item);
 		});
 
 		it('appends private apps if ZDRScopeCreatorDirectory', function () {
@@ -142,7 +142,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			deepEqual(_ZDRStorageFission({
 				ZDRScopeDirectory,
 				ZDRScopeCreatorDirectory,
-			}).ZDRStoragePath(item), `/private/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+			}).ZDRStorageBasePath(item), `/private/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
 		});
 
 		it('appends public if ZDRScopeIsPublic', function () {
@@ -151,7 +151,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			deepEqual(_ZDRStorageFission({
 				ZDRScopeDirectory,
 				ZDRScopeIsPublic: true,
-			}).ZDRStoragePath(item), `/public/${ ZDRScopeDirectory }/` + item);
+			}).ZDRStorageBasePath(item), `/public/${ ZDRScopeDirectory }/` + item);
 		});
 
 		it('appends public apps if ZDRScopeCreatorDirectory and ZDRScopeIsPublic', function () {
@@ -162,7 +162,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				ZDRScopeDirectory,
 				ZDRScopeCreatorDirectory,
 				ZDRScopeIsPublic: true,
-			}).ZDRStoragePath(item), `/public/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+			}).ZDRStorageBasePath(item), `/public/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
 		});
 
 	});
@@ -181,7 +181,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageWriteFile(param1, param2, Math.random().toString()), [api.ZDRStoragePath(param1), param2]);
+			await rejects(api.ZDRStorageWriteFile(param1, param2, Math.random().toString()), [api.ZDRStorageBasePath(param1), param2]);
 		});
 
 	});
@@ -203,7 +203,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageWriteObject(param1, param2), [api.ZDRStoragePath(param1), JSON.stringify(param2)]);
+			await rejects(api.ZDRStorageWriteObject(param1, param2), [api.ZDRStorageBasePath(param1), JSON.stringify(param2)]);
 		});
 
 	});
@@ -224,7 +224,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			deepEqual(await api.ZDRStorageReadFile(path), [item, api.ZDRStoragePath(path)]);
+			deepEqual(await api.ZDRStorageReadFile(path), [item, api.ZDRStorageBasePath(path)]);
 		});
 
 	});
@@ -245,7 +245,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			deepEqual(await api.ZDRStorageReadObject(path), [item, api.ZDRStoragePath(path)]);
+			deepEqual(await api.ZDRStorageReadObject(path), [item, api.ZDRStorageBasePath(path)]);
 		});
 
 	});
@@ -265,7 +265,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageListingObjects(item), [api.ZDRStoragePath(item)]);
+			await rejects(api.ZDRStorageListingObjects(item), [api.ZDRStorageBasePath(item)]);
 		});
 
 		it('calls fs.cat', async function () {
@@ -287,7 +287,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageListingObjects(path), [api.ZDRStoragePath(path + item)]);
+			await rejects(api.ZDRStorageListingObjects(path), [api.ZDRStorageBasePath(path + item)]);
 		});
 
 		it('excludes folder', async function () {
@@ -362,7 +362,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStoragePaths(item), [api.ZDRStoragePath(mod._ZDRPathFormatDirectory(item))]);
+			await rejects(api.ZDRStoragePaths(item), [api.ZDRStorageBasePath(mod._ZDRPathFormatDirectory(item))]);
 		});
 
 		it('converts folder', async function () {
@@ -417,7 +417,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}).ZDRStorageDeleteFile(item)
 			}), [_ZDRStorageFission({
 				ZDRScopeDirectory,
-			}).ZDRStoragePath(item)]);
+			}).ZDRStorageBasePath(item)]);
 		});
 
 	});
