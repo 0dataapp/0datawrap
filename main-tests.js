@@ -164,6 +164,14 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate() {
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
+	it('throws if ZDRScopeDirectory contains slash', function () {
+		throws(function () {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeDirectory: Math.random().toString() + '/' + Math.random().toString(),
+			}));
+		}, /ZDRErrorInputNotValid/);
+	});
+
 	it('returns true', function () {
 		deepEqual(mod._ZDRScopeObjectValidate(uStubScope()), true);
 	});

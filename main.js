@@ -97,6 +97,10 @@ const mod = {
 			throw new Error('ZDRErrorInputNotTrimmed');
 		}
 
+		if (inputData.ZDRScopeDirectory.match('/')) {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
 		if (inputData.ZDRScopeSchemas !== undefined) {
 			if (!Array.isArray(inputData.ZDRScopeSchemas)) {
 				throw new Error('ZDRErrorInputNotValid');
