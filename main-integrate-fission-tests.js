@@ -125,7 +125,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
-	context('ZDRStorageBasePath', function test_ZDRStoragePath() {
+	context('ZDRStorageBasePath', function test_ZDRStorageBasePath() {
 
 		it('appends private', function () {
 			const ZDRScopeDirectory = Math.random().toString();

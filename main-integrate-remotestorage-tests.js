@@ -283,7 +283,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
-	context('ZDRStorageBasePath', function test_ZDRStoragePath() {
+	context('ZDRStorageBasePath', function test_ZDRStorageBasePath() {
 
 		it('returns inputData', function () {
 			const item = Math.random().toString();

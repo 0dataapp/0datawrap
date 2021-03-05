@@ -626,7 +626,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, inputData))[ZDRScopeKey];
 	};
 
-	context('ZDRStorageBasePath', function test_ZDRStoragePath() {
+	context('ZDRStorageBasePath', function test_ZDRStorageBasePath() {
 
 		it('throws if not string', function () {
 			throws(function () {
