@@ -727,16 +727,16 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	});
 
-	context('ZDRStorageListObjects', function test_ZDRStorageListObjects() {
+	context('ZDRStorageListingObjects', function test_ZDRStorageListingObjects() {
 
 		it('throws if not string', function () {
 			throws(function () {
-				__ZDRStorage().ZDRStorageListObjects(null);
+				__ZDRStorage().ZDRStorageListingObjects(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 
 		it('returns object', async function () {
-			deepEqual(await __ZDRStorage().ZDRStorageListObjects(Math.random().toString()), {});
+			deepEqual(await __ZDRStorage().ZDRStorageListingObjects(Math.random().toString()), {});
 		});
 
 	});

@@ -250,7 +250,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
-	context('ZDRStorageListObjects', function test_ZDRStorageListObjects() {
+	context('ZDRStorageListingObjects', function test_ZDRStorageListingObjects() {
 
 		const ZDRScopeKey = Date.now().toString();
 
@@ -265,7 +265,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageListObjects(item), [api.ZDRStoragePath(item)]);
+			await rejects(api.ZDRStorageListingObjects(item), [api.ZDRStoragePath(item)]);
 		});
 
 		it('calls fs.cat', async function () {
@@ -287,7 +287,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageListObjects(path), [api.ZDRStoragePath(path + item)]);
+			await rejects(api.ZDRStorageListingObjects(path), [api.ZDRStoragePath(path + item)]);
 		});
 
 		it('excludes folder', async function () {
@@ -301,7 +301,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 						};
 					}),
 				}),
-			}).ZDRStorageListObjects(Math.random().toString()), {});
+			}).ZDRStorageListingObjects(Math.random().toString()), {});
 		});
 
 		it('excludes file', async function () {
@@ -318,7 +318,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 						return Math.random().toString();
 					}),
 				}),
-			}).ZDRStorageListObjects(Math.random().toString()), {});
+			}).ZDRStorageListingObjects(Math.random().toString()), {});
 		});
 
 		it('includes object', async function () {
@@ -340,7 +340,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 						return JSON.stringify(value);
 					}),
 				}),
-			}).ZDRStorageListObjects(Math.random().toString()), {
+			}).ZDRStorageListingObjects(Math.random().toString()), {
 				[key]: value,
 			});
 		});

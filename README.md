@@ -81,7 +81,7 @@ Read from storage.
 
 Returns data.
 
-### ZDRStorageListObjects(path)
+### ZDRStorageListingObjects(path)
 
 Read from storage in path directory (non-recursive); group by path.
 
@@ -404,7 +404,7 @@ if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
   const destination = await wrap(zerodatawrap.ZDRPreferenceProtocol());
   
   // get all objects (this is simplified, should be recursive)
-  await Promise.all(Object.entries(await source.App.ZDRStorageListObjects('')).map(async function ([key, value]) {
+  await Promise.all(Object.entries(await source.App.ZDRStorageListingObjects('')).map(async function ([key, value]) {
     // write to destination
     await destination.App.ZDRStorageWriteObject(key, value);
     
@@ -426,7 +426,7 @@ if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
 |-------|---------|
 | ZDRClientWriteFile <br> **Required** | called by `ZDRStorageWriteFile` |
 | ZDRClientReadFile <br> **Required** | called by `ZDRStorageReadFile` |
-| ZDRClientListObjects <br> **Required** | called by `ZDRStorageListObjects` |
+| ZDRClientListObjects <br> **Required** | called by `ZDRStorageListingObjects` |
 | ZDRClientDelete <br> **Required** | called by `ZDRStorageDeleteFile` |
 | ZDRClientPrepare | called before returning wrapper |
 | ZDRClientConnect | called by `ZDRCloudConnect` |

@@ -783,7 +783,7 @@ const mod = {
 						return client.ClientReadObject(ZDRStoragePath(inputData));
 					},
 
-					ZDRStorageListObjects(inputData) {
+					ZDRStorageListingObjects(inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
