@@ -626,6 +626,20 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, inputData))[ZDRScopeKey];
 	};
 
+	context('ZDRStoragePath', function test_ZDRStoragePath() {
+
+		it('throws if not string', function () {
+			throws(function () {
+				__ZDRStorage().ZDRStoragePath(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+		it('returns string', function () {
+			deepEqual(typeof __ZDRStorage().ZDRStoragePath(Math.random().toString()), 'string');
+		});
+
+	});
+
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		const param3 = Date.now().toString() + '/' + Date.now().toString();

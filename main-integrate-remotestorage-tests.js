@@ -287,6 +287,20 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
+	context('ZDRStoragePath', function test_ZDRStoragePath() {
+
+		it('returns inputData', function () {
+			const item = Math.random().toString();
+			deepEqual(_ZDRStorageRemoteStorage().ZDRStoragePath(item), item);
+		});
+
+		it('removes leading slash', function () {
+			const item = Math.random().toString();
+			deepEqual(_ZDRStorageRemoteStorage().ZDRStoragePath('/' + item), item);
+		});
+
+	});
+
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		it('calls scope.storeFile', async function () {

@@ -739,6 +739,14 @@ const mod = {
 
 					_ZDRStorageBasePath: scopePath,
 
+					ZDRStoragePath(inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ item.ZDRScopeIsPublic ? 'public' : 'private' }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
+					},
+
 					ZDRStorageWriteFile(param1, param2, param3) {
 						if (typeof param1 !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');

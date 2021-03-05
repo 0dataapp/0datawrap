@@ -145,6 +145,48 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
+	context('ZDRStoragePath', function test_ZDRStoragePath() {
+
+		it('appends private', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const item = Math.random().toString();
+			deepEqual(_ZDRStorageFission({
+				ZDRScopeDirectory,
+			}).ZDRStoragePath(item), `/private/${ ZDRScopeDirectory }/` + item);
+		});
+
+		it('appends private apps if ZDRScopeCreatorDirectory', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const ZDRScopeCreatorDirectory = Math.random().toString();
+			const item = Math.random().toString();
+			deepEqual(_ZDRStorageFission({
+				ZDRScopeDirectory,
+				ZDRScopeCreatorDirectory,
+			}).ZDRStoragePath(item), `/private/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+		});
+
+		it('appends public if ZDRScopeIsPublic', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const item = Math.random().toString();
+			deepEqual(_ZDRStorageFission({
+				ZDRScopeDirectory,
+				ZDRScopeIsPublic: true,
+			}).ZDRStoragePath(item), `/public/${ ZDRScopeDirectory }/` + item);
+		});
+
+		it('appends public apps if ZDRScopeCreatorDirectory and ZDRScopeIsPublic', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const ZDRScopeCreatorDirectory = Math.random().toString();
+			const item = Math.random().toString();
+			deepEqual(_ZDRStorageFission({
+				ZDRScopeDirectory,
+				ZDRScopeCreatorDirectory,
+				ZDRScopeIsPublic: true,
+			}).ZDRStoragePath(item), `/public/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+		});
+
+	});
+
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
 		it('calls fs.write', async function () {
