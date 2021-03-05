@@ -304,12 +304,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 			const param2 = Math.random().toString();
 			const param3 = Date.now().toString() + '/' + Date.now().toString();
 
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					storeFile: (function () {
 						return Promise.reject([...arguments]);
 					}),
+					FakePublicClient: ZDRScopeIsPublic,
 				}),
+				ZDRScopeIsPublic,
 			}).ZDRStorageWriteFile(param1, param2, param3), [param3, param1, param2]);
 		});
 
@@ -323,12 +327,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 				[Math.random().toString()]: Math.random().toString(),
 			};
 
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					storeFile: (function () {
 						return Promise.reject([...arguments]);
 					}),
+					FakePublicClient: ZDRScopeIsPublic,
 				}),
+				ZDRScopeIsPublic,
 			}).ZDRStorageWriteObject(param1, param2), ['application/json', param1, JSON.stringify(param2)]);
 		});
 
@@ -339,11 +347,15 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 		it('calls scope.getFile', function () {
 			const item = Math.random().toString();
 
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
 			deepEqual(uCapture(function (capture) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uStubRemoteStorage({
 						getFile: capture,
+						FakePublicClient: ZDRScopeIsPublic,
 					}),
+					ZDRScopeIsPublic,
 				}).ZDRStorageReadFile(item)
 			}), [item, false]);
 		});
@@ -355,11 +367,15 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 		it('calls scope.getFile', function () {
 			const item = Math.random().toString();
 
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
 			deepEqual(uCapture(function (capture) {
 				_ZDRStorageRemoteStorage({
 					ZDRParamLibrary: uStubRemoteStorage({
 						getFile: capture,
+						FakePublicClient: ZDRScopeIsPublic,
 					}),
+					ZDRScopeIsPublic,
 				}).ZDRStorageReadObject(item)
 			}), [item, false]);
 		});
@@ -373,12 +389,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 		it('calls scope.getAll', async function () {
 			const item = Math.random().toString();
 
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getAll: (function () {
 						return Promise.reject([...arguments]);
 					}),
+					FakePublicClient: ZDRScopeIsPublic,
 				}),
+				ZDRScopeIsPublic,
 			}).ZDRStorageListingObjects(item), [item, false]);
 		});
 
@@ -424,12 +444,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 		it('calls scope.getListing', async function () {
 			const item = Math.random().toString();
 
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					getListing: (function () {
 						return Promise.reject([...arguments]);
 					}),
+					FakePublicClient: ZDRScopeIsPublic,
 				}),
+				ZDRScopeIsPublic,
 			}).ZDRStoragePaths(item), [mod._ZDRPathFormatDirectory(item), false]);
 		});
 
@@ -475,12 +499,16 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 		it('calls scope.remove', async function () {
 			const item = Math.random().toString();
 
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
 			await rejects(_ZDRStorageRemoteStorage({
 				ZDRParamLibrary: uStubRemoteStorage({
 					remove: (function () {
 						return Promise.reject([...arguments]);
 					}),
+					FakePublicClient: ZDRScopeIsPublic,
 				}),
+				ZDRScopeIsPublic,
 			}).ZDRStorageDeleteFile(item), [item]);
 		});
 

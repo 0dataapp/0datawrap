@@ -35,27 +35,27 @@
 
 		uStubRemoteStorage(inputData = {}) {
 			const RemoteStorage = function (params = {}) {
-				const scope = (function () {
-					return Object.assign({
-						storeFile: (function () {}),
-						getFile: (function () {
-							return null;
-						}),
-						getAll: (function () {
-							return {};
-						}),
-						getListing: (function () {
-							return {};
-						}),
-						remove: (function () {}),
-					}, inputData);
-				});
-
 				return (params.modules || []).reduce(function (coll, item) {
+					const scope = (function () {
+						return {
+							storeFile: (function () {}),
+							getFile: (function () {
+								return null;
+							}),
+							getAll: (function () {
+								return {};
+							}),
+							getListing: (function () {
+								return {};
+							}),
+							remove: (function () {}),
+						};
+					});
+					
 					return Object.assign(coll, {
 						[item.name]: {
-							privateClient: scope(),
-							publicClient: scope(),
+							privateClient: Object.assign(scope(), inputData.FakePublicClient ? {} : inputData),
+							publicClient: Object.assign(scope(), inputData.FakePublicClient ? inputData : {}),
 						},
 					});
 				}, Object.assign({

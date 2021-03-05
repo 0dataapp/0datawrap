@@ -691,7 +691,7 @@ const mod = {
 
 			const _client = {
 				[mod.ZDRProtocolRemoteStorage()]: (function () {
-					return library[item.ZDRScopeDirectory].privateClient;
+					return library[item.ZDRScopeDirectory][item.ZDRScopeIsPublic ? 'publicClient' : 'privateClient'];
 				}),
 				[mod.ZDRProtocolFission()]: (function () {
 					return function () {
