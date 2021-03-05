@@ -117,6 +117,12 @@ const mod = {
 			}
 		}
 
+		if (inputData.ZDRScopeIsPublic !== undefined) {
+			if (typeof inputData.ZDRScopeIsPublic !== 'boolean') {
+				throw new Error('ZDRErrorInputNotBoolean');
+			}
+		}
+
 		return true;
 	},
 
@@ -520,16 +526,20 @@ const mod = {
 
 		const fissionPermissions = {
 			permissions: scopes.reduce(function (coll, item) {
+				if (!item.ZDRScopeCreatorDirectory) {
+					coll.fs = coll.fs || {};
+
+					const key = item.ZDRScopeIsPublic ? 'publicPaths' : 'privatePaths';
+
+					coll.fs[key] = (coll.fs[key] || []).concat(item.ZDRScopeDirectory);
+				}
+				
 				return Object.assign(coll, item.ZDRScopeCreatorDirectory ? {
 					app: coll.app || {
 						name: item.ZDRScopeDirectory,
 						creator: item.ZDRScopeCreatorDirectory,
 					},
-				} : {
-					fs: {
-						privatePaths: ((coll.fs || {}).privatePaths || []).concat(item.ZDRScopeDirectory),
-					}
-				});
+				} : {});
 			}, {}),
 		};
 

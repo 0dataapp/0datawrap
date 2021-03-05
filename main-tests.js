@@ -200,6 +200,14 @@ describe('_ZDRScopeObjectValidate', function test__ZDRScopeObjectValidate() {
 		}, /ZDRErrorInputNotTrimmed/);
 	});
 
+	it('throws if ZDRScopeIsPublic not boolean', function () {
+		throws(function () {
+			mod._ZDRScopeObjectValidate(uStubScope({
+				ZDRScopeIsPublic: null,
+			}));
+		}, /ZDRErrorInputNotBoolean/);
+	});
+
 });
 
 describe('_ZDRClientObjectValidate', function test__ZDRClientObjectValidate() {

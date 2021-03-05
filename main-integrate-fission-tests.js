@@ -488,6 +488,69 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			});
 		});
 
+		it('calls initialize with publicPaths if ZDRScopeIsPublic', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+
+			deepEqual(uCapture(function (capture) {
+				mod._ZDRWrap({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							capture(...arguments);
+						}),
+					}),
+					ZDRParamScopes: [uStubScope({
+						ZDRScopeDirectory,
+						ZDRScopeIsPublic: true,
+					})],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudConnect(Math.random().toString());
+			}).pop().permissions, {
+				fs: {
+					publicPaths: [
+						ZDRScopeDirectory,
+					],
+				},
+			});
+		});
+
+		it('calls initialize with app if ZDRScopeCreatorDirectory multiple', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const ZDRScopeCreatorDirectory = Math.random().toString();
+
+			deepEqual(uCapture(function (capture) {
+				mod._ZDRWrap({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							capture(...arguments);
+						}),
+					}),
+					ZDRParamScopes: [uStubScope({
+						ZDRScopeDirectory,
+						ZDRScopeCreatorDirectory,
+					}), uStubScope({
+						ZDRScopeDirectory,
+					}), uStubScope({
+						ZDRScopeDirectory,
+						ZDRScopeIsPublic: true,
+					})],
+					ZDRParamDispatchReady: (function () {}),
+				}).ZDRCloudConnect(Math.random().toString());
+			}).pop().permissions, {
+				app: {
+					name: ZDRScopeDirectory,
+					creator: ZDRScopeCreatorDirectory,
+				},
+				fs: {
+					publicPaths: [
+						ZDRScopeDirectory,
+					],
+					privatePaths: [
+						ZDRScopeDirectory,
+					],
+				},
+			});
+		});
+
 	});
 
 	context('ZDRCloudReconnect', function test_ZDRCloudReconnect() {
