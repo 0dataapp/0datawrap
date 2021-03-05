@@ -841,6 +841,16 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	});
 
+	context('ZDRStorageURL', function test_ZDRStorageURL() {
+
+		it('throws if not string', function () {
+			throws(function () {
+				__ZDRStorage().ZDRStorageURL(null);
+			}, /ZDRErrorInputNotValid/);
+		});
+
+	});
+
 	context('ZDRStorageDeleteFile', function test_ZDRStorageDeleteFile() {
 
 		it('throws if not string', function () {

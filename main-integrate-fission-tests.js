@@ -165,6 +165,17 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			})._ZDRStorageBasePath(item), `/public/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
 		});
 
+		it('uses pretty if param2', function () {
+			const ZDRScopeDirectory = Math.random().toString();
+			const ZDRScopeCreatorDirectory = Math.random().toString();
+			const item = Math.random().toString();
+			deepEqual(_ZDRStorageFission({
+				ZDRScopeDirectory,
+				ZDRScopeCreatorDirectory,
+				ZDRScopeIsPublic: true,
+			})._ZDRStorageBasePath(item, true), `/p/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+		});
+
 	});
 
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
@@ -395,6 +406,28 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 					}),
 				}),
 			}).ZDRStoragePaths(Math.random().toString()), [item]);
+		});
+
+	});
+
+	context('ZDRStorageURL', function test_ZDRStorageURL() {
+
+		it('calls fs.root.put', async function () {
+			const item = Math.random().toString();
+			const root = Math.random().toString();
+
+			const ZDRScopeDirectory = Math.random().toString();
+
+			const api = _ZDRStorageFission({
+				ZDRParamLibrary: uStubFission({
+					put: (async function () {
+						return root;
+					}),
+				}),
+				ZDRScopeDirectory,
+			});
+
+			deepEqual(await (await api.ZDRStorageURL(item)), `https://ipfs.runfission.com/ipfs/${ root }${ api._ZDRStorageBasePath(item, true)}`);
 		});
 
 	});

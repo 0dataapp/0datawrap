@@ -48,6 +48,7 @@
 							getListing: (function () {
 								return {};
 							}),
+							getItemURL: (function () {}),
 							remove: (function () {}),
 						};
 					});
@@ -89,6 +90,9 @@
 				initialize: (function () {}),
 				leave: (function () {}),
 				_fs: Object.assign({
+					root: Object.assign({
+						put: (function () {}),
+					}, inputData),
 					write: (async function () {}),
 					cat: (function () {
 						return null;

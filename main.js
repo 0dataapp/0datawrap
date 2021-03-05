@@ -420,6 +420,20 @@ const mod = {
 				})[protocol]();
 			},
 
+			ClientURL(inputData) {
+				return ({
+					[mod.ZDRProtocolRemoteStorage()]: (function () {
+						return _client.getItemURL(inputData);
+					}),
+					[mod.ZDRProtocolFission()]: (async function () {
+						return `https://ipfs.runfission.com/ipfs/${ await _client().root.put() }${ inputData }`;
+					}),
+					[mod.ZDRProtocolCustom()]: (function () {
+						throw new Error('ZDRErrorMethodNotDefined');
+					}),
+				})[protocol]();
+			},
+
 			ClientDelete(inputData) {
 				return ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
@@ -734,12 +748,12 @@ const mod = {
 				});
 			}
 
-			const _ZDRStorageBasePath = function (inputData) {
+			const _ZDRStorageBasePath = function (inputData, pretty = false) {
 				if (typeof inputData !== 'string') {
 					throw new Error('ZDRErrorInputNotValid');
 				}
 
-				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ item.ZDRScopeIsPublic ? 'public' : 'private' }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
+				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ pretty ? 'p' : (item.ZDRScopeIsPublic ? 'public' : 'private') }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
 			};
 
 			return Object.assign(coll, {
@@ -826,6 +840,14 @@ const mod = {
 						}
 
 						return this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData), includeFolders);
+					},
+
+					ZDRStorageURL(inputData) {
+						if (typeof inputData !== 'string') {
+							throw new Error('ZDRErrorInputNotValid');
+						}
+
+						return client.ClientURL(_ZDRStorageBasePath(inputData, true));
 					},
 
 					_ZDRStorageDeleteFile(inputData) {

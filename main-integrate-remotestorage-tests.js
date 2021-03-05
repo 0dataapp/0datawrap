@@ -494,6 +494,26 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
+	context('ZDRStorageURL', function test_ZDRStorageURL() {
+
+		it('calls scope.getItemURL', async function () {
+			const item = Math.random().toString();
+
+			const ZDRScopeIsPublic = uRandomElement(true, false);
+
+			deepEqual(await _ZDRStorageRemoteStorage({
+				ZDRParamLibrary: uStubRemoteStorage({
+					getItemURL: (function () {
+						return [...arguments];
+					}),
+					FakePublicClient: ZDRScopeIsPublic,
+				}),
+				ZDRScopeIsPublic,
+			}).ZDRStorageURL(item), [item]);
+		});
+
+	});
+
 	context('ZDRStorageDeleteFile', function test_ZDRStorageDeleteFile() {
 
 		it('calls scope.remove', async function () {
