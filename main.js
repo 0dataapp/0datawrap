@@ -730,20 +730,18 @@ const mod = {
 				});
 			}
 
-			const scopePath = function (inputData) {
-				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/private/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).split('//').join('/').slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
+			const ZDRStoragePath = function (inputData) {
+				if (typeof inputData !== 'string') {
+					throw new Error('ZDRErrorInputNotValid');
+				}
+
+				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ item.ZDRScopeIsPublic ? 'public' : 'private' }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
 			};
 
 			return Object.assign(coll, {
 				[item.ZDRScopeKey]: Object.assign({
 
-					ZDRStoragePath(inputData) {
-						if (typeof inputData !== 'string') {
-							throw new Error('ZDRErrorInputNotValid');
-						}
-
-						return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ item.ZDRScopeIsPublic ? 'public' : 'private' }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
-					},
+					ZDRStoragePath,
 
 					ZDRStorageWriteFile(param1, param2, param3) {
 						if (typeof param1 !== 'string') {
@@ -754,7 +752,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientWriteFile(scopePath(param1), param2, param3);
+						return client.ClientWriteFile(ZDRStoragePath(param1), param2, param3);
 					},
 
 					ZDRStorageWriteObject(param1, param2) {
@@ -766,7 +764,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientWriteObject(scopePath(param1), param2);
+						return client.ClientWriteObject(ZDRStoragePath(param1), param2);
 					},
 
 					ZDRStorageReadFile(inputData) {
@@ -774,7 +772,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientReadFile(scopePath(inputData));
+						return client.ClientReadFile(ZDRStoragePath(inputData));
 					},
 
 					ZDRStorageReadObject(inputData) {
@@ -782,7 +780,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientReadObject(scopePath(inputData));
+						return client.ClientReadObject(ZDRStoragePath(inputData));
 					},
 
 					ZDRStorageListObjects(inputData) {
@@ -790,11 +788,11 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientListObjects(scopePath(inputData));
+						return client.ClientListObjects(ZDRStoragePath(inputData));
 					},
 
 					_ZDRStoragePaths(inputData) {
-						return client.ClientPaths(scopePath(inputData));
+						return client.ClientPaths(ZDRStoragePath(inputData));
 					},
 
 					ZDRStoragePaths(inputData) {
@@ -835,7 +833,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientDelete(scopePath(inputData));
+						return client.ClientDelete(ZDRStoragePath(inputData));
 					},
 
 					async ZDRStorageDeleteFolderRecursive(inputData) {
@@ -845,7 +843,7 @@ const mod = {
 
 						const _this = this._ZDRStoragePathsRecursive ? this : coll[item.ZDRScopeKey];
 
-						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData))).map(scopePath).map(_this._ZDRStorageDeleteFile));
+						await Promise.all((await _this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData))).map(ZDRStoragePath).map(_this._ZDRStorageDeleteFile));
 
 						return inputData;
 					},
