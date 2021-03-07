@@ -626,6 +626,14 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('throws if _ZDRParamDispatchJSONPostParse not function', function () {
+		throws(function () {
+			__ZDRWrap({
+				_ZDRParamDispatchJSONPostParse: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
 	const __ZDRStorage = function (inputData = {}) {
 		const ZDRScopeKey = Math.random().toString();
 
@@ -733,6 +741,25 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			deepEqual(await __ZDRStorage().ZDRStorageReadObject(Math.random().toString()), null);
 		});
 
+		it('calls _ZDRParamDispatchJSONPostParse', async function () {
+			const item = Math.random().toString();
+			const api = __ZDRStorage({
+				_ZDRParamDispatchJSONPostParse: (function () {
+					return {
+						[item]: item,
+					};
+				}),
+			});
+
+			const path = Math.random().toString();
+
+			await api.ZDRStorageWriteObject(path, {});
+
+			deepEqual(await api.ZDRStorageReadObject(path), {
+				[item]: item,
+			})
+		});
+
 	});
 
 	context('ZDRStorageListingObjects', function test_ZDRStorageListingObjects() {
@@ -745,6 +772,23 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 		it('returns object', async function () {
 			deepEqual(await __ZDRStorage().ZDRStorageListingObjects(Math.random().toString()), {});
+		});
+
+		it('calls _ZDRParamDispatchJSONPostParse', async function () {
+			const item = Math.random().toString();
+			const api = __ZDRStorage({
+				_ZDRParamDispatchJSONPostParse: (function () {
+					return {
+						[item]: item,
+					};
+				}),
+			});
+
+			await api.ZDRStorageWriteObject(Math.random().toString(), {});
+
+			deepEqual(Object.values(await api.ZDRStorageListingObjects(Math.random().toString())), [{
+					[item]: item,
+				}]);
 		});
 
 	});

@@ -21,15 +21,18 @@
 		},
 
 		uStubCustomClient(inputData = {}) {
+			const tree = {};
 			return Object.assign({
-				ZDRClientWriteFile: (function () {}),
-				ZDRClientReadFile: (function () {
-					return null;
+				ZDRClientWriteFile: (function (param1, param2, param3) {
+					tree[param1] = param2;
+				}),
+				ZDRClientReadFile: (function (inputData) {
+					return tree[inputData];
 				}),
 				ZDRClientListObjects: (function () {
-					return {};
+					return tree;
 				}),
-				ZDRClientDelete: (function () {}),
+				ZDRClientDelete: (function (inputData) {}),
 			}, inputData);
 		},
 
@@ -37,13 +40,18 @@
 			const RemoteStorage = function (params = {}) {
 				return (params.modules || []).reduce(function (coll, item) {
 					const scope = (function () {
+						const tree = {};
 						return {
-							storeFile: (function () {}),
-							getFile: (function () {
-								return null;
+							storeFile: (function (param1, param2, param3) {
+								tree[param2] = {
+									data: param3,
+								};
+							}),
+							getFile: (function (inputData) {
+								return tree[inputData];
 							}),
 							getAll: (function () {
-								return {};
+								return tree;
 							}),
 							getListing: (function () {
 								return {};
@@ -86,6 +94,7 @@
 		},
 
 		uStubFission(inputData = {}) {
+			const tree = {};
 			return Object.assign({
 				initialize: (function () {}),
 				leave: (function () {}),
@@ -93,12 +102,22 @@
 					root: Object.assign({
 						put: (function () {}),
 					}, inputData),
-					write: (async function () {}),
-					cat: (function () {
-						return null;
+					write: (async function (param1, param2) {
+						tree[param1] = param2;
+					}),
+					cat: (function (inputData) {
+						const search = '/private';
+						if (inputData.match(search)) {
+							inputData = [search, inputData.split(search).pop()].join('');
+						}
+						return tree[inputData];
 					}),
 					ls: (function () {
-						return {};
+						return Object.fromEntries(Object.entries(tree).map(function ([key, value]) {
+							return [key, {
+								isFile: true,
+							}];
+						}));
 					}),
 					rm: (async function () {}),
 					publish: (async function () {}),

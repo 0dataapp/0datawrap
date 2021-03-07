@@ -620,7 +620,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 		});
 
 		const uChange = function (params = {}) {
-			return _ZDRStorageRemoteStorage({
+			return _ZDRStorageRemoteStorage(Object.assign({
 				ZDRScopeSchemas: [uStubSchema(mod._ZDRModelSyncCallbackSignatures().reduce(function (coll, item) {
 					return Object.assign(coll, {
 						[item]: (function () {
@@ -666,7 +666,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 						})()));
 					}),
 				}),
-			});
+			}, params));
 		};
 
 		it('ignores if no match', function () {
@@ -709,6 +709,24 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 					}),
 				});
 			}), [signature]);
+		});
+
+		it('calls _ZDRParamDispatchJSONPostParse', function () {
+			const signature = uRandomElement(mod._ZDRModelSyncCallbackSignatures());
+			const item = Math.random().toString();
+			deepEqual(uCapture(function (capture) {
+				uChange({
+					_ZDRParamDispatchJSONPostParse: (function () {
+						return {
+							[item]: item,
+						};
+					}),
+					signature,
+					[signature]: capture,
+				});
+			}), [{
+				[item]: item,
+			}]);
 		});
 
 	});

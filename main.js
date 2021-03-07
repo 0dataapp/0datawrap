@@ -357,11 +357,17 @@ const mod = {
 
 			async ClientReadObject(inputData) {
 				const result = await this.ClientReadFile(inputData);
-				return result ? JSON.parse(result) : null;
+
+				if (!result) {
+					return null;
+				}
+
+				const parsed = JSON.parse(result);
+				return options._ZDRParamDispatchJSONPostParse ? options._ZDRParamDispatchJSONPostParse(parsed) : parsed;
 			},
 
 			async ClientListObjects(inputData) {
-				return Object.fromEntries(await ({
+				return Object.fromEntries((await ({
 					[mod.ZDRProtocolRemoteStorage()]: (async function () {
 						return Object.entries(await _client.getAll(inputData, false)).filter(function ([key, value]) {
 							if (mod._ZDRPathIsDirectory(key)) {
@@ -383,7 +389,7 @@ const mod = {
 
 							try {
 								return coll.concat([
-									[key, JSON.parse(value)]
+									[key, JSON.parse(value)],
 								]);
 							} catch (error) {
 								return coll;
@@ -393,7 +399,9 @@ const mod = {
 					[mod.ZDRProtocolCustom()]: (async function () {
 						return Object.entries(await _client.ZDRClientListObjects(inputData));
 					}),
-				})[protocol]());
+				})[protocol]()).map(function ([key, value]) {
+					return [key, options._ZDRParamDispatchJSONPostParse ? options._ZDRParamDispatchJSONPostParse(value) : value];
+				}));
 			},
 
 			async ClientPaths(inputData) {
@@ -512,6 +520,12 @@ const mod = {
 
 		if (typeof inputData._ZDRParamDispatchPreObjectWrite !== 'undefined') {
 			if (typeof inputData._ZDRParamDispatchPreObjectWrite !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		}
+
+		if (typeof inputData._ZDRParamDispatchJSONPostParse !== 'undefined') {
+			if (typeof inputData._ZDRParamDispatchJSONPostParse !== 'function') {
 				throw new Error('ZDRErrorInputNotValid');
 			}
 		}
@@ -742,7 +756,8 @@ const mod = {
 							return;
 						}
 
-						return e[signature](mod._ZDRModelSyncCallbackInput(signature, event));
+						const outputData = mod._ZDRModelSyncCallbackInput(signature, event);
+						return e[signature](inputData._ZDRParamDispatchJSONPostParse ? inputData._ZDRParamDispatchJSONPostParse(outputData) : outputData);
 					});
 				});
 			}
