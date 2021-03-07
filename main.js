@@ -334,7 +334,7 @@ const mod = {
 
 			async ClientWriteObject(param1, param2) {
 				const _this = this;
-				const writeData = JSON.stringify(options._ZDRParamDispatchPreObjectWrite ? options._ZDRParamDispatchPreObjectWrite(param2) : param2);
+				const writeData = JSON.stringify(options._ZDRParamDispatchJSONPreStringify ? options._ZDRParamDispatchJSONPreStringify(param2) : param2);
 
 				await _this.ClientWriteFile(param1, writeData, 'application/json');
 
@@ -518,8 +518,8 @@ const mod = {
 			}
 		}
 
-		if (typeof inputData._ZDRParamDispatchPreObjectWrite !== 'undefined') {
-			if (typeof inputData._ZDRParamDispatchPreObjectWrite !== 'function') {
+		if (typeof inputData._ZDRParamDispatchJSONPreStringify !== 'undefined') {
+			if (typeof inputData._ZDRParamDispatchJSONPreStringify !== 'function') {
 				throw new Error('ZDRErrorInputNotValid');
 			}
 		}

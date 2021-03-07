@@ -618,10 +618,10 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, /ZDRErrorInputNotValid/);
 	});
 
-	it('throws if _ZDRParamDispatchPreObjectWrite not function', function () {
+	it('throws if _ZDRParamDispatchJSONPreStringify not function', function () {
 		throws(function () {
 			__ZDRWrap({
-				_ZDRParamDispatchPreObjectWrite: null,
+				_ZDRParamDispatchJSONPreStringify: null,
 			});
 		}, /ZDRErrorInputNotValid/);
 	});
@@ -700,10 +700,10 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			deepEqual(await __ZDRStorage().ZDRStorageWriteObject(Math.random().toString(), item), item);
 		});
 
-		it('calls _ZDRParamDispatchPreObjectWrite', async function () {
+		it('calls _ZDRParamDispatchJSONPreStringify', async function () {
 			const item = Math.random().toString();
 			deepEqual(await __ZDRStorage({
-				_ZDRParamDispatchPreObjectWrite: (function (inputData) {
+				_ZDRParamDispatchJSONPreStringify: (function (inputData) {
 					return Object.assign(inputData, {
 						[item]: item,
 					});
