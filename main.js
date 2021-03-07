@@ -361,7 +361,7 @@ const mod = {
 			},
 
 			async ClientListObjects(inputData) {
-				return (await ({
+				return Object.fromEntries(await ({
 					[mod.ZDRProtocolRemoteStorage()]: (async function () {
 						return Object.entries(await _client.getAll(inputData, false)).filter(function ([key, value]) {
 							if (mod._ZDRPathIsDirectory(key)) {
@@ -393,11 +393,7 @@ const mod = {
 					[mod.ZDRProtocolCustom()]: (async function () {
 						return Object.entries(await _client.ZDRClientListObjects(inputData));
 					}),
-				})[protocol]()).reduce(function (coll, [key, value]) {
-					return Object.assign(coll, {
-						[key]: value,
-					});
-				}, {});
+				})[protocol]());
 			},
 
 			async ClientPaths(inputData) {
