@@ -422,7 +422,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	});
 
-	context('ZDRStorageURL', function test_ZDRStorageURL() {
+	context('ZDRStoragePermalink', function test_ZDRStoragePermalink() {
 
 		it('calls fs.root.put', async function () {
 			const item = Math.random().toString();
@@ -439,7 +439,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				ZDRScopeDirectory,
 			});
 
-			deepEqual(await (await api.ZDRStorageURL(item)), `https://ipfs.runfission.com/ipfs/${ root }${ api._ZDRStorageBasePath(item, true)}`);
+			deepEqual(await (await api.ZDRStoragePermalink(item)), `https://ipfs.runfission.com/ipfs/${ root }${ api._ZDRStorageBasePath(item, true)}`);
 		});
 
 	});

@@ -885,11 +885,11 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	});
 
-	context('ZDRStorageURL', function test_ZDRStorageURL() {
+	context('ZDRStoragePermalink', function test_ZDRStoragePermalink() {
 
 		it('throws if not string', function () {
 			throws(function () {
-				__ZDRStorage().ZDRStorageURL(null);
+				__ZDRStorage().ZDRStoragePermalink(null);
 			}, /ZDRErrorInputNotValid/);
 		});
 

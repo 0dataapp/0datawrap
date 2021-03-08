@@ -509,7 +509,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 
 	});
 
-	context('ZDRStorageURL', function test_ZDRStorageURL() {
+	context('ZDRStoragePermalink', function test_ZDRStoragePermalink() {
 
 		it('calls scope.getItemURL', async function () {
 			const item = Math.random().toString();
@@ -524,7 +524,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 					FakePublicClient: ZDRScopeIsPublic,
 				}),
 				ZDRScopeIsPublic,
-			}).ZDRStorageURL(item), [item]);
+			}).ZDRStoragePermalink(item), [item]);
 		});
 
 	});

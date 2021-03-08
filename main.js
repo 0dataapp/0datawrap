@@ -424,7 +424,7 @@ const mod = {
 				})[protocol]();
 			},
 
-			ClientURL(inputData) {
+			ClientPermalink(inputData) {
 				return ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
 						return _client.getItemURL(inputData);
@@ -856,12 +856,12 @@ const mod = {
 						return this._ZDRStoragePathsRecursive(mod._ZDRPathFormatDirectory(inputData), includeFolders);
 					},
 
-					ZDRStorageURL(inputData) {
+					ZDRStoragePermalink(inputData) {
 						if (typeof inputData !== 'string') {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientURL(_ZDRStorageBasePath(inputData, true));
+						return client.ClientPermalink(_ZDRStorageBasePath(inputData, true));
 					},
 
 					_ZDRStorageDeleteFile(inputData) {
