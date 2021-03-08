@@ -429,8 +429,8 @@ const mod = {
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
 						return _client.getItemURL(inputData);
 					}),
-					[mod.ZDRProtocolFission()]: (async function () {
-						return `https://ipfs.runfission.com/ipfs/${ await _client().root.put() }${ inputData }`;
+					[mod.ZDRProtocolFission()]: (function () {
+						return _client().permalinkBase + inputData;
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						throw new Error('ZDRErrorMethodNotDefined');
@@ -603,6 +603,8 @@ const mod = {
 					await fissionClient.publish();
 				}
 			}));
+
+			fissionClient.permalinkBase = `https://${ state.username }.files.fission.name`;
 
 			inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username, Math.random().toString());
 

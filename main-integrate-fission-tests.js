@@ -424,22 +424,29 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 
 	context('ZDRStoragePermalink', function test_ZDRStoragePermalink() {
 
-		it('calls fs.root.put', async function () {
+		it('includes state.username', async function () {
+			const username = Math.random().toString();
 			const item = Math.random().toString();
-			const root = Math.random().toString();
-
 			const ZDRScopeDirectory = Math.random().toString();
 
-			const api = _ZDRStorageFission({
-				ZDRParamLibrary: uStubFission({
-					put: (async function () {
-						return root;
+			const api = await (new Promise(function (res, rej) {
+				const api = _ZDRStorageFission({
+					ZDRParamLibrary: uStubFission({
+						initialize: (function () {
+							return {
+								scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
+								username,
+							};
+						}),
 					}),
-				}),
-				ZDRScopeDirectory,
-			});
+					ZDRScopeDirectory,
+					ZDRParamDispatchReady: (function () {
+						return res(api);
+					}),
+				});
+			}));
 
-			deepEqual(await (await api.ZDRStoragePermalink(item)), `https://ipfs.runfission.com/ipfs/${ root }${ api._ZDRStorageBasePath(item, true)}`);
+			deepEqual(api.ZDRStoragePermalink(item), `https://${ username }.files.fission.name${ api._ZDRStorageBasePath(item, true)}`);
 		});
 
 	});
