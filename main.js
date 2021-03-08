@@ -13,7 +13,7 @@ const mod = {
 			throw new Error('ZDRErrorInputNotString');
 		}
 
-		if (inputData.ZDRSchemaKey.trim() === '') {
+		if (!inputData.ZDRSchemaKey.trim()) {
 			throw new Error('ZDRErrorInputNotFilled');
 		}
 
@@ -77,7 +77,7 @@ const mod = {
 			throw new Error('ZDRErrorInputNotString');
 		}
 
-		if (inputData.ZDRScopeKey.trim() === '') {
+		if (!inputData.ZDRScopeKey.trim()) {
 			throw new Error('ZDRErrorInputNotFilled');
 		}
 
@@ -89,7 +89,7 @@ const mod = {
 			throw new Error('ZDRErrorInputNotString');
 		}
 
-		if (inputData.ZDRScopeDirectory.trim() === '') {
+		if (!inputData.ZDRScopeDirectory.trim()) {
 			throw new Error('ZDRErrorInputNotFilled');
 		}
 
@@ -112,7 +112,7 @@ const mod = {
 				throw new Error('ZDRErrorInputNotString');
 			}
 
-			if (inputData.ZDRScopeCreatorDirectory.trim() === '') {
+			if (!inputData.ZDRScopeCreatorDirectory.trim()) {
 				throw new Error('ZDRErrorInputNotFilled');
 			}
 
