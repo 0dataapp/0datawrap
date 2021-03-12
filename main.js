@@ -769,7 +769,7 @@ const mod = {
 					throw new Error('ZDRErrorInputNotValid');
 				}
 
-				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ pretty ? 'p' : (item.ZDRScopeIsPublic ? 'public' : 'private') }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
+				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ pretty ? 'p' : (item.ZDRScopeIsPublic ? 'public' : 'private') }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
 			};
 
 			return Object.assign(coll, {

@@ -132,7 +132,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			const item = Math.random().toString();
 			deepEqual(_ZDRStorageFission({
 				ZDRScopeDirectory,
-			})._ZDRStorageBasePath(item), `/private/${ ZDRScopeDirectory }/` + item);
+			})._ZDRStorageBasePath(item), `/private/${ ZDRScopeDirectory }` + item);
 		});
 
 		it('appends private apps if ZDRScopeCreatorDirectory', function () {
@@ -142,7 +142,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			deepEqual(_ZDRStorageFission({
 				ZDRScopeDirectory,
 				ZDRScopeCreatorDirectory,
-			})._ZDRStorageBasePath(item), `/private/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+			})._ZDRStorageBasePath(item), `/private/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }` + item);
 		});
 
 		it('appends public if ZDRScopeIsPublic', function () {
@@ -151,7 +151,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			deepEqual(_ZDRStorageFission({
 				ZDRScopeDirectory,
 				ZDRScopeIsPublic: true,
-			})._ZDRStorageBasePath(item), `/public/${ ZDRScopeDirectory }/` + item);
+			})._ZDRStorageBasePath(item), `/public/${ ZDRScopeDirectory }` + item);
 		});
 
 		it('appends public apps if ZDRScopeCreatorDirectory and ZDRScopeIsPublic', function () {
@@ -162,7 +162,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				ZDRScopeDirectory,
 				ZDRScopeCreatorDirectory,
 				ZDRScopeIsPublic: true,
-			})._ZDRStorageBasePath(item), `/public/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+			})._ZDRStorageBasePath(item), `/public/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }` + item);
 		});
 
 		it('uses pretty if param2', function () {
@@ -173,7 +173,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				ZDRScopeDirectory,
 				ZDRScopeCreatorDirectory,
 				ZDRScopeIsPublic: true,
-			})._ZDRStorageBasePath(item, true), `/p/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }/` + item);
+			})._ZDRStorageBasePath(item, true), `/p/Apps/${ ZDRScopeCreatorDirectory }/${ ZDRScopeDirectory }` + item);
 		});
 
 	});
