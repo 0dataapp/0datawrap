@@ -926,8 +926,10 @@ const mod = {
 								return Promise.all((await this._ZDRModelListObjects()).map(coll[item.ZDRScopeKey].ZDRStorageReadObject));
 							},
 
-							ZDRModelDeleteObject(inputData) {
-								return coll[item.ZDRScopeKey].ZDRStorageDeleteFile(map[model.ZDRSchemaKey].ZDRModelPath(inputData));
+							async ZDRModelDeleteObject(inputData) {
+								await coll[item.ZDRScopeKey].ZDRStorageDeleteFile(map[model.ZDRSchemaKey].ZDRModelPath(inputData));
+
+								return inputData;
 							},
 
 						}, Object.entries(model.ZDRSchemaMethods || {}).reduce(function (coll, [key, value]) {

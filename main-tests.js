@@ -1173,35 +1173,30 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 		context('ZDRModelDeleteObject', function test_ZDRModelDeleteObject() {
 
-			it('throws if not object', function () {
-				throws(function () {
-					_ZDRModel().ZDRModelDeleteObject(null);
-				}, /ZDRErrorInputNotValid/);
+			it('rejects if not object', async function () {
+				await rejects(_ZDRModel().ZDRModelDeleteObject(null), /ZDRErrorInputNotValid/);
 			});
 
 			it('calls ZDRStorageDeleteFile', async function () {
-				const inputData = {
-					[Math.random().toString()]: Math.random().toString(),
-				};
 				const path = Math.random().toString();
 
-				const model = _ZDRModel({
-					ZDRStorageDeleteFile: (function () {
-						return [...arguments];
-					}),
-					ZDRSchemaPath: (function () {
-						return path;
-					}),
-				});
-
-				deepEqual(model.ZDRModelDeleteObject(inputData), [path]);
+				deepEqual(uCapture(function (ZDRStorageDeleteFile) {
+					const model = _ZDRModel({
+						ZDRStorageDeleteFile,
+						ZDRSchemaPath: (function () {
+							return path;
+						}),
+					}).ZDRModelDeleteObject({
+						[Math.random().toString()]: Math.random().toString(),
+					});
+				}), [path]);
 			});
 
 			it('returns inputData', async function () {
 				const item = {
 					[Math.random().toString()]: Math.random().toString(),
 				};
-				deepEqual(await _ZDRModel().ZDRModelWriteObject(item), item);
+				deepEqual(await _ZDRModel().ZDRModelDeleteObject(item), item);
 			});
 
 		});
