@@ -411,7 +411,7 @@ describe('_ZDRModelSyncCallbackInput', function test__ZDRModelSyncCallbackInput(
 
 describe('ZDRProtocolRemoteStorage', function test_ZDRProtocolRemoteStorage() {
 
-	it('returns array', function () {
+	it('returns string', function () {
 		deepEqual(mod.ZDRProtocolRemoteStorage(), 'ZDR_PROTOCOL_REMOTE_STORAGE');
 	});
 
@@ -419,7 +419,7 @@ describe('ZDRProtocolRemoteStorage', function test_ZDRProtocolRemoteStorage() {
 
 describe('ZDRProtocolFission', function test_ZDRProtocolFission() {
 
-	it('returns array', function () {
+	it('returns string', function () {
 		deepEqual(mod.ZDRProtocolFission(), 'ZDR_PROTOCOL_FISSION');
 	});
 
@@ -427,7 +427,7 @@ describe('ZDRProtocolFission', function test_ZDRProtocolFission() {
 
 describe('ZDRProtocolCustom', function test_ZDRProtocolCustom() {
 
-	it('returns array', function () {
+	it('returns string', function () {
 		deepEqual(mod.ZDRProtocolCustom(), 'ZDR_PROTOCOL_CUSTOM');
 	});
 
