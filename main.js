@@ -606,7 +606,7 @@ const mod = {
 
 			fissionClient.permalinkBase = `https://${ state.username }.files.fission.name`;
 
-			inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username, Math.random().toString());
+			inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username + '@fission.name', Math.random().toString());
 
 			inputData.ZDRParamDispatchReady();
 		})();

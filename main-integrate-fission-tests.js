@@ -60,7 +60,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 				ZDRParamDispatchReady: (function () {}),
 			});
-		})), username);
+		})), username + '@fission.name');
 	});
 
 	it.skip('calls ZDRParamDispatchError if AuthCancelled', async function () {
