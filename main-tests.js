@@ -1062,7 +1062,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 					}),
 				});
 
-				deepEqual(model.ZDRModelWriteObject(inputData), [path, inputData]);
+				deepEqual(model.ZDRModelWriteObject(inputData), [mod._ZDRPathFormatPath(path), inputData]);
 			});
 
 			it('returns inputData', async function () {
@@ -1189,7 +1189,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 					}).ZDRModelDeleteObject({
 						[Math.random().toString()]: Math.random().toString(),
 					});
-				}), [path]);
+				}), [mod._ZDRPathFormatPath(path)]);
 			});
 
 			it('returns inputData', async function () {

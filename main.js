@@ -911,7 +911,7 @@ const mod = {
 									}
 								}
 
-								return coll[item.ZDRScopeKey].ZDRStorageWriteObject(map[model.ZDRSchemaKey].ZDRModelPath(...arguments), inputData);
+								return coll[item.ZDRScopeKey].ZDRStorageWriteObject(mod._ZDRPathFormatPath(map[model.ZDRSchemaKey].ZDRModelPath(...arguments)), inputData);
 							},
 
 							async _ZDRModelListObjects() {
@@ -927,7 +927,7 @@ const mod = {
 							},
 
 							async ZDRModelDeleteObject(inputData) {
-								await coll[item.ZDRScopeKey].ZDRStorageDeleteFile(map[model.ZDRSchemaKey].ZDRModelPath(inputData));
+								await coll[item.ZDRScopeKey].ZDRStorageDeleteFile(mod._ZDRPathFormatPath(map[model.ZDRSchemaKey].ZDRModelPath(inputData)));
 
 								return inputData;
 							},
