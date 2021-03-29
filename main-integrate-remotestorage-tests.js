@@ -414,7 +414,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 					FakePublicClient: ZDRScopeIsPublic,
 				}),
 				ZDRScopeIsPublic,
-			}).ZDRStorageListingObjects(item), [item, false]);
+			}).ZDRStorageListingObjects(item), [mod._ZDRPathFormatDirectory(item), false]);
 		});
 
 		it('excludes folder', async function () {

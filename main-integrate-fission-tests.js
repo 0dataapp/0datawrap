@@ -288,7 +288,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageListingObjects(item), [api._ZDRStorageBasePath(item)]);
+			await rejects(api.ZDRStorageListingObjects(item), [mod._ZDRPathFormatDirectory(api._ZDRStorageBasePath(item))]);
 		});
 
 		it('calls fs.cat', async function () {
@@ -310,7 +310,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}),
 			});
 
-			await rejects(api.ZDRStorageListingObjects(path), [api._ZDRStorageBasePath(path + item)]);
+			await rejects(api.ZDRStorageListingObjects(path), [api._ZDRStorageBasePath(mod._ZDRPathFormatDirectory(path) + item)]);
 		});
 
 		it('excludes folder', async function () {

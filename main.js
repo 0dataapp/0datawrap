@@ -369,7 +369,7 @@ const mod = {
 			async ClientListObjects(inputData) {
 				return Object.fromEntries((await ({
 					[mod.ZDRProtocolRemoteStorage()]: (async function () {
-						return Object.entries(await _client.getAll(inputData, false)).filter(function ([key, value]) {
+						return Object.entries(await _client.getAll(inputData === '/' ? '' : inputData, false)).filter(function ([key, value]) {
 							if (mod._ZDRPathIsDirectory(key)) {
 								return false;
 							}
@@ -822,7 +822,7 @@ const mod = {
 							throw new Error('ZDRErrorInputNotValid');
 						}
 
-						return client.ClientListObjects(_ZDRStorageBasePath(inputData));
+						return client.ClientListObjects(mod._ZDRPathFormatDirectory(_ZDRStorageBasePath(inputData)));
 					},
 
 					_ZDRStoragePaths(inputData) {
