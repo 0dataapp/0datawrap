@@ -1546,7 +1546,7 @@ describe('ZDRLauncherItemFakeDispatchConnected', function test_ZDRLauncherItemFa
 				ZDRParamDispatchConnected: (function () {
 					return [...arguments];
 				}),
-			}).LCHRecipeCallback(), ['ZDR_FAKE_CLOUD_IDENTITY']);
+			}).LCHRecipeCallback(), ['ZDR_FAKE_CLOUD_IDENTITY', 'ZDR_FAKE_CLOUD_TOKEN']);
 		});
 		
 	});

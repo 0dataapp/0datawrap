@@ -1031,7 +1031,7 @@ const mod = {
 		return {
 			LCHRecipeName: 'ZDRLauncherItemFakeDispatchConnected',
 			LCHRecipeCallback() {
-				return inputData.ZDRParamDispatchConnected('ZDR_FAKE_CLOUD_IDENTITY');
+				return inputData.ZDRParamDispatchConnected('ZDR_FAKE_CLOUD_IDENTITY', 'ZDR_FAKE_CLOUD_TOKEN');
 			},
 		};
 	},
