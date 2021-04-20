@@ -598,8 +598,10 @@ const mod = {
 			}
 
 			await Promise.all(scopes.map(async function (e) {
-				if (!(await fissionClient.exists(`/private/${ e.ZDRScopeDirectory }`))) {
-					await fissionClient.mkdir(`/private/${ e.ZDRScopeDirectory }`);
+				const path = '/private/' + (e.ZDRScopeCreatorDirectory ? `Apps/${ e.ZDRScopeCreatorDirectory }/${ e.ZDRScopeDirectory }` : e.ZDRScopeDirectory);
+
+				if (!(await fissionClient.exists(path))) {
+					await fissionClient.mkdir(path);
 					await fissionClient.publish();
 				}
 			}));
