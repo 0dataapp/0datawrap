@@ -1,6 +1,6 @@
 <a href="https://0data.app"><img alt="Project logo" src="https://static.rosano.ca/0data/identity.svg" width="64" /></a>
 
-# Zero Data Wrap
+# [Zero Data](https://0data.app) Wrap
 
 _Unified JavaScript API for Fission + remoteStorage._
 
