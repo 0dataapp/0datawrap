@@ -9,6 +9,17 @@ _Unified JavaScript API for Fission + remoteStorage._
 - [remotestorage.js](https://community.remotestorage.io/t/659)
 - [Webnative SDK](https://talk.fission.codes/t/1587)
 
+# Long names…
+
+Yes, it's long and verbose and how I do things generally, but ideally your final code looks like this:
+
+```javascript
+// write `{"id":"batmobile","clean":true,"washed":"…"}` to /bravo/cars/batmobile.json
+await api.alfa.cars.wash({
+  id: 'batmobile',
+});
+```
+
 # API Guide
 
 ## Setup
