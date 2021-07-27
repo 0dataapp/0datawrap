@@ -496,10 +496,10 @@ If you’re enjoying this, consider contributing to my Open Collective. Virtuall
 
 <a href="https://opencollective.com/rosano"><img alt="Contribute" src="http://static.rosano.ca/_shared/_RCSContributeButton.svg" /></a>
 
-# License
+## License
 
 The code is released under a [Hippocratic License](https://firstdonoharm.dev), modified to exclude its use for surveillance capitalism and also to require large for-profit entities to purchase a paid license.
 
-# Questions
+## Questions
 
 Feel free to reach out on [Mastodon](https://merveilles.town/@rosano) or [Twitter](https://twitter.com/rosano).
