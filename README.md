@@ -4,6 +4,11 @@
 
 _Unified JavaScript API for Fission + remoteStorage._
 
+# Comparisons
+
+- [remotestorage.js](https://community.remotestorage.io/t/659)
+- [Webnative SDK](https://talk.fission.codes/t/1587)
+
 # API Guide
 
 ## Setup
