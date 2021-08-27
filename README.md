@@ -2,7 +2,7 @@
 
 # [Zero Data](https://0data.app) Wrap
 
-_Unified JavaScript API for Fission + remoteStorage._
+_Unified JavaScript API for [Fission](https://guide.fission.codes/developers/webnative) + [remoteStorage](https://github.com/remotestorage/remotestorage.js)._
 
 # Comparisons
 
