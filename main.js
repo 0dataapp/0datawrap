@@ -577,7 +577,12 @@ const mod = {
 				return;
 			}
 
-			const state = await library.initialize(fissionPermissions);
+			const state = await library.initialize(fissionPermissions).catch(function (error) {
+			});
+
+			if (!state) {
+				return inputData._ZDRParamDispatchInitialisationError && inputData._ZDRParamDispatchInitialisationError();
+			}
 
 			if (state.scenario === library.Scenario.AuthCancelled) {
 				return library.redirectToLobby(state.permissions);
