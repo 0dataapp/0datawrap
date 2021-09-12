@@ -557,9 +557,9 @@ const mod = {
 				if (!item.ZDRScopeCreatorDirectory) {
 					coll.fs = coll.fs || {};
 
-					const key = item.ZDRScopeIsPublic ? 'publicPaths' : 'privatePaths';
+					const key = item.ZDRScopeIsPublic ? 'public' : 'private';
 
-					coll.fs[key] = (coll.fs[key] || []).concat(item.ZDRScopeDirectory);
+					coll.fs[key] = (coll.fs[key] || []).concat(webnative.path.directory(item.ZDRScopeDirectory));
 				}
 				
 				return Object.assign(coll, item.ZDRScopeCreatorDirectory ? {
