@@ -202,6 +202,24 @@ const mod = {
 		return inputData[0] === '/' ? inputData : '/'.concat(inputData);
 	},
 
+	__ZDRFissionPathElements(inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('ZDRErrorInputNotValid');
+		}
+
+		return inputData.split('/').filter(function (e) {
+			return e;
+		});
+	},
+
+	__ZDRFissionPathFile(inputData) {
+		return webnative.path.file(...mod.__ZDRFissionPathElements(inputData));
+	},
+
+	__ZDRFissionPathDirectory(inputData) {
+		return webnative.path.directory(...mod.__ZDRFissionPathElements(inputData));
+	},
+
 	_ZDRModelSyncCallbackSignatures() {
 		return [
 			'ZDRSchemaDispatchSyncCreate',
