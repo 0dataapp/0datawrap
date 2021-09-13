@@ -48,10 +48,10 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			const item = mod._ZDRWrap({
 				ZDRParamLibrary: uStubFission({
 					initialize: (function () {
-						return {
+						return Promise.resolve({
 							scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
 							username,
-						};
+						});
 					}),
 				}),
 				ZDRParamScopes: [uStubScope()],
@@ -92,10 +92,10 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				_ZDRStorageFission({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							return {
+							return Promise.resolve({
 								scenario: uStubFission().Scenario['NotAuthorised'],
 								permissions,
-							};
+							});
 						}),
 						redirectToLobby: (function () {
 							return rej([...arguments]);
@@ -111,9 +111,9 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				_ZDRStorageFission({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							return {
+							return Promise.resolve({
 								scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
-							};
+							});
 						}),
 					}),
 					ZDRParamDispatchReady: (function () {
@@ -433,10 +433,10 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				const api = _ZDRStorageFission({
 					ZDRParamLibrary: uStubFission({
 						initialize: (function () {
-							return {
+							return Promise.resolve({
 								scenario: uStubFission().Scenario[uRandomElement('AuthSucceeded', 'Continuation')],
 								username,
-							};
+							});
 						}),
 					}),
 					ZDRScopeDirectory,
@@ -493,7 +493,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}).ZDRCloudConnect(Math.random().toString());
 			}).pop().permissions, {
 				fs: {
-					privatePaths: [
+					private: [
 						ZDRScopeDirectory,
 					],
 				},
@@ -520,7 +520,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}).ZDRCloudConnect(Math.random().toString());
 			}).pop().permissions, {
 				fs: {
-					privatePaths: [
+					private: [
 						ZDRScopeDirectory1,
 						ZDRScopeDirectory2,
 					],
@@ -581,7 +581,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 			});
 		});
 
-		it('calls initialize with publicPaths if ZDRScopeIsPublic', function () {
+		it('calls initialize with public if ZDRScopeIsPublic', function () {
 			const ZDRScopeDirectory = Math.random().toString();
 
 			deepEqual(uCapture(function (capture) {
@@ -599,7 +599,7 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 				}).ZDRCloudConnect(Math.random().toString());
 			}).pop().permissions, {
 				fs: {
-					publicPaths: [
+					public: [
 						ZDRScopeDirectory,
 					],
 				},
@@ -634,10 +634,10 @@ describe('_ZDRWrap_Fission', function test__ZDRWrap_Fission() {
 					creator: ZDRScopeCreatorDirectory,
 				},
 				fs: {
-					publicPaths: [
+					public: [
 						ZDRScopeDirectory,
 					],
-					privatePaths: [
+					private: [
 						ZDRScopeDirectory,
 					],
 				},

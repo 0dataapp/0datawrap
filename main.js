@@ -213,11 +213,11 @@ const mod = {
 	},
 
 	__ZDRFissionPathFile(inputData) {
-		return webnative.path.file(...mod.__ZDRFissionPathElements(inputData));
+		return typeof webnative === 'undefined' ? inputData : webnative.path.file(...mod.__ZDRFissionPathElements(inputData));
 	},
 
 	__ZDRFissionPathDirectory(inputData) {
-		return webnative.path.directory(...mod.__ZDRFissionPathElements(inputData));
+		return typeof webnative === 'undefined' ? inputData : webnative.path.directory(...mod.__ZDRFissionPathElements(inputData));
 	},
 
 	_ZDRModelSyncCallbackSignatures() {
@@ -595,8 +595,7 @@ const mod = {
 				return;
 			}
 
-			const state = await library.initialize(fissionPermissions).catch(function (error) {
-			});
+			const state = await library.initialize(fissionPermissions).catch(function (error) {});
 
 			if (!state) {
 				return inputData._ZDRParamDispatchInitialisationError && inputData._ZDRParamDispatchInitialisationError();
@@ -794,7 +793,7 @@ const mod = {
 					throw new Error('ZDRErrorInputNotValid');
 				}
 
-				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ pretty ? 'p' : (item.ZDRScopeIsPublic ? 'public' : 'private') }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
+				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ pretty ? 'p' : (item.ZDRScopeIsPublic ? 'public' : 'private') }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
 			};
 
 			return Object.assign(coll, {
