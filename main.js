@@ -338,7 +338,7 @@ const mod = {
 						}) : param2);
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(param1, param2).then(function () {
+						return _client().write(mod.__ZDRFissionPathFile(param1), param2).then(function () {
 							return _client().publish();
 						});
 					}),
@@ -365,7 +365,7 @@ const mod = {
 						return ((await _client.getFile(inputData, false)) || {}).data;
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().cat(inputData);
+						return _client().cat(mod.__ZDRFissionPathFile(inputData));
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return _client.ZDRClientReadFile(inputData);
@@ -396,10 +396,10 @@ const mod = {
 						});
 					}),
 					[mod.ZDRProtocolFission()]: (async function () {
-						return (await Promise.all(Object.entries(await _client().ls(inputData)).filter(function ([key, value]) {
+						return (await Promise.all(Object.entries(await _client().ls(mod.__ZDRFissionPathDirectory(inputData))).filter(function ([key, value]) {
 							return value.isFile;
 						}).map(async function ([key, value]) {
-							return [key, await _client().cat(inputData + key)];
+							return [key, await _client().cat(mod.__ZDRFissionPathFile(inputData + key))];
 						}))).reduce(function (coll, [key, value]) {
 							if (!mod._ZDRFissionObjectFilter(value)) {
 								return coll;
@@ -428,11 +428,11 @@ const mod = {
 						return Object.keys(await _client.getListing(inputData, false));
 					}),
 					[mod.ZDRProtocolFission()]: (async function () {
-						if (!(await _client().exists(inputData))) {
+						if (!(await _client().exists(mod.__ZDRFissionPathDirectory(inputData)))) {
 							return [];
 						}
 
-						return Object.entries(await _client().ls(inputData)).map(function ([key, value]) {
+						return Object.entries(await _client().ls(mod.__ZDRFissionPathDirectory(inputData))).map(function ([key, value]) {
 							return key + (!value.isFile ? '/' : '');
 						});
 					}),
@@ -466,7 +466,7 @@ const mod = {
 						return _client.remove(inputData.replace(/^\/+/, ''));
 					}),
 					[mod.ZDRProtocolFission()]: (function () {
-						return _client().rm(inputData).then(function () {
+						return _client().rm(mod.__ZDRFissionPathFile(inputData)).then(function () {
 							return _client().publish();
 						});
 					}),
@@ -577,7 +577,7 @@ const mod = {
 
 					const key = item.ZDRScopeIsPublic ? 'public' : 'private';
 
-					coll.fs[key] = (coll.fs[key] || []).concat(webnative.path.directory(item.ZDRScopeDirectory));
+					coll.fs[key] = (coll.fs[key] || []).concat(mod.__ZDRFissionPathDirectory(item.ZDRScopeDirectory));
 				}
 				
 				return Object.assign(coll, item.ZDRScopeCreatorDirectory ? {
@@ -621,7 +621,7 @@ const mod = {
 			}
 
 			await Promise.all(scopes.map(async function (e) {
-				const path = '/private/' + (e.ZDRScopeCreatorDirectory ? `Apps/${ e.ZDRScopeCreatorDirectory }/${ e.ZDRScopeDirectory }` : e.ZDRScopeDirectory);
+				const path = mod.__ZDRFissionPathDirectory('/' + (e.ZDRScopeIsPublic ? 'public' : 'private') + '/' + (e.ZDRScopeCreatorDirectory ? `Apps/${ e.ZDRScopeCreatorDirectory }/${ e.ZDRScopeDirectory }` : e.ZDRScopeDirectory) + '/');
 
 				if (!(await fissionClient.exists(path))) {
 					await fissionClient.mkdir(path);
