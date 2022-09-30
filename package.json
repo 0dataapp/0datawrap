@@ -6,7 +6,6 @@
   "devDependencies": {
     "OLSKSpec": "olsk/OLSKSpec",
     "remotestoragejs": "1.x",
-    "webnative": "^0.21.3",
-    "//": "I sacrifice myself for the commas of others"
+    "webnative": "^0.21.3"
   }
 }
