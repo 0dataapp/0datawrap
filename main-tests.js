@@ -719,6 +719,28 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 			})
 		});
 
+		it('calls ZDRParamDispatchWriteError if write fails', async function () {
+			const err = new Error(Math.random().toString());
+			const item = function() {
+				throw err;
+			};
+
+			deepEqual(await uCaptureAsync(function (ZDRParamDispatchWriteError) {
+				return __ZDRStorage({
+					ZDRParamLibrary: uRandomElement(uStubRemoteStorage({
+						storeFile: item,
+					}), uStubFission({
+						write: item,
+					}), uStubCustomClient({
+						ZDRClientConnect: (function () {}),
+						ZDRClientDisconnect: (function () {}),
+						ZDRClientWriteFile: item,
+					})),
+					ZDRParamDispatchWriteError,
+				}).ZDRStorageWriteFile(Math.random().toString(), Math.random().toString(), uStubFilePath());
+			}), [err]);
+		});
+
 	});
 
 	context('ZDRStorageReadFile', function test_ZDRStorageReadFile() {

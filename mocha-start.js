@@ -41,7 +41,7 @@
 				return (params.modules || []).reduce(function (coll, item) {
 					const scope = (function () {
 						const tree = {};
-						return {
+						return Object.assign({
 							storeFile: (function (param1, param2, param3) {
 								tree[param2] = {
 									data: param3,
@@ -58,7 +58,7 @@
 							}),
 							getItemURL: (function () {}),
 							remove: (function () {}),
-						};
+						}, inputData);
 					});
 					
 					return Object.assign(coll, {

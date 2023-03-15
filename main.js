@@ -325,27 +325,35 @@ const mod = {
 		return {
 
 			async ClientWriteFile(param1, param2, param3) {
-				await ({
-					[mod.ZDRProtocolRemoteStorage()]: (async function () {
-						return _client.storeFile(param3, param1, typeof Blob !== 'undefined' && param2.constructor === Blob ? await new Promise(function (res, rej) {
-							const reader = new FileReader();
+				try {
+					await ({
+						[mod.ZDRProtocolRemoteStorage()]: (async function () {
+							return _client.storeFile(param3, param1, typeof Blob !== 'undefined' && param2.constructor === Blob ? await new Promise(function (res, rej) {
+								const reader = new FileReader();
 
-							reader.onload = function () {
-								res(reader.result);
-							};
+								reader.onload = function () {
+									res(reader.result);
+								};
 
-							reader.readAsArrayBuffer(param2);
-						}) : param2);
-					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return _client().write(mod.__ZDRFissionPathFile(param1), param2).then(function () {
-							return _client().publish();
-						});
-					}),
-					[mod.ZDRProtocolCustom()]: (function () {
-						return _client.ZDRClientWriteFile(param1, param2, param3);
-					}),
-				})[protocol]();
+								reader.readAsArrayBuffer(param2);
+							}) : param2);
+						}),
+						[mod.ZDRProtocolFission()]: (function () {
+							return _client().write(mod.__ZDRFissionPathFile(param1), param2).then(function () {
+								return _client().publish();
+							});
+						}),
+						[mod.ZDRProtocolCustom()]: (function () {
+							return _client.ZDRClientWriteFile(param1, param2, param3);
+						}),
+					})[protocol]();
+				} catch (e) {
+					if (options.ZDRParamDispatchWriteError) {
+						return options.ZDRParamDispatchWriteError(e);
+					}
+
+					throw e;
+				}
 
 				return param2;
 			},
