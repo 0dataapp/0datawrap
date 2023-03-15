@@ -618,6 +618,14 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 		}, /ZDRErrorInputNotValid/);
 	});
 
+	it('throws if ZDRParamDispatchWriteError not function', function () {
+		throws(function () {
+			__ZDRWrap({
+				ZDRParamDispatchWriteError: null,
+			});
+		}, /ZDRErrorInputNotValid/);
+	});
+
 	it('throws if _ZDRParamDispatchJSONPreStringify not function', function () {
 		throws(function () {
 			__ZDRWrap({

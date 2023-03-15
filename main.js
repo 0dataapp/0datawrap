@@ -536,6 +536,12 @@ const mod = {
 			}
 		}
 
+		if (typeof inputData.ZDRParamDispatchWriteError !== 'undefined') {
+			if (typeof inputData.ZDRParamDispatchWriteError !== 'function') {
+				throw new Error('ZDRErrorInputNotValid');
+			}
+		}
+
 		if (typeof inputData._ZDRParamDispatchJSONPreStringify !== 'undefined') {
 			if (typeof inputData._ZDRParamDispatchJSONPreStringify !== 'function') {
 				throw new Error('ZDRErrorInputNotValid');
