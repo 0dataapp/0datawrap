@@ -1551,6 +1551,36 @@ describe('ZDRLauncherItemFakeDispatchError', function test_ZDRLauncherItemFakeDi
 
 });
 
+describe('ZDRLauncherItemFakeDispatchWriteError', function test_ZDRLauncherItemFakeDispatchWriteError() {
+
+	it('throws if not object', function () {
+		throws(function () {
+			mod.ZDRLauncherItemFakeDispatchWriteError(null);
+		}, /OLSKErrorInputNotValid/);
+	});
+
+	it('returns object', function () {
+		const item = mod.ZDRLauncherItemFakeDispatchWriteError({});
+		deepEqual(item, {
+			LCHRecipeName: 'ZDRLauncherItemFakeDispatchWriteError',
+			LCHRecipeCallback: item.LCHRecipeCallback,
+		});
+	});
+
+	context('LCHRecipeCallback', function () {
+
+		it('calls ZDRParamDispatchWriteError', function () {
+			deepEqual(mod.ZDRLauncherItemFakeDispatchWriteError({
+				ZDRParamDispatchWriteError: (function () {
+					return [...arguments];
+				}),
+			}).LCHRecipeCallback(), [new Error('ZDR_FAKE_WRITE_ERROR')]);
+		});
+		
+	});
+
+});
+
 describe('ZDRLauncherItemFakeDispatchConnected', function test_ZDRLauncherItemFakeDispatchConnected() {
 
 	it('throws if not object', function () {
