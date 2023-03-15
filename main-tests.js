@@ -666,11 +666,9 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	context('ZDRStorageWriteFile', function test_ZDRStorageWriteFile() {
 
-		const param3 = Date.now().toString() + '/' + Date.now().toString();
-
 		it('throws if param1 not string', function () {
 			throws(function () {
-				__ZDRStorage().ZDRStorageWriteFile(null, {}, param3);
+				__ZDRStorage().ZDRStorageWriteFile(null, {}, uStubFilePath());
 			}, /ZDRErrorInputNotValid/);
 		});
 
@@ -682,7 +680,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 		it('returns param2', async function () {
 			const item = Math.random().toString();
-			deepEqual(await __ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), item, param3), item);
+			deepEqual(await __ZDRStorage().ZDRStorageWriteFile(Math.random().toString(), item, uStubFilePath()), item);
 		});
 
 	});

@@ -141,6 +141,10 @@
 			}, inputData);
 		},
 
+		uStubFilePath () {
+			return Date.now().toString() + '/' + Date.now().toString();
+		},
+
 	}).map(function (e) {
 		return global[e.shift()] = e.pop();
 	});

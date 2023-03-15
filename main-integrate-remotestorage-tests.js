@@ -317,7 +317,7 @@ describe('_ZDRWrap_RemoteStorage', function test__ZDRWrap_RemoteStorage() {
 		it('calls scope.storeFile', async function () {
 			const param1 = Math.random().toString();
 			const param2 = Math.random().toString();
-			const param3 = Date.now().toString() + '/' + Date.now().toString();
+			const param3 = uStubFilePath();
 
 			const ZDRScopeIsPublic = uRandomElement(true, false);
 
