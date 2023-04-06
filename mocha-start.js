@@ -1,3 +1,5 @@
+global.fetch = function () {}; // remotestorage.js requires a polyfill for global.fetch on node.js 17 and under
+
 (function KVCMochaStubs() {
 	Object.entries({
 
