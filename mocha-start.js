@@ -90,50 +90,9 @@ global.fetch = function () {}; // remotestorage.js requires a polyfill for globa
 				}, inputData));
 			};
 
-			RemoteStorage.Authorize = Math.random().toString();
+			RemoteStorage.Unauthorized = Math.random().toString();
 
 			return RemoteStorage;
-		},
-
-		uStubFission(inputData = {}) {
-			const tree = {};
-			return Object.assign({
-				initialize: (function () {}),
-				leave: (function () {}),
-				_fs: Object.assign({
-					root: Object.assign({
-						put: (function () {}),
-					}, inputData),
-					write: (async function (param1, param2) {
-						tree[param1] = param2;
-					}),
-					cat: (function (inputData) {
-						const search = '/private';
-						if (inputData.match(search)) {
-							inputData = [search, inputData.split(search).pop()].join('');
-						}
-						return tree[inputData];
-					}),
-					ls: (function () {
-						return Object.fromEntries(Object.entries(tree).map(function ([key, value]) {
-							return [key, {
-								isFile: true,
-							}];
-						}));
-					}),
-					rm: (async function () {}),
-					publish: (async function () {}),
-					exists: (function () {
-						return true;
-					}),
-				}, inputData),
-				Scenario: {
-					AuthCancelled: 'AuthCancelled',
-					NotAuthorised: 'NotAuthorised',
-					AuthSucceeded: 'AuthSucceeded',
-					Continuation: 'Continuation',
-				},
-			}, inputData);
 		},
 
 		uStubLocalStorage(inputData = {}) {

@@ -202,24 +202,6 @@ const mod = {
 		return inputData[0] === '/' ? inputData : '/'.concat(inputData);
 	},
 
-	__ZDRFissionPathElements(inputData) {
-		if (typeof inputData !== 'string') {
-			throw new Error('ZDRErrorInputNotValid');
-		}
-
-		return inputData.split('/').filter(function (e) {
-			return e;
-		});
-	},
-
-	__ZDRFissionPathFile(inputData) {
-		return typeof webnative === 'undefined' ? inputData : webnative.path.file(...mod.__ZDRFissionPathElements(inputData));
-	},
-
-	__ZDRFissionPathDirectory(inputData) {
-		return typeof webnative === 'undefined' ? inputData : webnative.path.directory(...mod.__ZDRFissionPathElements(inputData));
-	},
-
 	_ZDRModelSyncCallbackSignatures() {
 		return [
 			'ZDRSchemaDispatchSyncCreate',
@@ -269,20 +251,8 @@ const mod = {
 		return;
 	},
 
-	_ZDRFissionObjectFilter(inputData) {
-		if (typeof inputData !== 'string') {
-			return false;
-		}
-
-		return ['{}', '[]'].includes(inputData[0] + inputData.slice(-1));
-	},
-
 	ZDRProtocolRemoteStorage() {
 		return 'ZDR_PROTOCOL_REMOTE_STORAGE';
-	},
-
-	ZDRProtocolFission() {
-		return 'ZDR_PROTOCOL_FISSION';
 	},
 
 	ZDRProtocolCustom() {
@@ -292,7 +262,6 @@ const mod = {
 	_ZDRProtocols() {
 		return [
 			mod.ZDRProtocolRemoteStorage(),
-			mod.ZDRProtocolFission(),
 			mod.ZDRProtocolCustom(),
 		];
 	},
@@ -302,16 +271,12 @@ const mod = {
 			throw new Error('ZDRErrorInputNotValid');
 		}
 
-		return inputData.match(/fission\.(codes|name)/) ? mod.ZDRProtocolFission() : mod.ZDRProtocolRemoteStorage();
+		return mod.ZDRProtocolRemoteStorage();
 	},
 
 	_ZDRProtocol(inputData) {
-		if (typeof inputData === 'function' && Object.keys(inputData).includes('Authorize')) {
+		if (typeof inputData === 'function' && Object.keys(inputData).includes('Unauthorized')) {
 			return mod.ZDRProtocolRemoteStorage();
-		}
-
-		if (!!inputData && typeof inputData === 'object' && Object.keys(inputData).includes('Scenario')) {
-			return mod.ZDRProtocolFission();
 		}
 
 		if (!!inputData && typeof inputData === 'object' && inputData.ZDRClientWriteFile && mod._ZDRClientObjectValidate(inputData)) {
@@ -337,11 +302,6 @@ const mod = {
 
 								reader.readAsArrayBuffer(param2);
 							}) : param2);
-						}),
-						[mod.ZDRProtocolFission()]: (function () {
-							return _client().write(mod.__ZDRFissionPathFile(param1), param2).then(function () {
-								return _client().publish();
-							});
 						}),
 						[mod.ZDRProtocolCustom()]: (function () {
 							return _client.ZDRClientWriteFile(param1, param2, param3);
@@ -372,9 +332,6 @@ const mod = {
 					[mod.ZDRProtocolRemoteStorage()]: (async function () {
 						return ((await _client.getFile(inputData, false)) || {}).data;
 					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return _client().cat(mod.__ZDRFissionPathFile(inputData));
-					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return _client.ZDRClientReadFile(inputData);
 					}),
@@ -403,25 +360,6 @@ const mod = {
 							return value !== true;
 						});
 					}),
-					[mod.ZDRProtocolFission()]: (async function () {
-						return (await Promise.all(Object.entries(await _client().ls(mod.__ZDRFissionPathDirectory(inputData))).filter(function ([key, value]) {
-							return value.isFile;
-						}).map(async function ([key, value]) {
-							return [key, await _client().cat(mod.__ZDRFissionPathFile(inputData + key))];
-						}))).reduce(function (coll, [key, value]) {
-							if (!mod._ZDRFissionObjectFilter(value)) {
-								return coll;
-							}
-
-							try {
-								return coll.concat([
-									[key, JSON.parse(value)],
-								]);
-							} catch (error) {
-								return coll;
-							}
-						}, []);
-					}),
 					[mod.ZDRProtocolCustom()]: (async function () {
 						return Object.entries(await _client.ZDRClientListObjects(inputData));
 					}),
@@ -435,15 +373,6 @@ const mod = {
 					[mod.ZDRProtocolRemoteStorage()]: (async function () {
 						return Object.keys(await _client.getListing(inputData, false));
 					}),
-					[mod.ZDRProtocolFission()]: (async function () {
-						if (!(await _client().exists(mod.__ZDRFissionPathDirectory(inputData)))) {
-							return [];
-						}
-
-						return Object.entries(await _client().ls(mod.__ZDRFissionPathDirectory(inputData))).map(function ([key, value]) {
-							return key + (!value.isFile ? '/' : '');
-						});
-					}),
 					[mod.ZDRProtocolCustom()]: (async function () {
 						return Object.keys(await _client.ZDRClientListObjects(inputData));
 					}),
@@ -454,9 +383,6 @@ const mod = {
 				return ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
 						return _client.getItemURL(inputData);
-					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return _client().permalinkBase + inputData;
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						throw new Error('ZDRErrorMethodNotDefined');
@@ -472,11 +398,6 @@ const mod = {
 						}
 						
 						return _client.remove(inputData.replace(/^\/+/, ''));
-					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return _client().rm(mod.__ZDRFissionPathFile(inputData)).then(function () {
-							return _client().publish();
-						});
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return _client.ZDRClientDelete(inputData);
@@ -584,71 +505,6 @@ const mod = {
 			});
 		})();
 
-		const fissionPermissions = {
-			permissions: scopes.reduce(function (coll, item) {
-				if (!item.ZDRScopeCreatorDirectory) {
-					coll.fs = coll.fs || {};
-
-					const key = item.ZDRScopeIsPublic ? 'public' : 'private';
-
-					coll.fs[key] = (coll.fs[key] || []).concat(mod.__ZDRFissionPathDirectory(item.ZDRScopeDirectory));
-				}
-				
-				return Object.assign(coll, item.ZDRScopeCreatorDirectory ? {
-					app: coll.app || {
-						name: item.ZDRScopeDirectory,
-						creator: item.ZDRScopeCreatorDirectory,
-					},
-				} : {});
-			}, {}),
-		};
-
-		let fissionClient = library._fs || {};
-		(async function fissionSetup() {
-			if (ZDRStorageProtocol !== mod.ZDRProtocolFission()) {
-				return;
-			}
-
-			const state = await library.initialize(fissionPermissions).catch(function (error) {});
-
-			if (!state) {
-				return inputData._ZDRParamDispatchInitialisationError && inputData._ZDRParamDispatchInitialisationError();
-			}
-
-			if (state.scenario === library.Scenario.AuthCancelled) {
-				return library.redirectToLobby(state.permissions);
-				return inputData.ZDRParamDispatchError && inputData.ZDRParamDispatchError(new Error('AuthorizationCancelled'));
-			}
-
-			if (state.scenario === library.Scenario.NotAuthorised) {
-				return library.redirectToLobby(state.permissions);
-			}
-
-			if (![library.Scenario.AuthSucceeded, library.Scenario.Continuation].includes(state.scenario)) {
-				// error?
-				return;
-			}
-
-			if (!Object.keys(fissionClient).length) {
-				fissionClient = state.fs;
-			}
-
-			await Promise.all(scopes.map(async function (e) {
-				const path = mod.__ZDRFissionPathDirectory('/' + (e.ZDRScopeIsPublic ? 'public' : 'private') + '/' + (e.ZDRScopeCreatorDirectory ? `Apps/${ e.ZDRScopeCreatorDirectory }/${ e.ZDRScopeDirectory }` : e.ZDRScopeDirectory) + '/');
-
-				if (!(await fissionClient.exists(path))) {
-					await fissionClient.mkdir(path);
-					await fissionClient.publish();
-				}
-			}));
-
-			fissionClient.permalinkBase = `https://${ state.username }.files.fission.name`;
-
-			inputData.ZDRParamDispatchConnected && inputData.ZDRParamDispatchConnected(state.username + '@fission.name', Math.random().toString());
-
-			inputData.ZDRParamDispatchReady();
-		})();
-
 		if (ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage()) {
 			library.on('error', function (error) {
 				if (!library.remote.online && error.message === 'Sync failed: Network request failed.') {
@@ -692,9 +548,6 @@ const mod = {
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
 						return library;
 					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return fissionClient;
-					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return inputData.ZDRParamLibrary;
 					}),
@@ -710,9 +563,6 @@ const mod = {
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
 						return library.connect(inputData);
 					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return library.initialize(fissionPermissions);
-					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return library.ZDRClientConnect(inputData);
 					}),
@@ -724,9 +574,6 @@ const mod = {
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
 						return library.reconnect(inputData);
 					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return library.initialize(fissionPermissions);
-					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return !library.ZDRClientReconnect ? library.ZDRClientConnect() : library.ZDRClientReconnect();
 					}),
@@ -737,11 +584,6 @@ const mod = {
 				return ({
 					[mod.ZDRProtocolRemoteStorage()]: (function () {
 						return library.disconnect(inputData);
-					}),
-					[mod.ZDRProtocolFission()]: (function () {
-						return library.leave({
-							withoutRedirect: true,
-						});
 					}),
 					[mod.ZDRProtocolCustom()]: (function () {
 						return library.ZDRClientDisconnect(inputData);
@@ -763,11 +605,6 @@ const mod = {
 			const _client = {
 				[mod.ZDRProtocolRemoteStorage()]: (function () {
 					return library[item.ZDRScopeDirectory][item.ZDRScopeIsPublic ? 'publicClient' : 'privateClient'];
-				}),
-				[mod.ZDRProtocolFission()]: (function () {
-					return function () {
-						return fissionClient;
-					};
 				}),
 				[mod.ZDRProtocolCustom()]: (function () {
 					return library;
@@ -807,7 +644,7 @@ const mod = {
 					throw new Error('ZDRErrorInputNotValid');
 				}
 
-				return ((ZDRStorageProtocol === mod.ZDRProtocolFission() ? `/${ pretty ? 'p' : (item.ZDRScopeIsPublic ? 'public' : 'private') }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
+				return ((ZDRStorageProtocol === 'mod.ZDRProtocolFission()' ? `/${ pretty ? 'p' : (item.ZDRScopeIsPublic ? 'public' : 'private') }/${ item.ZDRScopeCreatorDirectory ? `Apps/${ item.ZDRScopeCreatorDirectory }/${ item.ZDRScopeDirectory }` : item.ZDRScopeDirectory }/` : '') + inputData).slice(ZDRStorageProtocol === mod.ZDRProtocolRemoteStorage() && inputData[0] === '/' ? 1 : 0);
 			};
 
 			return Object.assign(coll, {

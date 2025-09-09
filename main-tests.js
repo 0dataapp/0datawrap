@@ -417,14 +417,6 @@ describe('ZDRProtocolRemoteStorage', function test_ZDRProtocolRemoteStorage() {
 
 });
 
-describe('ZDRProtocolFission', function test_ZDRProtocolFission() {
-
-	it('returns string', function () {
-		deepEqual(mod.ZDRProtocolFission(), 'ZDR_PROTOCOL_FISSION');
-	});
-
-});
-
 describe('ZDRProtocolCustom', function test_ZDRProtocolCustom() {
 
 	it('returns string', function () {
@@ -438,7 +430,6 @@ describe('_ZDRProtocols', function test__ZDRProtocols() {
 	it('returns array', function () {
 		deepEqual(mod._ZDRProtocols(), [
 			mod.ZDRProtocolRemoteStorage(),
-			mod.ZDRProtocolFission(),
 			mod.ZDRProtocolCustom(),
 		]);
 	});
@@ -457,24 +448,12 @@ describe('ZDRProtocolForIdentity', function test_ZDRProtocolForIdentity() {
 		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString()), mod.ZDRProtocolRemoteStorage());
 	});
 
-	it('returns ZDRProtocolFission if match fission.codes', function () {
-		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString() + 'fission.codes' + Math.random().toString()), mod.ZDRProtocolFission());
-	});
-
-	it('returns ZDRProtocolFission if match fission.name', function () {
-		deepEqual(mod.ZDRProtocolForIdentity(Math.random().toString() + 'fission.name' + Math.random().toString()), mod.ZDRProtocolFission());
-	});
-
 });
 
 describe('_ZDRProtocol', function test__ZDRProtocol() {
 
 	it('returns type if remoteStorage', function () {
 		deepEqual(mod._ZDRProtocol(uStubRemoteStorage()), mod.ZDRProtocolRemoteStorage());
-	});
-
-	it('returns type if Fission', function () {
-		deepEqual(mod._ZDRProtocol(uStubFission()), mod.ZDRProtocolFission());
 	});
 
 	it('returns type if custom', function () {
@@ -493,7 +472,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 
 	const __ZDRWrap = function (inputData = {}) {
 		return mod._ZDRWrap(Object.assign({
-			ZDRParamLibrary: uRandomElement(uStubRemoteStorage(), uStubFission(), uStubCustomClient({
+			ZDRParamLibrary: uRandomElement(uStubRemoteStorage(), uStubCustomClient({
 				ZDRClientConnect: (function () {}),
 				ZDRClientDisconnect: (function () {}),
 			})),
@@ -729,8 +708,6 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 				return __ZDRStorage({
 					ZDRParamLibrary: uRandomElement(uStubRemoteStorage({
 						storeFile: item,
-					}), uStubFission({
-						write: item,
 					}), uStubCustomClient({
 						ZDRClientConnect: (function () {}),
 						ZDRClientDisconnect: (function () {}),
@@ -981,7 +958,7 @@ describe('_ZDRWrap', function test__ZDRWrap() {
 	context('ZDRStorageProtocol', function test_ZDRStorageProtocol() {
 
 		it('returns ZDRProtocol', function () {
-			const ZDRParamLibrary = uRandomElement(uStubRemoteStorage(), uStubFission());
+			const ZDRParamLibrary = uRandomElement(uStubRemoteStorage());
 			deepEqual(__ZDRWrap({
 				ZDRParamLibrary,
 			}).ZDRStorageProtocol, mod._ZDRProtocol(ZDRParamLibrary));
@@ -1312,13 +1289,7 @@ describe('ZDRWrap', function test_ZDRWrap() {
 
 	it('sets ZDRParamDispatchReady', async function () {
 		const ZDRScopeKey = Math.random().toString();
-		const ZDRParamLibrary = uRandomElement(uStubRemoteStorage(), uStubFission({
-			initialize: (async function () {
-				return {
-					scenario: 'AuthSucceeded',
-				};
-			}),
-		}), uStubCustomClient());
+		const ZDRParamLibrary = uRandomElement(uStubRemoteStorage(), uStubCustomClient());
 
 		deepEqual((await mod.ZDRWrap({
 			ZDRParamLibrary,
@@ -1473,9 +1444,8 @@ describe('ZDRPreferenceProtocolConnect', function test_ZDRPreferenceProtocolConn
 	});
 
 	it('sets ZDR_PREFERENCE_PROTOCOL_MIGRATE if different', function () {
-		const item = uRandomElement(true, false);
 		deepEqual(uCapture(function (capture) {
-			mod.ZDRPreferenceProtocolConnect(item ? Math.random().toString() : 'fission.codes', uStubLocalStorage({
+			mod.ZDRPreferenceProtocolConnect(Math.random().toString(), uStubLocalStorage({
 				getItem: (function () {
 					return mod.ZDRProtocolRemoteStorage();
 				}),
@@ -1483,20 +1453,15 @@ describe('ZDRPreferenceProtocolConnect', function test_ZDRPreferenceProtocolConn
 					capture(...arguments);
 				}),
 			}));
-		}), item ? [
+		}), [
 			'ZDR_PREFERENCE_PROTOCOL',
 			mod.ZDRProtocolRemoteStorage(),
-		] : [
-			'ZDR_PREFERENCE_PROTOCOL_MIGRATE',
-			mod.ZDRProtocolRemoteStorage(),
-			'ZDR_PREFERENCE_PROTOCOL',
-			mod.ZDRProtocolFission(),
 		]);
 	});
 
 	it('returns ZDRProtocol', function () {
 		const item = uRandomElement(true, false);
-		deepEqual(mod.ZDRPreferenceProtocolConnect(item ? Math.random().toString() : 'fission.codes', uStubLocalStorage()), item ? mod.ZDRProtocolRemoteStorage() : mod.ZDRProtocolFission());
+		deepEqual(mod.ZDRPreferenceProtocolConnect(Math.random().toString(), uStubLocalStorage()), mod.ZDRProtocolRemoteStorage());
 	});
 
 });
