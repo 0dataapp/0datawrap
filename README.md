@@ -379,10 +379,6 @@ const api = await zerodatawrap.ZDRWrap({
       return RemoteStorage;
     }
 
-    if (selected === zerodatawrap.ZDRProtocolFission()) {
-      return webnative;
-    }
-
     return {
       ZDRClientWriteFile (path, data) {
         console.log('custom protocol write', [...arguments]);
